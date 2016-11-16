@@ -5,9 +5,14 @@
  */
 package ch.abbts.szskfh.trainplanner.server;
 
-import java.io.File;
-import java.io.InputStreamReader;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -36,5 +41,11 @@ public class Einstellungen {
     }
     public void setDefaultEinstellungen() {
         einstellungen.setProperty("PortNr", "5555");
+        
+        try {
+            einstellungen.storeToXML(new ObjectOutputStream(new FileOutputStream("einstellungen")), wert);
+        } catch (IOException ex) {
+            Logger.getLogger(Einstellungen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
