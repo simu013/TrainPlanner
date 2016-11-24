@@ -3,20 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.abbts.szskfh.trainplanner.client;
+package trainplanner;
 
 /**
  *
- * @author Simon
+ * @author Sascha
  */
-public class Client {
+public class TrainPlanner {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new SocketConnection();
-        new ClientGUI();
+        // TODO code application logic here
     }
     
 }

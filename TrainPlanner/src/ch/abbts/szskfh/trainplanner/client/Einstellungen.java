@@ -35,5 +35,6 @@ public class Einstellungen {
     public void setDefaultEinstellungen() {
         einstellungen.setProperty("PortNr", "5555");
         einstellungen.setProperty("IP", "Localhost");
+        einstellungen.setProperty("ColorFrame", "Color.DARK_GRAY");
     }
 }
