@@ -43,7 +43,8 @@ public class MainPanel extends JPanel{
         topPanel.setBackground(Color.DARK_GRAY);
         title = new JLabel ("Main");
         title.setForeground(Color.RED);
-        add (topPanel, BorderLayout.NORTH);    
+        add (topPanel, BorderLayout.NORTH);   
+        topPanel.add(title);
         
         
     }
@@ -54,11 +55,18 @@ public class MainPanel extends JPanel{
         title = new JLabel ("Mitte");
         title.setForeground(Color.RED);
         add(centerPanel, BorderLayout.CENTER);
+        centerPanel.add(title);
         
     }
     
     private void addBottomPanel (){
-        
+       
+        JPanel bottomPanel = new JPanel (new FlowLayout());
+        bottomPanel.setBackground(Color.DARK_GRAY);
+        title = new JLabel ("Unten");
+        title.setForeground(Color.RED);
+        add(bottomPanel, BorderLayout.SOUTH);
+        bottomPanel.add(title);
     }
 
     

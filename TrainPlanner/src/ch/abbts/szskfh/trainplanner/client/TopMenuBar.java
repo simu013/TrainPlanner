@@ -5,9 +5,10 @@
  */
 package ch.abbts.szskfh.trainplanner.client;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -16,9 +17,8 @@ import javax.swing.JMenuItem;
  *
  * @author Sascha
  */
-class TopMenuBar {
+class TopMenuBar extends JMenuBar {
 
-    private JMenuBar menuBar;
     private JMenu menu;
     private JMenuItem menuItem;
     
@@ -29,14 +29,30 @@ class TopMenuBar {
     }
 
     private void initMenuBar() {
-        
-        menuBar = new JMenuBar();
-        
+       
         menu= new JMenu ("Anfrage");
-        menuBar.add(menu);
+        this.add(menu);
         
         menuItem = new JMenuItem("Neu");
         menu.add(menuItem);
+      //  menuItem.addActionListener(new ActionListener(){
+        //    @Override
+         //   public void actionPerformed(ActionEvent e) {
+        //        JFrame topFrame = ClientGUI.getMainFrame();
+              //  topFrame.setContentPane(new AnfragePanel());
+          //  }
+            
+        //}
+        
+        
+        
+        
+        menu = new JMenu ("Hilfe");
+        this.add(menu);
+        
+        menuItem = new JMenuItem("?");
+        menu.add(menuItem);        
+
     }
     
 }

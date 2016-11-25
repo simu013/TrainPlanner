@@ -24,8 +24,8 @@ public class ClientGUI extends JFrame {
     private MainPanel mainPanel;
     private TopMenuBar topMenuBar;
     private static ClientGUI mainFrame;
-    private int frameHoehe;
-    private int frameBreite;
+    private int frameHoehe = 300;
+    private int frameBreite = 450;
     
     
     public ClientGUI() {
@@ -53,6 +53,9 @@ public class ClientGUI extends JFrame {
         topMenuBar = new TopMenuBar();
         
         mainPanel = new MainPanel();
+        
+        add(topMenuBar);
+        setJMenuBar (topMenuBar);
         
         setContentPane(mainPanel);
         setVisible(true);
