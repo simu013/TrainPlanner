@@ -8,6 +8,13 @@ package ch.abbts.szskfh.trainplanner.client;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -39,31 +46,50 @@ public class MainPanel extends JPanel{
     
     private void addTopPanel (){
         
+        
+        
+        
         JPanel topPanel = new JPanel (new FlowLayout());
-        topPanel.setBackground(Color.DARK_GRAY);
+        topPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         title = new JLabel ("Main");
         title.setForeground(Color.RED);
-        add (topPanel, BorderLayout.NORTH);   
-        topPanel.add(title);
+        add (topPanel, BorderLayout.WEST);   
+        //topPanel.add(title);
         
+        
+       
+        ImageIcon tunnel = new ImageIcon ("TitelBild.jpg");
+        Image titelBild = tunnel.getImage().getScaledInstance(400, 300, 400);
+ 
+        topPanel.add(new JLabel(new ImageIcon(titelBild)));
         
     }
     
     private void addCenterPanel (){
-        JPanel centerPanel = new JPanel (new FlowLayout());
-        centerPanel.setBackground(Color.DARK_GRAY);
-        title = new JLabel ("Mitte");
-        title.setForeground(Color.RED);
+        JPanel centerPanel = new JPanel (new BorderLayout());
+        centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        title = new JLabel ("WILLKOMMEN BEI");
+        title.setForeground(Color.LIGHT_GRAY);
+        title.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
+        centerPanel.add(title, BorderLayout.NORTH);
+
+        title = new JLabel ("TRAINPLANNER");
+        title.setForeground(Color.LIGHT_GRAY);
+        title.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
+        centerPanel.add(title, BorderLayout.CENTER);
+        
+        
         add(centerPanel, BorderLayout.CENTER);
-        centerPanel.add(title);
+
         
     }
     
     private void addBottomPanel (){
        
         JPanel bottomPanel = new JPanel (new FlowLayout());
-        bottomPanel.setBackground(Color.DARK_GRAY);
-        title = new JLabel ("Unten");
+
+        bottomPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        title = new JLabel ("Planung von Heute!");
         title.setForeground(Color.RED);
         add(bottomPanel, BorderLayout.SOUTH);
         bottomPanel.add(title);

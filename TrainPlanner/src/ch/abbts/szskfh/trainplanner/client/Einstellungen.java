@@ -35,8 +35,8 @@ public class Einstellungen {
     public void setDefaultEinstellungen() {
         einstellungen.setProperty("PortNr", "5555");
         einstellungen.setProperty("IP", "Localhost");
-        einstellungen.setProperty("ColorFrame", "Color.DARK_GRAY");
-        einstellungen.setProperty("FrameHoehe","100");
-        einstellungen.setProperty("FrameBreite","150");
+        einstellungen.setProperty("FrameFarbe", "#404040");
+        einstellungen.setProperty("FrameHoehe","400");
+        einstellungen.setProperty("FrameBreite","750");
     }
 }

@@ -6,14 +6,9 @@
 package ch.abbts.szskfh.trainplanner.client;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import static java.awt.SystemColor.menu;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 
 /**
  *
@@ -24,8 +19,8 @@ public class ClientGUI extends JFrame {
     private MainPanel mainPanel;
     private TopMenuBar topMenuBar;
     private static ClientGUI mainFrame;
-    private int frameHoehe = 300;
-    private int frameBreite = 450;
+    private int frameHoehe = Integer.parseInt(new Einstellungen().getEinstellung("FrameHoehe"));
+    private int frameBreite = Integer.parseInt(new Einstellungen().getEinstellung("FrameBreite"));
     
     
     public ClientGUI() {
@@ -45,7 +40,6 @@ public class ClientGUI extends JFrame {
         int screenHeight = gd.getDisplayMode().getHeight();
         setLocation((screenWidth-frameBreite)/2, (screenHeight-frameHoehe)/2);
         setSize(frameBreite,frameHoehe);
-        setBackground(Color.DARK_GRAY);
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         

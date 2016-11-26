@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -30,20 +31,33 @@ class TopMenuBar extends JMenuBar {
 
     private void initMenuBar() {
        
-        menu= new JMenu ("Anfrage");
+        menu= new JMenu ("Aktion");
         this.add(menu);
         
-        menuItem = new JMenuItem("Neu");
+        menuItem = new JMenuItem("Neue Anfrage");
         menu.add(menuItem);
-      //  menuItem.addActionListener(new ActionListener(){
-        //    @Override
-         //   public void actionPerformed(ActionEvent e) {
-        //        JFrame topFrame = ClientGUI.getMainFrame();
-              //  topFrame.setContentPane(new AnfragePanel());
-          //  }
-            
-        //}
+        menuItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            JFrame topFrame = ClientGUI.getMainFrame();
+            topFrame.setContentPane(new AnfragePanel());
+            topFrame.revalidate();
+            topFrame.repaint();
+            } 
+        });
         
+        menuItem = new JMenuItem("Zurück");
+        menu.add(menuItem);
+        menuItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            JFrame topFrame = ClientGUI.getMainFrame();
+            topFrame.setContentPane(new MainPanel());
+            topFrame.revalidate();
+            topFrame.repaint();
+            } 
+        });
+                
         
         
         
@@ -51,8 +65,16 @@ class TopMenuBar extends JMenuBar {
         this.add(menu);
         
         menuItem = new JMenuItem("?");
-        menu.add(menuItem);        
-
+        menu.add(menuItem);
+        menuItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                     JOptionPane.showMessageDialog(null,
+                    "Programm: Trainplanner V0.1", 
+                    "über", JOptionPane.PLAIN_MESSAGE);
+                }
+     
+        });
     }
     
 }
