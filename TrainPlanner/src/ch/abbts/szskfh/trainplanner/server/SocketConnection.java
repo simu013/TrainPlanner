@@ -11,9 +11,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 
 /**
- *
+ * Erstellt eine neue Socket Verbindung. 
  * @author Simon
  */
 public class SocketConnection {
@@ -24,7 +25,8 @@ public class SocketConnection {
     private void initSocketConnection() {
         ServerSocket serverSocket = null;
         // short portNr = new Einstellungen().getEinstellung("PortNr");
-        String receiveString = null;
+        String empfangsString = null;
+        String antwortString = null;
         String connect = null;
         
         // Socket bereitstellen
@@ -34,39 +36,40 @@ public class SocketConnection {
         catch (IOException ex) {
             System.out.println("Exception: " + ex.toString());
         }
-        
-        // Auf Client Verbindung warten
-        try {
-            System.out.println("READY");
-            Socket socket = serverSocket.accept();
-            
-            if (socket.isBound()) {
-                System.out.println("OK");
+        while (true) {
+            // Auf Client Verbindung warten
+            try {
+                System.out.println("READY");
+                Socket socket = serverSocket.accept();
+
+                if (socket.isBound()) {
+                    System.out.println("OK");
+                }
+
+                // IO Streams verbinden
+                PrintWriter out = new PrintWriter(socket.getOutputStream());
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+                // Datenaustausch
+                do {
+                    
+                    empfangsString = in.readLine(); // Daten von CLient empfangen
+                    Parser parser = Parser.getInstance();
+                    antwortString = parser.lesen(empfangsString);
+                    out.write(antwortString);
+                    out.flush();
+
+                } while (socket.isClosed()); // Verbindung halten bis Socket von Client geschlossen wird. 
+                System.out.println("Socket closed");
+                
+                // Socket und Streams schliessen. 
+                in.close();
+                out.close();
+                socket.close();
+            } catch (IOException ex) {
+                ex.toString();
+            } finally{
             }
-                
-            // IO Streams verbinden
-            PrintWriter out = new PrintWriter(socket.getOutputStream());
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream())); 
-            
-            // Datenaustausch
-            do {
-                out.println("Hallo ich bin der Server"); // senden
-                out.flush();
-                receiveString = in.readLine(); // Daten von CLient empfangen
-                
-                System.out.println("empfangen: " + receiveString); // Daten von Client zum testen auf Console ausgeben. 
-                
-            } 
-            while(receiveString.equals("exit") == false); // Verbindung halten bis EXIT geliefert wird. 
-            
-            // Socket und Streams schliessen. 
-            in.close();
-            out.close();
-            socket.close();
-            
-        } 
-        catch (IOException ex) { // Ausnahmen abfangen 
-            System.out.println("Exception: " + ex.toString());
         }
     }
 }
