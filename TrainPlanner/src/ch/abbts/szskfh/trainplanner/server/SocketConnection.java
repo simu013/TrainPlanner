@@ -24,9 +24,8 @@ public class SocketConnection {
     }
     private void initSocketConnection() {
         ServerSocket serverSocket = null;
-        // short portNr = new Einstellungen().getEinstellung("PortNr");
-        String empfangsString = null;
-        String antwortString = null;
+        String empfangsString = " ";
+        String antwortString = " ";
         String connect = null;
         
         // Socket bereitstellen
