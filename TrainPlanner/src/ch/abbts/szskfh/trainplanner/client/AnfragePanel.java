@@ -10,8 +10,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -29,10 +31,15 @@ class AnfragePanel extends JPanel {
     private JLabel firmaLabel;
     private JLabel ankunftLabel;
     private JLabel containerLabel;
+    private JLabel ausgabeLabel;
     private JTextField firmaTextField;
     private JTextField ankunftTextField;
     private JTextField containerTextField;
+    private JTextField ausgabeTextField;
     private JButton anfrageSenden;
+    private JComboBox box1;
+    private JComboBox box2;
+    
     
     
     
@@ -45,7 +52,7 @@ class AnfragePanel extends JPanel {
 
      private void initPanel() {
         
-        this.setBackground(Color.DARK_GRAY);
+        this.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         this.setLayout(new BorderLayout());
         addTopPanel();
         addCenterPanel();
@@ -59,26 +66,43 @@ class AnfragePanel extends JPanel {
     private void addTopPanel() {
 
         
-        JPanel anfragePanel = new JPanel (new FlowLayout());
+        JPanel anfragePanel = new JPanel (new GridLayout(3,3,50,10));
         anfragePanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         firmaLabel = new JLabel ("Firma:");
         firmaLabel.setForeground(Color.RED);
         anfragePanel.add(firmaLabel);
         firmaTextField = new JTextField ();
-        firmaTextField.setColumns(15);
-        anfragePanel.add(firmaTextField);
+        //firmaTextField.setColumns(15);
+         anfragePanel.add(firmaTextField);
+         
+        JLabel dummieLabel1 = new JLabel ("");
+        anfragePanel.add(dummieLabel1);
+       
         containerLabel = new JLabel("Anzahl Container:");
         containerLabel.setForeground(Color.RED);
         anfragePanel.add(containerLabel);
+        
+
+               
         containerTextField = new JTextField();
-        containerTextField.setColumns(5);
+        //containerTextField.setColumns(5);
         anfragePanel.add(containerTextField);
+        
+        JLabel dummieLabel2 = new JLabel ("");
+        anfragePanel.add(dummieLabel2);
+        
+        
         ankunftLabel = new JLabel ("gewünschte Ankunftszeit:");
         ankunftLabel.setForeground(Color.RED);
         anfragePanel.add(ankunftLabel);
         ankunftTextField = new JTextField ();
-        ankunftTextField.setColumns(5);
+        //ankunftTextField.setColumns(5);
         anfragePanel.add(ankunftTextField);
+        
+        anfrageSenden = new JButton ("Anfrage absenden");
+        anfragePanel.add(anfrageSenden);
+        
+        
         add (anfragePanel, BorderLayout.NORTH);   
         
     }
@@ -86,14 +110,18 @@ class AnfragePanel extends JPanel {
     
         private void addCenterPanel (){
                 
-        JPanel centerPanel = new JPanel (new BorderLayout());
+        JPanel centerPanel = new JPanel (new GridLayout(2,1,1,1));
         centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
- 
-
         
-                anfrageSenden = new JButton ("Anfrage absenden");
-
-        centerPanel.add(anfrageSenden, BorderLayout.EAST);
+        ausgabeLabel = new JLabel("Ausgabe:");
+        ausgabeLabel.setForeground(Color.RED);
+        centerPanel.add(ausgabeLabel);
+        
+        ausgabeTextField = new JTextField();
+        centerPanel.add(ausgabeTextField);
+        
+       
+        
         add(centerPanel, BorderLayout.CENTER);
         
     }
