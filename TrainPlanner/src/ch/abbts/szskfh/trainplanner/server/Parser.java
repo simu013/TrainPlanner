@@ -7,7 +7,6 @@ package ch.abbts.szskfh.trainplanner.server;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 /**
  *
@@ -26,18 +25,18 @@ public class Parser {
     }
 
     public String lesen(String socketString) {
+        String antwortString = " ";
         System.out.println("Parser Empfang: " + socketString);
-        String antwortString = "Hallo ich bin der Parser";
 
-        String[] gesamtString = null;
-        StringTokenizer stringSplit = new StringTokenizer(socketString, begrenzer, true);
+        String[] splitString = socketString.split(";");
         try {
-            for (int i = 0; stringSplit.hasMoreTokens() == false; i++) {
-                gesamtString[i] = stringSplit.nextToken();
+            for (int i = 0; i < splitString.length; i++) {
+                
+                System.out.println(splitString[i]);
+                
             }
-            System.out.println(gesamtString[0]);
             
-            switch (gesamtString[0].toUpperCase()) {
+            switch (splitString[0].toUpperCase()) {
                 case "REQUEST": {
                     antwortString = "Sie haben eine Transport Anfrage gestellt. ";
                     break;

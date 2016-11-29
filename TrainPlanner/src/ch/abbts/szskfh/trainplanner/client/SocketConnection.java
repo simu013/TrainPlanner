@@ -32,7 +32,7 @@ public class SocketConnection {
                 PrintWriter out = new PrintWriter(socket.getOutputStream());
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-                out.println("REQUEST;Hallo ich bin der Client " + new Date().toString()); // senden
+                out.println("Time; 15 Container " + new Date().toString()); // senden
                 out.flush();
                 receiveString = in.readLine(); // empfangen
                 System.out.println("empfangen: " + receiveString); // Daten vom Server zu Testzwecken auf Console ausgeben. 
