@@ -72,6 +72,7 @@ class AnfragePanel extends JPanel {
         firmaLabel.setForeground(Color.RED);
         anfragePanel.add(firmaLabel);
         firmaTextField = new JTextField ();
+   
         //firmaTextField.setColumns(15);
          anfragePanel.add(firmaTextField);
          
@@ -96,7 +97,6 @@ class AnfragePanel extends JPanel {
         ankunftLabel.setForeground(Color.RED);
         anfragePanel.add(ankunftLabel);
         ankunftTextField = new JTextField ();
-        //ankunftTextField.setColumns(5);
         anfragePanel.add(ankunftTextField);
         
         anfrageSenden = new JButton ("Anfrage absenden");
