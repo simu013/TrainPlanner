@@ -8,19 +8,12 @@ package ch.abbts.szskfh.trainplanner.client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 /**
  *
@@ -37,9 +30,6 @@ class AnfragePanel extends JPanel {
     private JTextField containerTextField;
     private JTextField ausgabeTextField;
     private JButton anfrageSenden;
-    private JComboBox box1;
-    private JComboBox box2;
-    
     
     
     
