@@ -43,7 +43,7 @@ public class Einstellungen {
         einstellungen.setProperty("PortNr", "5555");
         
         try {
-            einstellungen.storeToXML(new ObjectOutputStream(new FileOutputStream("einstellungen")), wert);
+            einstellungen.storeToXML(new ObjectOutputStream(new FileOutputStream("srv_einstellungen.xml")), wert);
         } catch (IOException ex) {
             Logger.getLogger(Einstellungen.class.getName()).log(Level.SEVERE, null, ex);
         }
