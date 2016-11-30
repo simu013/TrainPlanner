@@ -92,7 +92,7 @@ class AnfragePanel extends JPanel {
         anfragePanel.add(dummieLabel2);
         
         
-        ankunftLabel = new JLabel ("gewünschte Ankunftszeit:");
+        ankunftLabel = new JLabel ("gewünschte Ankunftszeit in 00:00 :");
         ankunftLabel.setForeground(Color.RED);
         anfragePanel.add(ankunftLabel);
         ankunftTextField = new JTextField ();
@@ -110,11 +110,12 @@ class AnfragePanel extends JPanel {
     
         private void addCenterPanel (){
                 
-        JPanel centerPanel = new JPanel (new GridLayout(2,1,1,1));
+        JPanel centerPanel = new JPanel (new GridLayout(2,1));
         centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         
         ausgabeLabel = new JLabel("Ausgabe:");
         ausgabeLabel.setForeground(Color.RED);
+        ausgabeLabel.setHorizontalAlignment(JLabel.CENTER);
         centerPanel.add(ausgabeLabel);
         
         ausgabeTextField = new JTextField();
@@ -134,19 +135,13 @@ class AnfragePanel extends JPanel {
     private void addBottomPanel() {
         
         JPanel bottomPanel = new JPanel (new BorderLayout());
-          bottomPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
-        
-                JLabel label1 = new JLabel("Label 1");
-        final LineBorder lineBorder2 = (LineBorder) BorderFactory
-                .createLineBorder(Color.black);
-        label1.setBorder(lineBorder2);
-        bottomPanel.add(label1);
+        bottomPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+
  
-        JLabel label2 = new JLabel("Anfrage");
-        Border border = BorderFactory.createLineBorder(Color.black);
-        Border margin = new EmptyBorder(10, 10, 10, 10);
-        label2.setBorder(new CompoundBorder(border, margin));
-        bottomPanel.add(label2);
+        JLabel dummieLabel4 = new JLabel("  ");
+        dummieLabel4.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
+
+        bottomPanel.add(dummieLabel4);
  
        
         add(bottomPanel, BorderLayout.SOUTH);

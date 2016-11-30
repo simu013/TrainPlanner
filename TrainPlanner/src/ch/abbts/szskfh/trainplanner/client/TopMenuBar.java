@@ -30,7 +30,30 @@ class TopMenuBar extends JMenuBar {
     }
 
     private void initMenuBar() {
+        menu = new JMenu("Datei");
+        this.add(menu);
+        
+        
+        menuItem = new JMenuItem ("Aktuelle Anfragen");
+        menu.add(menuItem);
+        menuItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            } 
+        });
+        
+        menuItem = new JMenuItem ("Beenden");
+        menu.add(menuItem);
+        menuItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            } 
+        });
        
+        
+        
         menu= new JMenu ("Aktion");
         this.add(menu);
         
