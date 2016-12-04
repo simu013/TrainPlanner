@@ -41,6 +41,7 @@ public class Einstellungen {
     }
     public void setDefaultEinstellungen() {
         einstellungen.setProperty("PortNr", "5555");
+        einstellungen.setProperty("SocketTrennzeichen", ";");
         
         try {
             einstellungen.storeToXML(new ObjectOutputStream(new FileOutputStream("srv_einstellungen.xml")), wert);

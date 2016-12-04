@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
 
 /**
  * Erstellt eine neue Socket Verbindung. 
@@ -24,9 +23,6 @@ public class SocketConnection {
     }
     private void initSocketConnection() {
         ServerSocket serverSocket = null;
-        String empfangsString = " ";
-        String antwortString = " ";
-        String connect = null;
         
         // Socket bereitstellen
         try {
@@ -38,12 +34,7 @@ public class SocketConnection {
         while (true) {
             // Auf Client Verbindung warten
             try {
-                System.out.println("READY");
                 Socket socket = serverSocket.accept();
-
-                if (socket.isBound()) {
-                    System.out.println("OK");
-                }
 
                 // IO Streams verbinden
                 PrintWriter out = new PrintWriter(socket.getOutputStream());
@@ -52,10 +43,9 @@ public class SocketConnection {
                 // Datenaustausch
                 do {
                     
-                    empfangsString = in.readLine(); // Daten von CLient empfangen
-                    Parser parser = Parser.getInstance();
-                    antwortString = parser.lesen(empfangsString);
-                    out.write(antwortString);
+                    String empfangsString = in.readLine();      // Daten von CLient empfangen
+                    Parser parser = Parser.getInstance();       // Parser instanzieren
+                    out.write (parser.lesen(empfangsString));
                     out.flush();
 
                 } while (socket.isClosed()); // Verbindung halten bis Socket von Client geschlossen wird. 
