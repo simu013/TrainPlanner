@@ -65,7 +65,7 @@ public class SocketConnection {
      *                          Keine Transportmöglichkeit = NO_TRANSPORT
      *                          Störungsfall = EMERGENCY
      */
-    public String sendeRequest(String firma, short anzahlContainer, LocalTime startZeit, short prio) {
+    public String sendeTransportanfrage(String firma, short anzahlContainer, LocalTime startZeit, short prio) {
         return initSocketConnection("request" + begrenzer + firma + begrenzer + anzahlContainer + begrenzer + startZeit + begrenzer + prio);
     }
     /**
@@ -73,15 +73,15 @@ public class SocketConnection {
      * @param transportID       String Transportauftragsnummer
      * @return                  String TransportID;Status (Mögliche Zustände: Planned, Transporting, delayed, emergency, done). 
      */
-    public String sendeStatus(String transportID) {
+    public String getTransportStatus(String transportID) {
         return initSocketConnection("state" + begrenzer + transportID);
     }
     
-    public String sendeServerStatus() {
+    public String getServerStatus() {
         return initSocketConnection("ready");
     }
     
-    public String sendeZeit() {
+    public String getZeit() {
         return initSocketConnection("TIME");
     }
 }

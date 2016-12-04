@@ -8,7 +8,6 @@ package ch.abbts.szskfh.trainplanner.client;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,8 +52,10 @@ public class Einstellungen {
         try {
             einstellungen.loadFromXML(new FileInputStream(dateiName));
         } catch (IOException ex) {
+            // Logger.getLogger(Einstellungen.class.getName()).log(Level.SEVERE, null, ex);
             setDefaultEinstellungen();
         }
+
     }
 
     public void setDefaultEinstellungen() {
@@ -66,7 +67,7 @@ public class Einstellungen {
             einstellungen.setProperty("FrameHoehe", "400");
             einstellungen.setProperty("FrameBreite", "750");
             
-            einstellungen.storeToXML(new ObjectOutputStream(new FileOutputStream(dateiName)), wert);
+            einstellungen.storeToXML(new FileOutputStream(dateiName), "Client Einstellungen");
         } catch (IOException ex) {
             Logger.getLogger(Einstellungen.class.getName()).log(Level.SEVERE, null, ex);
         }
