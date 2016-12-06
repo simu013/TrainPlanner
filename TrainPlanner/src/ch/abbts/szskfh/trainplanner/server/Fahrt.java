@@ -29,14 +29,14 @@ public class Fahrt implements Comparable<Fahrt>{
      */
     public Fahrt(String pZugTyp, LocalTime pEingegebeneZeit) {
              
-        if(pZugTyp == "IC"){
+        if(pZugTyp.equals("IC")){
             mZugTyp = pZugTyp;
             mStartZeit = pEingegebeneZeit.plusMinutes(17); //Durchfahrtszeit Erstfeld
             mEndZeit = mStartZeit.plusMinutes(dauerPZ); //Ausfahrtszeit aus GBT
             mSperrStart = mStartZeit.minusMinutes(8); //Sperrzeit Vor dem PZ
             mSperrEnde = mStartZeit.plusMinutes(3); //Sperrzeit nach dem PZ
         }
-        else if(pZugTyp == "EC"){
+        else if(pZugTyp.equals("EC")){
             mZugTyp = pZugTyp;
             mStartZeit = pEingegebeneZeit.plusMinutes(18); //Durchfahrtszeit Erstfeld
             mEndZeit = mStartZeit.plusMinutes(dauerPZ); //Ausfahrtszeit aus GBT
@@ -55,7 +55,7 @@ public class Fahrt implements Comparable<Fahrt>{
      * @param pWagons Anzahl der Wagons des Güterzuges.
      */
     public Fahrt(String pZugTyp, LocalTime pEingegebeneZeit, int pWagons) {
-        if(pZugTyp == "GZ"){
+        if(pZugTyp.equals("GZ")){
             mZugTyp = pZugTyp;
             mStartZeit = pEingegebeneZeit; //Durchfahrtszeit Erstfeld
             mEndZeit = mStartZeit.plusMinutes(dauerGZ); //Ausfahrtszeit aus GBT

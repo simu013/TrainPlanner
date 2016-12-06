@@ -5,6 +5,10 @@
  */
 package ch.abbts.szskfh.trainplanner.server;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,9 +24,53 @@ public class Fahrplan {
     private LocalTime eingegebeneZeit;
     private ArrayList<Fahrt> mPersohnenFahrten = new ArrayList<Fahrt>();
     private ArrayList<Fahrt> mGueterFahrten = new ArrayList<Fahrt>();
+    BufferedReader br = null;
     
     public Fahrplan(){
+        iniFahrplan();
+    }
+    
+    public void iniFahrplan(){
         
+        String line = "";
+        LocalTime csvEingegebeneZeit;
+        int csvWagons = 0;
+        
+        try(BufferedReader br = new BufferedReader(new FileReader("Fahrten.csv"))){
+            while ((line = br.readLine())!= null){
+                
+                String[] wert = null;
+                wert = line.split(",");
+                String[] part = wert[1].split(":");
+                csvEingegebeneZeit = LocalTime.of(Integer.parseInt(part[0]), Integer.parseInt(part[1]));
+                
+                if(wert.length == 3){
+                    csvWagons = Integer.parseInt(wert[2]);
+                    mFahrten.add(new Fahrt(wert[0], csvEingegebeneZeit, csvWagons));
+                
+                }
+                else{
+                    mFahrten.add(new Fahrt(wert[0], csvEingegebeneZeit));
+                }
+            }
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        finally{
+            if(br != null){
+                try{
+                    br.close();
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        Collections.sort(mFahrten);
     }
     
     /**
