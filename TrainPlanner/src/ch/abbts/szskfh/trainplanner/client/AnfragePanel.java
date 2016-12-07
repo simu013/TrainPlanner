@@ -8,11 +8,17 @@ package ch.abbts.szskfh.trainplanner.client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalTime;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -20,85 +26,100 @@ import javax.swing.JTextField;
  * @author Sascha
  */
 class AnfragePanel extends JPanel {
-
+    
     private JLabel firmaLabel;
     private JLabel ankunftLabel;
     private JLabel containerLabel;
     private JLabel ausgabeLabel;
+    private JLabel ankunftAbstandLabel;
+    
     private JTextField firmaTextField;
-    private JTextField ankunftTextField;
+    private JTextField ankunftTextFieldH;
+    private JTextField ankunftTextFieldM;
     private JTextField containerTextField;
-    private JTextField ausgabeTextField;
+    
+    private JTextArea ausgabeTextArea;
+    
     private JButton anfrageSenden;
     
+    private String firmenName;
+    private short container;
+    private LocalTime ankunftsZeit;
+    private short prio = 0;
+    
+    private boolean nachrichtAngezeigt = false;
+    private int ankunftsZeitH;
+    private int ankunftsZeitM;
     
     
     
     public AnfragePanel() {
-        initPanel();
-
-        
+        initPanel(); 
     }
-
-     private void initPanel() {
-        
+    
+    private void initPanel() {
         this.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         this.setLayout(new BorderLayout());
         addTopPanel();
         addCenterPanel();
-        addBottomPanel();
+        addBottomPanel();        
     }
-
-    
-    
-    
     
     private void addTopPanel() {
-
         
         JPanel anfragePanel = new JPanel (new GridLayout(3,3,50,10));
         anfragePanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        
         firmaLabel = new JLabel ("Firma:");
         firmaLabel.setForeground(Color.RED);
         anfragePanel.add(firmaLabel);
+        
         firmaTextField = new JTextField ();
-   
-        //firmaTextField.setColumns(15);
-         anfragePanel.add(firmaTextField);
+        anfragePanel.add(firmaTextField);
          
-        JLabel dummieLabel1 = new JLabel ("");
-        anfragePanel.add(dummieLabel1);
+        anfragePanel.add(new JLabel (""));
        
         containerLabel = new JLabel("Anzahl Container:");
         containerLabel.setForeground(Color.RED);
         anfragePanel.add(containerLabel);
         
-
-               
         containerTextField = new JTextField();
-        //containerTextField.setColumns(5);
         anfragePanel.add(containerTextField);
         
-        JLabel dummieLabel2 = new JLabel ("");
-        anfragePanel.add(dummieLabel2);
-        
+        anfragePanel.add(new JLabel (""));
         
         ankunftLabel = new JLabel ("gewünschte Ankunftszeit in 00:00 :");
         ankunftLabel.setForeground(Color.RED);
         anfragePanel.add(ankunftLabel);
-        ankunftTextField = new JTextField ();
-        anfragePanel.add(ankunftTextField);
+        
+        JPanel ankunftPanel = new JPanel (new FlowLayout());
+        ankunftPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        
+        ankunftTextFieldH = new JTextField ();
+        ankunftTextFieldH.setColumns(5);
+        ankunftPanel.add(ankunftTextFieldH);
+        
+        ankunftAbstandLabel = new JLabel(":");
+        ankunftAbstandLabel.setForeground(Color.RED);
+        ankunftPanel.add(ankunftAbstandLabel);
+        
+        ankunftTextFieldM = new JTextField ();
+        ankunftTextFieldM.setColumns(5);
+        ankunftPanel.add(ankunftTextFieldM);
+       
+        anfragePanel.add(ankunftPanel);
         
         anfrageSenden = new JButton ("Anfrage absenden");
+        anfrageSenden.setEnabled(true);
+        MyActionListener listener = new MyActionListener ();
+        anfrageSenden.addActionListener(listener);
         anfragePanel.add(anfrageSenden);
         
-        
-        add (anfragePanel, BorderLayout.NORTH);   
-        
+        add (anfragePanel, BorderLayout.NORTH);  
+         
     }
-
     
-        private void addCenterPanel (){
+    private void addCenterPanel (){
                 
         JPanel centerPanel = new JPanel (new GridLayout(2,1));
         centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
@@ -108,41 +129,124 @@ class AnfragePanel extends JPanel {
         ausgabeLabel.setHorizontalAlignment(JLabel.CENTER);
         centerPanel.add(ausgabeLabel);
         
-        ausgabeTextField = new JTextField();
-        centerPanel.add(ausgabeTextField);
-        
-       
-        
+        ausgabeTextArea = new JTextArea();
+        ausgabeTextArea.setEditable(false);
+        centerPanel.add(ausgabeTextArea);
+
         add(centerPanel, BorderLayout.CENTER);
         
     }
-
-    
-    
-    
-    
     
     private void addBottomPanel() {
         
         JPanel bottomPanel = new JPanel (new BorderLayout());
         bottomPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
 
- 
         JLabel dummieLabel4 = new JLabel("  ");
         dummieLabel4.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
 
         bottomPanel.add(dummieLabel4);
- 
-       
+        
         add(bottomPanel, BorderLayout.SOUTH);
-        
-        
-        
-      
-
+       
     }
+    
+    class MyActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent a) {
+            
+            JButton button = (JButton)a.getSource();
+           
+            
+            if (button == anfrageSenden){
+               
+                if (firmaTextField.getText().trim().isEmpty() | containerTextField.getText().trim().isEmpty() | ankunftTextFieldH.getText().trim().isEmpty() | ankunftTextFieldM.getText().trim().isEmpty()){
+                    
+                    JOptionPane.showMessageDialog(null,
+                    "Bitte alle Felder ausfüllen.", 
+                    "Fehler", JOptionPane.ERROR_MESSAGE);
+                    nachrichtAngezeigt = true;
+                    
+                }
+                else {
+                    firmenName = firmaTextField.getText();
+                }
+                
+                if (!containerTextField.getText().trim().isEmpty() & nachrichtAngezeigt == false){
+                    
+                    try {
+                        container = Short.parseShort(containerTextField.getText()); 
+                        
+                        if (Short.parseShort(containerTextField.getText())<=0){
+                            throw new NumberFormatException();
+                        }
+                    } 
+                    catch(NumberFormatException e){
+                        
+                        JOptionPane.showMessageDialog(null,
+                        "Bitte Container als positive Ganzzahl (>=1) eingeben.", 
+                        "Fehler", JOptionPane.ERROR_MESSAGE);
+                        nachrichtAngezeigt = true;
+                        
+                    }
+                }
+                
+                if (!ankunftTextFieldH.getText().trim().isEmpty() & nachrichtAngezeigt == false){
+                    
+                    try {
+                        ankunftsZeitH = Integer.parseInt(ankunftTextFieldH.getText());
+                        
+                        if (Integer.parseInt(ankunftTextFieldH.getText())< 0 | Integer.parseInt(ankunftTextFieldH.getText())> 23){
+                            throw new NumberFormatException();
+                        }
+                    } 
+                    catch(NumberFormatException e){
+                        
+                        JOptionPane.showMessageDialog(null,
+                        "Bitte Stunden als positive Ganzzahl von 00-23 eingeben.", 
+                        "Fehler", JOptionPane.ERROR_MESSAGE);
+                        nachrichtAngezeigt = true;
+                    }
+                }
+                
+                if (!ankunftTextFieldM.getText().trim().isEmpty() & nachrichtAngezeigt == false){
+                    
+                    try {
+                        ankunftsZeitM = Integer.parseInt(ankunftTextFieldM.getText());
+                        
+                        if (Integer.parseInt(ankunftTextFieldM.getText())< 0 | Integer.parseInt(ankunftTextFieldM.getText())> 59){
+                            throw new NumberFormatException();
+                        }
+                    } 
+                    catch(NumberFormatException e){
+                        
+                        JOptionPane.showMessageDialog(null,
+                        "Bitte Minuten als positive Ganzzahl von 00-59 eingeben.", 
+                        "Fehler", JOptionPane.ERROR_MESSAGE);
+                        nachrichtAngezeigt = true; 
+                    }
+                }
+                
+                if (nachrichtAngezeigt == false){
+                    ankunftsZeit = LocalTime.of(ankunftsZeitH, ankunftsZeitM);
+                    SocketConnection Socket = new SocketConnection();
+                    ausgabeTextArea.setText(Socket.sendeTransportanfrage(firmenName, container, ankunftsZeit, prio));
+                    
+                } 
+                    
+            }
+            nachrichtAngezeigt = false;
+        }
+    }
+}
+     
+        
+ 
+    
 
-   
+
+        
+    
 
     
-}
+

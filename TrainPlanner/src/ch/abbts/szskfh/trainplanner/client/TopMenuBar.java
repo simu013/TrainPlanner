@@ -33,15 +33,19 @@ class TopMenuBar extends JMenuBar {
         menu = new JMenu("Datei");
         this.add(menu);
         
-        
-        menuItem = new JMenuItem ("Aktuelle Anfragen");
+        menuItem = new JMenuItem ("Einstellungen");
         menu.add(menuItem);
         menuItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-
+            JFrame topFrame = ClientGUI.getMainFrame();
+            topFrame.setContentPane(new EinstellungsPanel());
+            topFrame.revalidate();
+            topFrame.repaint();
             } 
         });
+       
+        
         
         menuItem = new JMenuItem ("Beenden");
         menu.add(menuItem);
@@ -66,6 +70,19 @@ class TopMenuBar extends JMenuBar {
             topFrame.setContentPane(new AnfragePanel());
             topFrame.revalidate();
             topFrame.repaint();
+            } 
+        });
+        
+        menuItem = new JMenuItem ("Statusabfrage");
+        menu.add(menuItem);
+        menuItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame topFrame = ClientGUI.getMainFrame();
+                topFrame.setContentPane(new AbfragePanel());
+                topFrame.revalidate();
+                topFrame.repaint();
+
             } 
         });
         
