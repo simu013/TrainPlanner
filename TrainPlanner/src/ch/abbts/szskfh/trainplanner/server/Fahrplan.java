@@ -84,7 +84,7 @@ public class Fahrplan {
         eingegebeneZeit = LocalTime.of(pStartStunde, pStartMinute);
         
         for(int i=0; i<fahrten.size(); i++){
-            if((eingegebeneZeit.isAfter(fahrten.get(i).getmSperrStart())&&(eingegebeneZeit.isBefore(fahrten.get(i).getmSperrEnde())))){
+            if((eingegebeneZeit.isAfter(fahrten.get(i).getSperrStart())&&(eingegebeneZeit.isBefore(fahrten.get(i).getSperrEnde())))){
                 sperrtest = false;
                 break;
             }
@@ -114,7 +114,7 @@ public class Fahrplan {
         eingegebeneZeit = LocalTime.of(pStartStunde, pStartMinute);
         
         for(int i=0; i<fahrten.size(); i++){
-            if((eingegebeneZeit.isAfter(fahrten.get(i).getmSperrStart())&&(eingegebeneZeit.isBefore(fahrten.get(i).getmSperrEnde())))){
+            if((eingegebeneZeit.isAfter(fahrten.get(i).getSperrStart())&&(eingegebeneZeit.isBefore(fahrten.get(i).getSperrEnde())))){
                 sperrtest = false;
                 break;
             }
@@ -164,7 +164,7 @@ public class Fahrplan {
     public ArrayList<Fahrt> getPersonenFahrten(){
         persohnenFahrten.clear();
         for(int i=0; i<fahrten.size(); i++){
-            if((fahrten.get(i).getmZugTyp() == "IC")|(fahrten.get(i).getmZugTyp()== "EC")){
+            if((fahrten.get(i).getZugTyp() == "IC")|(fahrten.get(i).getZugTyp()== "EC")){
                 persohnenFahrten.add(fahrten.get(i));
             }
             else{
@@ -181,7 +181,7 @@ public class Fahrplan {
     public ArrayList<Fahrt> getGueterFahrten(){
         gueterFahrten.clear();
         for(int i=0; i<fahrten.size(); i++){
-            if((fahrten.get(i).getmZugTyp() == "GZ")){
+            if((fahrten.get(i).getZugTyp() == "GZ")){
                 gueterFahrten.add(fahrten.get(i));
             }
             else{

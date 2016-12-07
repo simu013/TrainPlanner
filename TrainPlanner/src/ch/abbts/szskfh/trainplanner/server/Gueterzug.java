@@ -13,26 +13,26 @@ import java.util.ArrayList;
  */
 public class Gueterzug {
     
-    private int mAnzahlWagons;
-    private ArrayList<Gueterwagen> mGueterwagen = new ArrayList<Gueterwagen>();
+    private int anzahlWagons;
+    private ArrayList<Gueterwagen> gueterwagen = new ArrayList<Gueterwagen>();
     
     /**
      *
-     * @param pWagons Anzahl Wagons
+     * @param container Anzahl Wagons
      */
-    public Gueterzug(int pWagons){
-        mAnzahlWagons = pWagons;
-        for(int i=0; i < mAnzahlWagons; i++){
-            mGueterwagen.add(new Gueterwagen());
+    public Gueterzug(int container){
+        anzahlWagons = container/2;
+        for(int i=0; i < anzahlWagons; i++){
+            gueterwagen.add(new Gueterwagen());
         }
     }
     
     /**
      * Gibt Anzahl Wagons aus.
-     * @return mAnzahlWagons, die Anzahl der Güterwagons.
+     * @return anzahlWagons, die Anzahl der Güterwagons.
      */
     public int getAnzahlWagons(){
-        return mAnzahlWagons;
+        return anzahlWagons;
     }
 }
 
