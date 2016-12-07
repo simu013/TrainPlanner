@@ -24,8 +24,8 @@ public class Fahrt implements Comparable<Fahrt>{
     
     /**
      * Constructor für IC und EC
-     * @param pZugTyp Zugtyp IC oder EC.
-     * @param pEingegebeneZeit Startzeit des Zuges in Arth-Goldau
+     * @param zugTyp Zugtyp IC oder EC.
+     * @param eingegebeneZeit Startzeit des Zuges in Arth-Goldau
      */
     public Fahrt(String zugTyp, LocalTime eingegebeneZeit) {
              
@@ -50,8 +50,8 @@ public class Fahrt implements Comparable<Fahrt>{
     
     /**
      * Constructor für GZ.
-     * @param pZugTyp Zugtyp GZ
-     * @param pEingegebeneZeit Ankunftszeit des Zuges an der GBT-Südseite..
+     * @param zugTyp Zugtyp GZ
+     * @param eingegebeneZeit Ankunftszeit des Zuges an der GBT-Südseite..
      * @param containers Anzahl der Container.
      */
     public Fahrt(String zugTyp, LocalTime eingegebeneZeit, int containers) {

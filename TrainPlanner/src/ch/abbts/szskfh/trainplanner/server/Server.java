@@ -14,12 +14,7 @@ public class Server {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // new SocketConnection();
-        Fahrplan mFahrplan = new Fahrplan();
-        for(int i=0; i < mFahrplan.getFahrten().size(); i++){
-            System.out.println(mFahrplan.getFahrten().get(i).toString());
-        }
-            
+        new SocketConnection();
     }
 }
 
