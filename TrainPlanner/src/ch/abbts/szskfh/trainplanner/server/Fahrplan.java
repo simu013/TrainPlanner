@@ -19,11 +19,11 @@ import java.util.Collections;
  */
 public class Fahrplan {
     
-    private ArrayList<Fahrt> mFahrten = new ArrayList<Fahrt>();
-    private Boolean mSperrtest; //Wenn true verstöst die neue fahrt gegen keine Sperrzeit
+    private ArrayList<Fahrt> fahrten = new ArrayList<Fahrt>();
+    private Boolean sperrtest; //Wenn true verstöst die neue fahrt gegen keine Sperrzeit
     private LocalTime eingegebeneZeit;
-    private ArrayList<Fahrt> mPersohnenFahrten = new ArrayList<Fahrt>();
-    private ArrayList<Fahrt> mGueterFahrten = new ArrayList<Fahrt>();
+    private ArrayList<Fahrt> persohnenFahrten = new ArrayList<Fahrt>();
+    private ArrayList<Fahrt> gueterFahrten = new ArrayList<Fahrt>();
     BufferedReader br = null;
     
     public Fahrplan(){
@@ -46,11 +46,11 @@ public class Fahrplan {
                 
                 if(wert.length == 3){
                     csvWagons = Integer.parseInt(wert[2]);
-                    mFahrten.add(new Fahrt(wert[0], csvEingegebeneZeit, csvWagons));
+                    fahrten.add(new Fahrt(wert[0], csvEingegebeneZeit, csvWagons));
                 
                 }
                 else{
-                    mFahrten.add(new Fahrt(wert[0], csvEingegebeneZeit));
+                    fahrten.add(new Fahrt(wert[0], csvEingegebeneZeit));
                 }
             }
         }
@@ -70,31 +70,31 @@ public class Fahrplan {
                 }
             }
         }
-        Collections.sort(mFahrten);
+        Collections.sort(fahrten);
     }
     
     /**
-     * Fügt der ArrayList mFahrten eine neue Fahrt hinzu.
+     * Fügt der ArrayList fahrten eine neue Fahrt hinzu.
      * @param pZugTyp: Zugtyp ("IC","EC" oder "GZ").
      * @param pStartStunde: Stunde der Startzeit (z.B.: 07:XX).
      * @param pStartMinute: Minute der Startzeit (z.B.: XX:47).
      */
     public void addFahrt(String pZugTyp, int pStartStunde, int pStartMinute){
-        mSperrtest = true;
+        sperrtest = true;
         eingegebeneZeit = LocalTime.of(pStartStunde, pStartMinute);
         
-        for(int i=0; i<mFahrten.size(); i++){
-            if((eingegebeneZeit.isAfter(mFahrten.get(i).getmSperrStart())&&(eingegebeneZeit.isBefore(mFahrten.get(i).getmSperrEnde())))){
-                mSperrtest = false;
+        for(int i=0; i<fahrten.size(); i++){
+            if((eingegebeneZeit.isAfter(fahrten.get(i).getmSperrStart())&&(eingegebeneZeit.isBefore(fahrten.get(i).getmSperrEnde())))){
+                sperrtest = false;
                 break;
             }
             else {
                 continue;
             }
         }
-        if(mSperrtest == true){
-            mFahrten.add(new Fahrt(pZugTyp, eingegebeneZeit));
-            Collections.sort(mFahrten);
+        if(sperrtest == true){
+            fahrten.add(new Fahrt(pZugTyp, eingegebeneZeit));
+            Collections.sort(fahrten);
             System.out.println("Fahrt erfolgreich hinzugefügt.");
         }
         else{
@@ -103,28 +103,28 @@ public class Fahrplan {
     }
     
     /**
-     * Fügt der ArrayList mFahrten eine neue Fahrt hinzu.
+     * Fügt der ArrayList fahrten eine neue Fahrt hinzu.
      * @param pZugTyp: Zugtyp ("IC","EC" oder "GZ").
      * @param pStartStunde: Stunde der Startzeit (z.B.: 07:XX).
      * @param pStartMinute: Minute der Startzeit (z.B.: XX:47).
      * @param pWagons Anzahl Wagons des Güterzuges.
      */
     public void addFahrt(String pZugTyp, int pStartStunde, int pStartMinute, int pWagons){
-        mSperrtest = true;
+        sperrtest = true;
         eingegebeneZeit = LocalTime.of(pStartStunde, pStartMinute);
         
-        for(int i=0; i<mFahrten.size(); i++){
-            if((eingegebeneZeit.isAfter(mFahrten.get(i).getmSperrStart())&&(eingegebeneZeit.isBefore(mFahrten.get(i).getmSperrEnde())))){
-                mSperrtest = false;
+        for(int i=0; i<fahrten.size(); i++){
+            if((eingegebeneZeit.isAfter(fahrten.get(i).getmSperrStart())&&(eingegebeneZeit.isBefore(fahrten.get(i).getmSperrEnde())))){
+                sperrtest = false;
                 break;
             }
             else {
                 continue;
             }
         }
-        if(mSperrtest == true){
-            mFahrten.add(new Fahrt(pZugTyp, eingegebeneZeit, pWagons));
-            Collections.sort(mFahrten);
+        if(sperrtest == true){
+            fahrten.add(new Fahrt(pZugTyp, eingegebeneZeit, pWagons));
+            Collections.sort(fahrten);
             System.out.println("Fahrt erfolgreich hinzugefügt.");
         }
         else{
@@ -133,11 +133,11 @@ public class Fahrplan {
     }
     
     /**
-     *Löscht eine beliebige Fahrt aus der ArrayList mFahrten.
+     *Löscht eine beliebige Fahrt aus der ArrayList fahrten.
      * @param i Index der zu löschenden Fahrt.
      */
     public void deleteFahrt(int i){
-        mFahrten.remove(i);
+        fahrten.remove(i);
     }
     
     /**
@@ -145,50 +145,50 @@ public class Fahrplan {
      * @param i Index der Auzugebenden Fahrt
      * @return Das gewünste Objekt des Typs Fahrt.
      */
-    public Fahrt getmFahrt(int i){
-        return mFahrten.get(i);
+    public Fahrt getFahrt(int i){
+        return fahrten.get(i);
     }
     
     /**
-     * Gibt die ArrayList mFahrten aus.
-     * @return ArrayList mFahrten.
+     * Gibt die ArrayList fahrten aus.
+     * @return ArrayList fahrten.
      */
-    public ArrayList<Fahrt> getmFahrten(){
-        return mFahrten;
+    public ArrayList<Fahrt> getFahrten(){
+        return fahrten;
     }
     
     /**
      * Gibt alle Persohnenfahrten aus
-     * @return ArrayList mPersohnenFahrten mit allen erfassten Persohnenfahrten.
+     * @return ArrayList persohnenFahrten mit allen erfassten Persohnenfahrten.
     */
     public ArrayList<Fahrt> getPersonenFahrten(){
-        mPersohnenFahrten.clear();
-        for(int i=0; i<mFahrten.size(); i++){
-            if((mFahrten.get(i).getmZugTyp() == "IC")|(mFahrten.get(i).getmZugTyp()== "EC")){
-                mPersohnenFahrten.add(mFahrten.get(i));
+        persohnenFahrten.clear();
+        for(int i=0; i<fahrten.size(); i++){
+            if((fahrten.get(i).getmZugTyp() == "IC")|(fahrten.get(i).getmZugTyp()== "EC")){
+                persohnenFahrten.add(fahrten.get(i));
             }
             else{
                 continue;
             }
         }
-        return mPersohnenFahrten;
+        return persohnenFahrten;
     }
     
     /**
      * Gibt alle Güterfahrten aus.
-     * @return ArrayList mGueterFahrten mit allen erfassten Persohnenfahrten.
+     * @return ArrayList gueterFahrten mit allen erfassten Persohnenfahrten.
      */
     public ArrayList<Fahrt> getGueterFahrten(){
-        mGueterFahrten.clear();
-        for(int i=0; i<mFahrten.size(); i++){
-            if((mFahrten.get(i).getmZugTyp() == "GZ")){
-                mGueterFahrten.add(mFahrten.get(i));
+        gueterFahrten.clear();
+        for(int i=0; i<fahrten.size(); i++){
+            if((fahrten.get(i).getmZugTyp() == "GZ")){
+                gueterFahrten.add(fahrten.get(i));
             }
             else{
                 continue;
             }
         }
-        return mGueterFahrten;
+        return gueterFahrten;
     }
     
 }
