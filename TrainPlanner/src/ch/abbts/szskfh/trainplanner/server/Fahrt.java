@@ -51,16 +51,16 @@ public class Fahrt implements Comparable<Fahrt>{
     /**
      * Constructor für GZ.
      * @param pZugTyp Zugtyp GZ
-     * @param pEingegebeneZeit Startzeit des Zuges in Arth-Goldau.
+     * @param pEingegebeneZeit Ankunftszeit des Zuges an der GBT-Südseite..
      * @param containers Anzahl der Container.
      */
     public Fahrt(String zugTyp, LocalTime eingegebeneZeit, int containers) {
         if(zugTyp.equals("GZ")){
             this.zugTyp = zugTyp;
-            this.startZeit = eingegebeneZeit; //Durchfahrtszeit Erstfeld
-            this.endZeit = startZeit.plusMinutes(dauerGZ); //Ausfahrtszeit aus GBT
+            this.endZeit = eingegebeneZeit; //Durchfahrtszeit Erstfeld
+            this.startZeit = startZeit.minusMinutes(dauerGZ); //Ausfahrtszeit aus GBT
             this.sperrStart = startZeit; //Sperrzeit vor GZ = Sperrzeit nach letstem Zug
-            this.sperrEnde = endZeit.plusMinutes(3); //Sperrzeit nach GZ = 3min
+            this.sperrEnde = startZeit.plusMinutes(3); //Sperrzeit nach GZ = 3min
             Gueterzug gueterzug = new Gueterzug(containers);
         }
         else{
