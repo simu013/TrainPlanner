@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Gueterzug {
     
     private int anzahlWagons;
-    private ArrayList<Gueterwagen> gueterwagen = new ArrayList<Gueterwagen>();
+    private ArrayList<Container> container = new ArrayList<Container>();
     
     /**
      *
@@ -22,9 +22,6 @@ public class Gueterzug {
      */
     public Gueterzug(int container){
         anzahlWagons = container/2;
-        for(int i=0; i < anzahlWagons; i++){
-            gueterwagen.add(new Gueterwagen());
-        }
     }
     
     /**

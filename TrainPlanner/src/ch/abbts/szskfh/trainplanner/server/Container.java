@@ -9,26 +9,12 @@ package ch.abbts.szskfh.trainplanner.server;
  *
  * @author Florian
  */
-public class Container extends Transporteinheit {
+public class Container {
+    private float laenge;
+    private float gewicht;
     
-    public Container(double pLeergewicht, double pLaenge, double pMaxLadung, double pMomentangewicht) {
-        super(pLeergewicht, pLaenge, pMaxLadung, pMomentangewicht);
+    public Container() {
+        laenge =6; //Laenge = 6m
+        gewicht =0;
     }
-    
-    
-    @Override
-    double getLadung() {
-        return super.getLadung(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    double getLaenge() {
-        return super.getLaenge(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    double getGewicht() {
-        return super.getGewicht(); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

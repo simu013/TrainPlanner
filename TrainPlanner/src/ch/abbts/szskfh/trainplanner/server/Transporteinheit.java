@@ -9,28 +9,20 @@ package ch.abbts.szskfh.trainplanner.server;
  *
  * @author Florian Häusermann
  */
-abstract class Transporteinheit {
-    protected double mLeergewicht;
-    protected double mLaenge;
-    protected double mMaxLadung;
-    protected double mMomentangewicht;
+public class Transporteinheit {
+    protected short mLaenge;
+    protected float mGewicht;
     
-    Transporteinheit(double pLeergewicht, double pLaenge, double pMaxLadung, double pMomentangewicht){
-        mLeergewicht = pLeergewicht;
+    Transporteinheit(short pLaenge, float pGewicht){
         mLaenge = pLaenge;
-        mMaxLadung = pMaxLadung;
-        mMomentangewicht = pMomentangewicht;
+        mGewicht = pGewicht;
     }
     double getGewicht(){
-        return mMomentangewicht;
+        return mGewicht;
     }
     
     double getLaenge(){
         return mLaenge;
-    }
-    
-    double getLadung(){
-        return mMomentangewicht-mLeergewicht;
     }
 }
 
