@@ -49,19 +49,23 @@ public class Gueterzug {
     }
     
     /**
-     *  Gibt die ANzahl freie Plätze auf dem Zug aus
+     *  Gibt die Anzahl freie Plätze auf dem Zug aus
      * @return freiePlätze
      */
     public int getFreiePlätze(){
         return freiePlätze;
     }
     /**
-     * Gibt Anzahl Wagons aus.
+     * Gibt Anzahl Wagons des zuges aus.
      * @return anzahlWagons, die Anzahl der Güterwagons.
      */
     public int getAnzahlWagons(){
-        int kapazität = 49;
-        anzahlWagons = kapazität - freiePlätze;
+        int containers = 49;
+        containers -= freiePlätze;
+        anzahlWagons = containers/2;
+        if((containers%2)!=0){
+            anzahlWagons++;
+        }
         return anzahlWagons;
     }
 }
