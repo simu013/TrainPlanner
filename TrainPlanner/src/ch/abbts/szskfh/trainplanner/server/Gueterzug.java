@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Gueterzug {
     
     private int anzahlWagons;
-    private int plätze = 49;
+    private int freiePlätze = 49;
     private ArrayList<Container> container;
     
     /**
@@ -28,7 +28,7 @@ public class Gueterzug {
             anzahlWagons = container/2;
             for(int i = 0;  i < container; i++){
                 this.container.add(new Container());
-                plätze --;
+                freiePlätze --;
             }
         }
         else{
@@ -37,15 +37,23 @@ public class Gueterzug {
     }
     
     public void addContainer(int container) throws TrainToSmallException{
-        if(container <= plätze){
+        if(container <= freiePlätze){
             for(int i = 0 ; i < container ; i++){
                 this.container.add(new Container ());
-                plätze --;
+                freiePlätze --;
             }
         }
         else{
             throw new TrainToSmallException();
         }
+    }
+    
+    /**
+     *  Gibt die ANzahl freie Plätze auf dem Zug aus
+     * @return freiePlätze
+     */
+    public int getFreiePlätze(){
+        return freiePlätze;
     }
     /**
      * Gibt Anzahl Wagons aus.
@@ -53,7 +61,7 @@ public class Gueterzug {
      */
     public int getAnzahlWagons(){
         int kapazität = 49;
-        anzahlWagons = kapazität - plätze;
+        anzahlWagons = kapazität - freiePlätze;
         return anzahlWagons;
     }
 }

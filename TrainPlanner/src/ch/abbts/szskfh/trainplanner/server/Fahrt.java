@@ -61,7 +61,7 @@ public class Fahrt implements Comparable<Fahrt>{
             this.startZeit = startZeit.minusMinutes(dauerGZ); //Ausfahrtszeit aus GBT
             this.sperrStart = startZeit; //Sperrzeit vor GZ = Sperrzeit nach letstem Zug
             this.sperrEnde = startZeit.plusMinutes(3); //Sperrzeit nach GZ = 3min
-            Gueterzug gueterzug = new Gueterzug(containers);
+            //Gueterzug gueterzug = new Gueterzug(containers);
         }
         else{
             System.out.println("Falscher Zugtyp");
