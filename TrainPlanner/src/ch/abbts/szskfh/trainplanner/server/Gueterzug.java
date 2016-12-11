@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Gueterzug{
     
     private int anzahlWagons;
-    private int freiePlätze = 49;
+    private int freiePlätze = 98;
     private ArrayList<Container> container;
     
     /**
@@ -24,7 +24,7 @@ public class Gueterzug{
      */
     public Gueterzug(int container) throws TrainToSmallException{
         this.container = new ArrayList<Container>();
-        if(container <= 49){
+        if(container <= 98){
             anzahlWagons = container/2;
             for(int i = 0;  i < container; i++){
                 this.container.add(new Container());
@@ -79,7 +79,7 @@ public class Gueterzug{
      * @return anzahlWagons, die Anzahl der Güterwagons.
      */
     public int getAnzahlWagons(){
-        int containers = 49;
+        int containers = 98;
         containers -= freiePlätze;
         anzahlWagons = containers/2;
         if((containers%2)!=0){
