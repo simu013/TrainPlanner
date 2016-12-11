@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Florian
  */
-public class Gueterzug {
+public class Gueterzug{
     
     private int anzahlWagons;
     private int freiePlätze = 49;
@@ -49,12 +49,31 @@ public class Gueterzug {
     }
     
     /**
+     *  Gibt das gesamt Gewicht der Zugkomposition in Tonnen aus.
+     * @return Gewicht Zugkomposition in Tonnen.
+     */
+    public float getGewicht(){
+        float gewichtWagons = 0;
+        float gewichtContainers = 0;
+        final float gewichtLoks = (float)170.8; //Gewicht von 2 Loks in Tonnen (je 85,4 T).
+        float gesamtGewicht = 0;
+        
+        gewichtWagons = (float)getAnzahlWagons()*(float)13.5;
+        for(int i=0 ; i<container.size() ; i++){
+            gewichtContainers += container.get(i).getGewicht();
+        }
+        gesamtGewicht = gewichtLoks + gewichtWagons + gewichtContainers;
+        return gesamtGewicht;
+    }
+    
+    /**
      *  Gibt die Anzahl freie Plätze auf dem Zug aus
      * @return freiePlätze
      */
     public int getFreiePlätze(){
         return freiePlätze;
     }
+    
     /**
      * Gibt Anzahl Wagons des zuges aus.
      * @return anzahlWagons, die Anzahl der Güterwagons.

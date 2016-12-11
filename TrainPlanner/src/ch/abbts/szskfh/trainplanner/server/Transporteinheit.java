@@ -10,19 +10,18 @@ package ch.abbts.szskfh.trainplanner.server;
  * @author Florian Häusermann
  */
 public class Transporteinheit {
-    protected short mLaenge;
-    protected float mGewicht;
+    protected short laenge;
+    protected float gewicht;
     
-    Transporteinheit(short pLaenge, float pGewicht){
-        mLaenge = pLaenge;
-        mGewicht = pGewicht;
+    Transporteinheit(){
+        
     }
-    double getGewicht(){
-        return mGewicht;
+    float getGewicht(){
+        return gewicht;
     }
     
-    double getLaenge(){
-        return mLaenge;
+    short getLaenge(){
+        return laenge;
     }
 }
 
