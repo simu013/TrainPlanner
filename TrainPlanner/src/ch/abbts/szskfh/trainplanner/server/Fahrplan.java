@@ -26,15 +26,17 @@ public class Fahrplan {
     
     /**
      * Konstruktor initialisiert den Fahrplan durch ausführen von iniFahrplan();
+     * @throws ch.abbts.szskfh.trainplanner.server.TrainToSmallException
      */
-    public Fahrplan(){
+    public Fahrplan() throws TrainToSmallException{
         iniFahrplan();
     }
     
     /**
      * Initialisiert den Fahrplan aus der datei Fahrten.csv.
+     * @throws ch.abbts.szskfh.trainplanner.server.TrainToSmallException
      */
-    public void iniFahrplan(){
+    public void iniFahrplan() throws TrainToSmallException{
         
         String line = "";
         LocalTime csvEingegebeneZeit;
@@ -79,14 +81,14 @@ public class Fahrplan {
     
     /**
      * Fügt der ArrayList fahrten eine neue Persohnenfahrt hinzu.
-     * @param ZugTyp Zugtyp ("IC" oder "EC").
+     * @param zugTyp Zugtyp ("IC" oder "EC").
      * @param eingegebeneZeit gewünste Abfahrtszeit
      * @throws TransportNotPossibleException wenn hinzufügen nicht erfolgreich.
      */
-    public void addFahrt(String ZugTyp, LocalTime eingegebeneZeit) throws TransportNotPossibleException{
+    public void addFahrt(String zugTyp, LocalTime eingegebeneZeit) throws TransportNotPossibleException{
         
         if(sperrTest(eingegebeneZeit) == true){
-            fahrten.add(new Fahrt(ZugTyp, eingegebeneZeit));
+            fahrten.add(new Fahrt(zugTyp, eingegebeneZeit));
             Collections.sort(fahrten);
         }
         else{
@@ -96,15 +98,16 @@ public class Fahrplan {
     
     /**
      * Fügt der ArrayList fahrten eine neue Güterfahrt hinzu.
-     * @param eingegebeneZeit gewünste Ankunftszeit des Güterzuges.
-     * @param wagons Anzahl Wagons des Güterzuges.
+     * @param ankunftsZeit gewünste Ankunftszeit des Güterzuges.
+     * @param container Anzahl Wagons des Güterzuges.
      * @throws ch.abbts.szskfh.trainplanner.server.TransportNotPossibleException
+     * @throws ch.abbts.szskfh.trainplanner.server.TrainToSmallException
      */
-    public void addFahrt(LocalTime eingegebeneZeit, int wagons) throws TransportNotPossibleException{
-        LocalTime sperrTest = eingegebeneZeit.minusMinutes(22);
+    public void addFahrt(LocalTime ankunftsZeit, int container) throws TransportNotPossibleException, TrainToSmallException{
+        LocalTime abfahrtsZeit = ankunftsZeit.minusMinutes(22); //Die zur Ankunftszeit gehörende Abfahrtszeit
         
-        if(sperrTest(sperrTest) == true){
-            fahrten.add(new Fahrt("GZ",eingegebeneZeit, wagons));
+        if(sperrTest(abfahrtsZeit) == true){
+            fahrten.add(new Fahrt("GZ",ankunftsZeit, container));
             Collections.sort(fahrten);
         }
         else{
@@ -115,7 +118,7 @@ public class Fahrplan {
     /**
      * Kontrolliert ob die eingegebene Abfahrtszeit gegen keine Sperrzeit verstöst..
      * @param eingegebeneZeit gewünste Abfahrtszeit des zu prüfenden Zuges.
-     * @return sperrTest wenn true verstöst die zeit gegen keine Sperrzeit.
+     * @return abfahrtsZeit wenn true verstöst die zeit gegen keine Sperrzeit.
      */
     private boolean sperrTest(LocalTime eingegebeneZeit){
         boolean sperrTest = false;
@@ -129,6 +132,80 @@ public class Fahrplan {
             }
         }
         return sperrTest;
+    }
+    
+    /**
+     * Mit Hilfe dieser Methode, kann man einen Auftrag hizufügen. Fals der Auftrag hinzugefügt wird, wird die Ankunftszeit ausgegeben.
+     * Ist es nicht möglich den Auftrag hinzuzufügen, wird eine TransportNotPossibleException geworfen.
+     * @param ankunftsZeit die gewünste ankunftszeit des Auftrages.
+     * @param container die Anzahl zu Transportierende Container.
+     * @return ankunftGueterZug die definitive Ankunftszeit des Auftrages.
+     * @throws TransportNotPossibleException Fals kein Transport im gewünsten Zeitraum möglich ist.
+     * @throws TrainToSmallException Falls mehr als 49 Container hinzugefügt werden.
+     */
+    public LocalTime addAuftrag(LocalTime ankunftsZeit, int container) throws TransportNotPossibleException, TrainToSmallException{
+        int indexFahrt = ceckTrains(ankunftsZeit, container);
+        boolean auftragHinzugefügt = false;
+        LocalTime ankunftGueterZug = ankunftsZeit;
+        
+        //Probiere Auftrag bestehender Fahrt zuzuordnen;
+        if(indexFahrt < fahrten.size()){
+            fahrten.get(indexFahrt).getGueterZug().addContainer(container);
+            ankunftGueterZug = fahrten.get(indexFahrt).getEndZeit();
+            auftragHinzugefügt = true;
+        }
+        else{
+            LocalTime abfahrtGueterzug = ankunftsZeit.minusMinutes(22);
+            
+            //Diese Schleife wird maximal 40 mal durchlaufen, jedes mal werden von der gewünsten Ankunftszeit 3 minuten abgezogen, wass einen Zeitraum von 2 Stunden ergiebt.
+            for(int i = 0; i < 40 ; i++){
+                if(sperrTest(abfahrtGueterzug)){
+                    ankunftGueterZug = abfahrtGueterzug.plusMinutes(22);
+                    fahrten.add(new Fahrt("GZ", ankunftGueterZug, container));
+                    auftragHinzugefügt = true;
+                    break;
+                }
+                else{
+                    abfahrtGueterzug.minusMinutes(3);
+                    continue;
+                }
+            }
+        }
+        if(!auftragHinzugefügt){
+            throw new TransportNotPossibleException();
+        }
+        return ankunftGueterZug;
+    }
+    
+    /**
+     * Überprüft, ob bereits ein Güterzug mit der nötigen Kapazität,
+     * im Zeitraum von der gewünsten Ankunftszeit bis 2 Stunden früher vorhanden ist.
+     * Wenn möglich, gibt diese Methode den Index der entsprechenden Fahrt aus.
+     * Wenn nicht möglich, gibt diese Methode einen int aus der gleich gross wie die länge der ArrayList fahrten ist (IndexOutOfBound)
+     * @param eingegebeneZeit Die gewünste Ankunftszeit des Güterzuges.
+     * @param containers Anzahl zu transportierender container
+     * @return zugIndex Der Index der entsprechenden Fahrt oder ein zu hoher int.
+     */
+    private int ceckTrains(LocalTime eingegebeneZeit, int container){
+        LocalTime endeZeitraum = eingegebeneZeit.minusMinutes(22);
+        LocalTime startZeitraum = endeZeitraum.minusHours(2);
+        int zugIndex = fahrten.size();
+        
+        for(int i = 0; i<fahrten.size(); i++){
+            if((startZeitraum.isAfter(fahrten.get(i).getStartZeit()))&fahrten.get(i).getZugTyp().equals("GZ")){
+                if((fahrten.get(i).getGueterZug().getFreiePlätze()) >= container){
+                    zugIndex = i;
+                    break;
+                }
+                else{
+                    continue;
+                }
+            }
+            else{
+                continue;
+            }
+        }
+        return zugIndex;
     }
     
     /**

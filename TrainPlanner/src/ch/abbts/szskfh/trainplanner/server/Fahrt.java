@@ -18,6 +18,7 @@ public class Fahrt implements Comparable<Fahrt>{
     private LocalTime endZeit;
     private LocalTime sperrStart;
     private LocalTime sperrEnde;
+    private Gueterzug gueterZug = null;
     
     private final int dauerPZ = 18; //Fahrdauer IC/EC in min.
     private final int dauerGZ = 22; //Fahrdauer GZ in min.
@@ -54,18 +55,13 @@ public class Fahrt implements Comparable<Fahrt>{
      * @param eingegebeneZeit Ankunftszeit des Zuges an der GBT-Südseite..
      * @param containers Anzahl der Container.
      */
-    public Fahrt(String zugTyp, LocalTime eingegebeneZeit, int containers) {
-        if(zugTyp.equals("GZ")){
-            this.zugTyp = zugTyp;
-            this.endZeit = eingegebeneZeit; //Durchfahrtszeit Erstfeld
-            this.startZeit = startZeit.minusMinutes(dauerGZ); //Ausfahrtszeit aus GBT
-            this.sperrStart = startZeit; //Sperrzeit vor GZ = Sperrzeit nach letstem Zug
-            this.sperrEnde = startZeit.plusMinutes(3); //Sperrzeit nach GZ = 3min
-            //Gueterzug gueterzug = new Gueterzug(containers);
-        }
-        else{
-            System.out.println("Falscher Zugtyp");
-        }
+    public Fahrt(String zugTyp, LocalTime eingegebeneZeit, int containers) throws TrainToSmallException {
+        this.zugTyp = zugTyp;
+        this.endZeit = eingegebeneZeit; //Durchfahrtszeit Erstfeld
+        this.startZeit = startZeit.minusMinutes(dauerGZ); //Ausfahrtszeit aus GBT
+        this.sperrStart = startZeit; //Sperrzeit vor GZ = Sperrzeit nach letstem Zug
+        this.sperrEnde = startZeit.plusMinutes(3); //Sperrzeit nach GZ = 3min
+        gueterZug = new Gueterzug(containers);
     }
     
     /**
@@ -107,7 +103,11 @@ public class Fahrt implements Comparable<Fahrt>{
     public LocalTime getSperrEnde() {
         return sperrEnde;
     }
-
+    
+    public Gueterzug getGueterZug(){
+        return gueterZug;
+    }
+    
     @Override
     public String toString() {
         return "Durchfahrt Erstfeld:   " + startZeit + ";   Ende Tunnel:  " + endZeit+";    Durchfahrt Gesperrt von: " + sperrStart + " bis " + sperrEnde + "    Zug Typ:  "+zugTyp;
