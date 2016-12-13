@@ -68,22 +68,42 @@ public class Fahrt implements Comparable<Fahrt>{
         }
     }
     
+    /**
+     * Gibt den Zugtyp aus.
+     * @return zugTyp
+     */
     public String getZugTyp() {
         return zugTyp;
     }
 
+    /**
+     * Gibt die Startzeit des Zuges aus.
+     * @return startZeit die Startzeit des Zuges.
+     */
     public LocalTime getStartZeit() {
         return startZeit;
     }
 
+    /**
+     * Gibt die Ankunftszeit des Zuges aus.
+     * @return endZeit die Ankunftszeit des Zuges.
+     */
     public LocalTime getEndZeit() {
         return endZeit;
     }
 
+    /**
+     * Gibt den Anfang der Sperrzeit des Zuges aus.
+     * @return sperrStart der start der Sperrzeit des Zuges.
+     */
     public LocalTime getSperrStart() {
         return sperrStart;
     }
 
+    /**
+     * Gibt das Ende der Sperrzeit des Zuges aus.
+     * @return sperrEnde das ende der Sperrzeit des Zuges.
+     */
     public LocalTime getSperrEnde() {
         return sperrEnde;
     }

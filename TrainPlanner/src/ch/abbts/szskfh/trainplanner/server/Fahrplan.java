@@ -20,16 +20,20 @@ import java.util.Collections;
 public class Fahrplan {
     
     private ArrayList<Fahrt> fahrten = new ArrayList<Fahrt>();
-    private Boolean sperrtest; //Wenn true verstöst die neue fahrt gegen keine Sperrzeit
-    private LocalTime eingegebeneZeit;
     private ArrayList<Fahrt> persohnenFahrten = new ArrayList<Fahrt>();
     private ArrayList<Fahrt> gueterFahrten = new ArrayList<Fahrt>();
     BufferedReader br = null;
     
+    /**
+     * Konstruktor initialisiert den Fahrplan durch ausführen von iniFahrplan();
+     */
     public Fahrplan(){
         iniFahrplan();
     }
     
+    /**
+     * Initialisiert den Fahrplan aus der datei Fahrten.csv.
+     */
     public void iniFahrplan(){
         
         String line = "";
@@ -74,62 +78,57 @@ public class Fahrplan {
     }
     
     /**
-     * Fügt der ArrayList fahrten eine neue Fahrt hinzu.
-     * @param pZugTyp: Zugtyp ("IC","EC" oder "GZ").
-     * @param pStartStunde: Stunde der Startzeit (z.B.: 07:XX).
-     * @param pStartMinute: Minute der Startzeit (z.B.: XX:47).
+     * Fügt der ArrayList fahrten eine neue Persohnenfahrt hinzu.
+     * @param ZugTyp Zugtyp ("IC" oder "EC").
+     * @param eingegebeneZeit gewünste Abfahrtszeit
+     * @throws TransportNotPossibleException wenn hinzufügen nicht erfolgreich.
      */
-    public void addFahrt(String pZugTyp, int pStartStunde, int pStartMinute){
-        sperrtest = true;
-        eingegebeneZeit = LocalTime.of(pStartStunde, pStartMinute);
+    public void addFahrt(String ZugTyp, LocalTime eingegebeneZeit) throws TransportNotPossibleException{
         
-        for(int i=0; i<fahrten.size(); i++){
-            if((eingegebeneZeit.isAfter(fahrten.get(i).getSperrStart())&&(eingegebeneZeit.isBefore(fahrten.get(i).getSperrEnde())))){
-                sperrtest = false;
-                break;
-            }
-            else {
-                continue;
-            }
-        }
-        if(sperrtest == true){
-            fahrten.add(new Fahrt(pZugTyp, eingegebeneZeit));
+        if(sperrTest(eingegebeneZeit) == true){
+            fahrten.add(new Fahrt(ZugTyp, eingegebeneZeit));
             Collections.sort(fahrten);
-            System.out.println("Fahrt erfolgreich hinzugefügt.");
         }
         else{
-            System.out.println("Verstöst gegen Sperrzeit");
+            throw new TransportNotPossibleException();
         }
     }
     
     /**
-     * Fügt der ArrayList fahrten eine neue Fahrt hinzu.
-     * @param pZugTyp: Zugtyp ("IC","EC" oder "GZ").
-     * @param pStartStunde: Stunde der Startzeit (z.B.: 07:XX).
-     * @param pStartMinute: Minute der Startzeit (z.B.: XX:47).
-     * @param pWagons Anzahl Wagons des Güterzuges.
+     * Fügt der ArrayList fahrten eine neue Güterfahrt hinzu.
+     * @param eingegebeneZeit gewünste Ankunftszeit des Güterzuges.
+     * @param wagons Anzahl Wagons des Güterzuges.
+     * @throws ch.abbts.szskfh.trainplanner.server.TransportNotPossibleException
      */
-    public void addFahrt(String pZugTyp, int pStartStunde, int pStartMinute, int pWagons){
-        sperrtest = true;
-        eingegebeneZeit = LocalTime.of(pStartStunde, pStartMinute);
+    public void addFahrt(LocalTime eingegebeneZeit, int wagons) throws TransportNotPossibleException{
+        LocalTime sperrTest = eingegebeneZeit.minusMinutes(22);
         
+        if(sperrTest(sperrTest) == true){
+            fahrten.add(new Fahrt("GZ",eingegebeneZeit, wagons));
+            Collections.sort(fahrten);
+        }
+        else{
+            throw new TransportNotPossibleException();
+        }
+    }
+    
+    /**
+     * Kontrolliert ob die eingegebene Abfahrtszeit gegen keine Sperrzeit verstöst..
+     * @param eingegebeneZeit gewünste Abfahrtszeit des zu prüfenden Zuges.
+     * @return sperrTest wenn true verstöst die zeit gegen keine Sperrzeit.
+     */
+    private boolean sperrTest(LocalTime eingegebeneZeit){
+        boolean sperrTest = false;
         for(int i=0; i<fahrten.size(); i++){
             if((eingegebeneZeit.isAfter(fahrten.get(i).getSperrStart())&&(eingegebeneZeit.isBefore(fahrten.get(i).getSperrEnde())))){
-                sperrtest = false;
+                sperrTest = false;
                 break;
             }
-            else {
+            else{
                 continue;
             }
         }
-        if(sperrtest == true){
-            fahrten.add(new Fahrt(pZugTyp, eingegebeneZeit, pWagons));
-            Collections.sort(fahrten);
-            System.out.println("Fahrt erfolgreich hinzugefügt.");
-        }
-        else{
-            System.out.println("Verstöst gegen Sperrzeit");
-        }
+        return sperrTest;
     }
     
     /**

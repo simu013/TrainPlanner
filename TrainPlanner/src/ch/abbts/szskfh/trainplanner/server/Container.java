@@ -17,10 +17,20 @@ public class Container extends Transporteinheit{
         this.laenge = 6; //Laenge = 6m.
         this.gewicht = 24; //Gewicht = 24 Tonnen.
     }
+    
+    /**
+     * Gibt die Länge des Containers aus.
+     * @return laenge
+     */
     @Override
     public short getLaenge() {
         return laenge; //To change body of generated methods, choose Tools | Templates.
     }
+    
+    /**
+     * Gibt das Gewicht des Containers aus.
+     * @return gewicht
+     */
     @Override
     public float getGewicht() {
         return gewicht; //To change body of generated methods, choose Tools | Templates.
