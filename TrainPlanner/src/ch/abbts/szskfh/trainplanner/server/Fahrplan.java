@@ -28,8 +28,13 @@ public class Fahrplan {
      * Konstruktor initialisiert den Fahrplan durch ausführen von iniFahrplan();
      * @throws ch.abbts.szskfh.trainplanner.server.TrainToSmallException
      */
-    public Fahrplan() throws TrainToSmallException{
-        iniFahrplan();
+    public Fahrplan(){
+        try{
+            iniFahrplan();
+        }catch(Exception e){
+            System.out.println("TrainToSmallException bei initialisierung.");
+        }
+        
     }
     
     /**
@@ -116,25 +121,6 @@ public class Fahrplan {
     }
     
     /**
-     * Kontrolliert ob die eingegebene Abfahrtszeit gegen keine Sperrzeit verstöst..
-     * @param eingegebeneZeit gewünste Abfahrtszeit des zu prüfenden Zuges.
-     * @return abfahrtsZeit wenn true verstöst die zeit gegen keine Sperrzeit.
-     */
-    private boolean sperrTest(LocalTime eingegebeneZeit){
-        boolean sperrTest = false;
-        for(int i=0; i<fahrten.size(); i++){
-            if((eingegebeneZeit.isAfter(fahrten.get(i).getSperrStart())&&(eingegebeneZeit.isBefore(fahrten.get(i).getSperrEnde())))){
-                sperrTest = false;
-                break;
-            }
-            else{
-                continue;
-            }
-        }
-        return sperrTest;
-    }
-    
-    /**
      * Mit Hilfe dieser Methode, kann man einen Auftrag hizufügen. Fals der Auftrag hinzugefügt wird, wird die Ankunftszeit ausgegeben.
      * Ist es nicht möglich den Auftrag hinzuzufügen, wird eine TransportNotPossibleException geworfen.
      * @param ankunftsZeit die gewünste ankunftszeit des Auftrages.
@@ -161,13 +147,14 @@ public class Fahrplan {
             for(int i = 0; i < 40 ; i++){
                 if(sperrTest(abfahrtGueterzug)){
                     ankunftGueterZug = abfahrtGueterzug.plusMinutes(22);
-                    fahrten.add(new Fahrt("GZ", ankunftGueterZug, container));
+                    //fahrten.add(new Fahrt("GZ", ankunftGueterZug, container));
+                    addFahrt(ankunftGueterZug, container);
+                    Collections.sort(fahrten);
                     auftragHinzugefügt = true;
                     break;
                 }
                 else{
-                    abfahrtGueterzug.minusMinutes(3);
-                    continue;
+                    abfahrtGueterzug = abfahrtGueterzug.minusMinutes(3);
                 }
             }
         }
@@ -178,24 +165,51 @@ public class Fahrplan {
     }
     
     /**
+     * Kontrolliert ob die eingegebene Abfahrtszeit gegen keine Sperrzeit verstöst.
+     * @param eingegebeneZeit gewünste Abfahrtszeit des zu prüfenden Zuges.
+     * @return abfahrtsZeit wenn true verstöst die Zeit gegen keine Sperrzeit.
+     */
+    private boolean sperrTest(LocalTime eingegebeneZeit){
+        boolean sperrTest = true;
+        
+        for(int i=0; i<fahrten.size(); i++){
+            if((eingegebeneZeit.isAfter(fahrten.get(i).getSperrStart())&&(eingegebeneZeit.isBefore(fahrten.get(i).getSperrEnde())))){
+                sperrTest = false;
+                break;
+            }
+            else{
+                continue;
+            }
+        }
+        return sperrTest;
+    }
+    
+    /**
      * Überprüft, ob bereits ein Güterzug mit der nötigen Kapazität,
      * im Zeitraum von der gewünsten Ankunftszeit bis 2 Stunden früher vorhanden ist.
      * Wenn möglich, gibt diese Methode den Index der entsprechenden Fahrt aus.
      * Wenn nicht möglich, gibt diese Methode einen int aus der gleich gross wie die länge der ArrayList fahrten ist (IndexOutOfBound)
      * @param eingegebeneZeit Die gewünste Ankunftszeit des Güterzuges.
-     * @param containers Anzahl zu transportierender container
+     * @param container Anzahl zu transportierender container
      * @return zugIndex Der Index der entsprechenden Fahrt oder ein zu hoher int.
      */
-    private int ceckTrains(LocalTime eingegebeneZeit, int container){
+    public int ceckTrains(LocalTime eingegebeneZeit, int container){
         LocalTime endeZeitraum = eingegebeneZeit.minusMinutes(22);
         LocalTime startZeitraum = endeZeitraum.minusHours(2);
-        int zugIndex = fahrten.size();
+        LocalTime zugZeit; //Startzeit des Jeweiligen zu testenden Zuges
+        int zugIndex = fahrten.size()*3;
         
         for(int i = 0; i<fahrten.size(); i++){
-            if((startZeitraum.isAfter(fahrten.get(i).getStartZeit()))&fahrten.get(i).getZugTyp().equals("GZ")){
-                if((fahrten.get(i).getGueterZug().getFreiePlätze()) >= container){
-                    zugIndex = i;
-                    break;
+            zugZeit = fahrten.get(i).getStartZeit();
+            if ((zugZeit.isAfter(startZeitraum))&(zugZeit.isBefore(endeZeitraum))){
+                if(fahrten.get(i).getZugTyp().equals("GZ")){
+                    if((fahrten.get(i).getGueterZug().getFreiePlätze()) >= container){
+                        zugIndex = i;
+                        break;
+                    }
+                    else{
+                        continue;
+                    }
                 }
                 else{
                     continue;

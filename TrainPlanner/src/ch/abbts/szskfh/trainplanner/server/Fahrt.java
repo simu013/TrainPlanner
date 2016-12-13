@@ -58,7 +58,7 @@ public class Fahrt implements Comparable<Fahrt>{
     public Fahrt(String zugTyp, LocalTime eingegebeneZeit, int containers) throws TrainToSmallException {
         this.zugTyp = zugTyp;
         this.endZeit = eingegebeneZeit; //Durchfahrtszeit Erstfeld
-        this.startZeit = startZeit.minusMinutes(dauerGZ); //Ausfahrtszeit aus GBT
+        this.startZeit = this.endZeit.minusMinutes(dauerGZ); //Ausfahrtszeit aus GBT
         this.sperrStart = startZeit; //Sperrzeit vor GZ = Sperrzeit nach letstem Zug
         this.sperrEnde = startZeit.plusMinutes(3); //Sperrzeit nach GZ = 3min
         gueterZug = new Gueterzug(containers);
