@@ -11,8 +11,10 @@ import java.util.ArrayList;
  *
  * @author Florian
  */
-public class Gueterzug{
+public class Gueterzug extends Transporteinheit{
     
+    private float gewicht = 0;
+    private short laenge = 0;
     private int anzahlWagons;
     private int freiePlätze = 98;
     private ArrayList<Container> container;
@@ -50,20 +52,32 @@ public class Gueterzug{
     
     /**
      *  Gibt das gesamt Gewicht der Zugkomposition in Tonnen aus.
-     * @return Gewicht Zugkomposition in Tonnen.
+     * @return gewicht
      */
     public float getGewicht(){
         float gewichtWagons = 0;
         float gewichtContainers = 0;
         final float gewichtLoks = (float)170.8; //Gewicht von 2 Loks in Tonnen (je 85,4 T).
-        float gesamtGewicht = 0;
+        gewicht = 0;
         
-        gewichtWagons = (float)getAnzahlWagons()*(float)13.5;
+        gewichtWagons = ((float)getAnzahlWagons())*((float)13.5);
         for(int i=0 ; i<container.size() ; i++){
             gewichtContainers += container.get(i).getGewicht();
         }
-        gesamtGewicht = gewichtLoks + gewichtWagons + gewichtContainers;
-        return gesamtGewicht;
+        gewicht = gewichtLoks + gewichtWagons + gewichtContainers;
+        return gewicht;
+    }
+    
+    /**
+     *  Gibt die gesamt Länge der Zugkomposition in Meter aus.
+     * @return laenge
+     */
+    public short getLaenge(){
+        short laengeWagons = 0;
+        final short laengeLoks = (short) 37.8; //Länge von 2 Loks in Meter (je 19,8 M).
+        laengeWagons = (short)(getAnzahlWagons()*14.5);
+        laenge = (short) (laengeLoks + laengeWagons);
+        return laenge;
     }
     
     /**
