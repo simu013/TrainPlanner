@@ -5,6 +5,8 @@
  */
 package ch.abbts.szskfh.trainplanner.server;
 
+import java.time.LocalTime;
+
 /**
  *
  * @author Simon
@@ -13,7 +15,7 @@ public class Server {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws TransportNotPossibleException, TrainToSmallException{
         new SocketConnection();
     }
 }
