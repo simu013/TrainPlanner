@@ -59,7 +59,7 @@ public class Fahrt implements Comparable<Fahrt>{
         this.zugTyp = zugTyp;
         this.endZeit = eingegebeneZeit; //Durchfahrtszeit Erstfeld
         this.startZeit = this.endZeit.minusMinutes(dauerGZ); //Ausfahrtszeit aus GBT
-        this.sperrStart = startZeit; //Sperrzeit vor GZ = Sperrzeit nach letstem Zug
+        this.sperrStart = startZeit.minusMinutes(3); //Sperrzeit vor GZ = Sperrzeit nach letstem Zug
         this.sperrEnde = startZeit.plusMinutes(3); //Sperrzeit nach GZ = 3min
         gueterZug = new Gueterzug(containers);
     }

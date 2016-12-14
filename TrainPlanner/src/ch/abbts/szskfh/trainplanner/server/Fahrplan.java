@@ -127,37 +127,31 @@ public class Fahrplan {
      * @param container die Anzahl zu Transportierende Container.
      * @return ankunftGueterZug die definitive Ankunftszeit des Auftrages.
      * @throws TransportNotPossibleException Fals kein Transport im gewünsten Zeitraum möglich ist.
-     * @throws TrainToSmallException Falls mehr als 49 Container hinzugefügt werden.
+     * @throws TrainToSmallException Falls mehr als 98 Container hinzugefügt werden.
      */
     public LocalTime addAuftrag(LocalTime ankunftsZeit, int container) throws TransportNotPossibleException, TrainToSmallException{
-        int indexFahrt = ceckTrains(ankunftsZeit, container);
         boolean auftragHinzugefügt = false;
         LocalTime ankunftGueterZug = ankunftsZeit;
         
         //Probiere Auftrag bestehender Fahrt zuzuordnen;
-        if(indexFahrt < fahrten.size()){
-            fahrten.get(indexFahrt).getGueterZug().addContainer(container);
-            ankunftGueterZug = fahrten.get(indexFahrt).getEndZeit();
+        try{
+            ankunftGueterZug = tryToAddContainers(ankunftsZeit,container);
             auftragHinzugefügt = true;
         }
-        else{
-            LocalTime abfahrtGueterzug = ankunftsZeit.minusMinutes(22);
-            
-            //Diese Schleife wird maximal 40 mal durchlaufen, jedes mal werden von der gewünsten Ankunftszeit 3 minuten abgezogen, wass einen Zeitraum von 2 Stunden ergiebt.
-            for(int i = 0; i < 40 ; i++){
-                if(sperrTest(abfahrtGueterzug)){
-                    ankunftGueterZug = abfahrtGueterzug.plusMinutes(22);
-                    //fahrten.add(new Fahrt("GZ", ankunftGueterZug, container));
+        catch(TransportNotPossibleException e){
+            for(int i = 0; i < 40; i++){
+                try{
                     addFahrt(ankunftGueterZug, container);
-                    Collections.sort(fahrten);
                     auftragHinzugefügt = true;
                     break;
                 }
-                else{
-                    abfahrtGueterzug = abfahrtGueterzug.minusMinutes(3);
+                catch(TransportNotPossibleException ex){
+                    ankunftGueterZug = ankunftGueterZug.minusMinutes(3);
+                    continue;
                 }
             }
         }
+        
         if(!auftragHinzugefügt){
             throw new TransportNotPossibleException();
         }
@@ -191,23 +185,25 @@ public class Fahrplan {
      * Wenn nicht möglich, gibt diese Methode einen int aus der gleich gross wie die länge der ArrayList fahrten ist (IndexOutOfBound)
      * @param eingegebeneZeit Die gewünste Ankunftszeit des Güterzuges.
      * @param container Anzahl zu transportierender container
-     * @return zugIndex Der Index der entsprechenden Fahrt oder ein zu hoher int.
+     * @return ankunftsZeit Die Ankunftszzeit des Zuges.
      */
-    public int ceckTrains(LocalTime eingegebeneZeit, int container){
+    public LocalTime tryToAddContainers(LocalTime eingegebeneZeit, int container) throws TransportNotPossibleException{
         LocalTime endeZeitraum = eingegebeneZeit.minusMinutes(22);
         LocalTime startZeitraum = endeZeitraum.minusHours(2);
         LocalTime zugZeit; //Startzeit des Jeweiligen zu testenden Zuges
+        LocalTime ankunftsZeit = null;
         int zugIndex = fahrten.size()*3;
         
         for(int i = 0; i<fahrten.size(); i++){
             zugZeit = fahrten.get(i).getStartZeit();
             if ((zugZeit.isAfter(startZeitraum))&(zugZeit.isBefore(endeZeitraum))){
                 if(fahrten.get(i).getZugTyp().equals("GZ")){
-                    if((fahrten.get(i).getGueterZug().getFreiePlätze()) >= container){
-                        zugIndex = i;
+                    try{
+                        fahrten.get(i).getGueterZug().addContainer(container);
+                        ankunftsZeit = fahrten.get(i).getEndZeit();
                         break;
                     }
-                    else{
+                    catch(TrainToSmallException e){
                         continue;
                     }
                 }
@@ -219,7 +215,10 @@ public class Fahrplan {
                 continue;
             }
         }
-        return zugIndex;
+        if(ankunftsZeit == null){
+            throw new TransportNotPossibleException();
+        }
+        return ankunftsZeit;
     }
     
     /**
