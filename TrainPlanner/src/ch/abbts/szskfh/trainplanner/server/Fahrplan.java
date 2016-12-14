@@ -57,7 +57,7 @@ public class Fahrplan {
                 
                 if(wert.length == 3){
                     csvWagons = Integer.parseInt(wert[2]);
-                    fahrten.add(new Fahrt(wert[0], csvEingegebeneZeit, csvWagons));
+                    fahrten.add(new Fahrt(csvEingegebeneZeit, csvWagons));
                 
                 }
                 else{
@@ -112,7 +112,7 @@ public class Fahrplan {
         LocalTime abfahrtsZeit = ankunftsZeit.minusMinutes(22); //Die zur Ankunftszeit gehörende Abfahrtszeit
         
         if(sperrTest(abfahrtsZeit) == true){
-            fahrten.add(new Fahrt("GZ",ankunftsZeit, container));
+            fahrten.add(new Fahrt(ankunftsZeit, container));
             Collections.sort(fahrten);
         }
         else{
@@ -181,11 +181,11 @@ public class Fahrplan {
     /**
      * Überprüft, ob bereits ein Güterzug mit der nötigen Kapazität,
      * im Zeitraum von der gewünsten Ankunftszeit bis 2 Stunden früher vorhanden ist.
-     * Wenn möglich, gibt diese Methode den Index der entsprechenden Fahrt aus.
-     * Wenn nicht möglich, gibt diese Methode einen int aus der gleich gross wie die länge der ArrayList fahrten ist (IndexOutOfBound)
+     * Wenn möglich, gibt diese Methode die Ankunftszeit der entsprechenden Fahrt aus, sonst TransportNotPossibleException.
      * @param eingegebeneZeit Die gewünste Ankunftszeit des Güterzuges.
      * @param container Anzahl zu transportierender container
      * @return ankunftsZeit Die Ankunftszzeit des Zuges.
+     * @throws TransportNotPossibleException Wenn im Zeitraum von 2 Stunden kein passender Zug gefunden wird
      */
     public LocalTime tryToAddContainers(LocalTime eingegebeneZeit, int container) throws TransportNotPossibleException{
         LocalTime endeZeitraum = eingegebeneZeit.minusMinutes(22);

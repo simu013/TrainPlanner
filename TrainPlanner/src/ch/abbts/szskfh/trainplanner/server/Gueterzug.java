@@ -20,9 +20,9 @@ public class Gueterzug extends Transporteinheit{
     private ArrayList<Container> container;
     
     /**
-     *
+     *  Konstruktor für einen neuen Güterzug.
      * @param container Anzahl Container.
-     * @throws ch.abbts.szskfh.trainplanner.server.TrainToSmallException Wenn mehr Container als möglich angefügt werden.
+     * @throws TrainToSmallException Wenn mehr Container als möglich hinzugefügt werden.
      */
     public Gueterzug(int container) throws TrainToSmallException{
         this.container = new ArrayList<Container>();

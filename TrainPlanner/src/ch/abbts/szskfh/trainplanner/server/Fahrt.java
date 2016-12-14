@@ -51,12 +51,12 @@ public class Fahrt implements Comparable<Fahrt>{
     
     /**
      * Constructor für GZ.
-     * @param zugTyp Zugtyp GZ
      * @param eingegebeneZeit Ankunftszeit des Zuges an der GBT-Südseite..
      * @param containers Anzahl der Container.
+     * @throws TrainToSmallException Wenn mehr als 98 Container mitgegeben werden.
      */
-    public Fahrt(String zugTyp, LocalTime eingegebeneZeit, int containers) throws TrainToSmallException {
-        this.zugTyp = zugTyp;
+    public Fahrt(LocalTime eingegebeneZeit, int containers) throws TrainToSmallException {
+        this.zugTyp = "GZ";
         this.endZeit = eingegebeneZeit; //Durchfahrtszeit Erstfeld
         this.startZeit = this.endZeit.minusMinutes(dauerGZ); //Ausfahrtszeit aus GBT
         this.sperrStart = startZeit.minusMinutes(3); //Sperrzeit vor GZ = Sperrzeit nach letstem Zug
