@@ -14,6 +14,7 @@ import java.time.LocalTime;
 public class Fahrt implements Comparable<Fahrt>{
     
     private String zugTyp;
+    private String status = "PLANNED";
     private LocalTime startZeit;
     private LocalTime endZeit;
     private LocalTime sperrStart;
@@ -71,7 +72,23 @@ public class Fahrt implements Comparable<Fahrt>{
     public String getZugTyp() {
         return zugTyp;
     }
-
+    
+    public String getStatus(){
+        if(!(status.equals("EMERGENCY")|status.equals("DELAYED"))){
+            if(startZeit.isAfter(LocalTime.now())){
+                status = "PLANNED";
+            }
+            else if(endZeit.isBefore(LocalTime.now())){
+                status = "DONE";
+            }
+            else if((startZeit.isBefore(LocalTime.now()))&(endZeit.isAfter(LocalTime.now()))){
+                status = "TRANSPORTING";
+            }
+        }
+        
+        return status;
+    }
+    
     /**
      * Gibt die Startzeit des Zuges aus.
      * @return startZeit die Startzeit des Zuges.
