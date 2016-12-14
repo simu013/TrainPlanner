@@ -73,6 +73,10 @@ public class Fahrt implements Comparable<Fahrt>{
         return zugTyp;
     }
     
+    /**
+     * Ermittelt den Status der Fahrt, falls dieser zuvor nicht EMERGENCY oder DELAYED, anhand der aktuellen Zeit des Servers.
+     * @return status
+     */
     public String getStatus(){
         if(!(status.equals("EMERGENCY")|status.equals("DELAYED"))){
             if(startZeit.isAfter(LocalTime.now())){
@@ -87,6 +91,14 @@ public class Fahrt implements Comparable<Fahrt>{
         }
         
         return status;
+    }
+    
+    /**
+     * Setzt den Status der Fahrt. Um EMERGENCY oder DELAYED zurückzusetzen, kann ein beliebiger String mitgegeben werden.
+     * @param status der Gewünste status (meist EMERGENCY oder DELAYED)
+     */
+    public void setStatus(String status){
+        this.status = status;
     }
     
     /**
