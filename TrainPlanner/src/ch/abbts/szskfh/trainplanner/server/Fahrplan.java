@@ -185,7 +185,7 @@ public class Fahrplan {
      * @return ankunftsZeit Die Ankunftszzeit des Zuges.
      * @throws TransportNotPossibleException Wenn im Zeitraum von 2 Stunden kein passender Zug gefunden wird
      */
-    public LocalTime tryToAddContainers(LocalTime eingegebeneZeit, int container) throws TransportNotPossibleException{
+    private LocalTime tryToAddContainers(LocalTime eingegebeneZeit, int container) throws TransportNotPossibleException{
         LocalTime endeZeitraum = eingegebeneZeit.minusMinutes(22);
         LocalTime startZeitraum = endeZeitraum.minusHours(2);
         LocalTime zugZeit; //Startzeit des Jeweiligen zu testenden Zuges

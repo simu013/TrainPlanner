@@ -21,16 +21,13 @@ public class Fahrt implements Comparable<Fahrt>{
     private LocalTime sperrEnde;
     private Gueterzug gueterZug = null;
     
-    private final int dauerPZ = 18; //Fahrdauer IC/EC in min.
-    private final int dauerGZ = 22; //Fahrdauer GZ in min.
-    
     /**
      * Constructor für IC und EC
      * @param zugTyp Zugtyp IC oder EC.
      * @param eingegebeneZeit Startzeit des Zuges in Arth-Goldau
      */
     public Fahrt(String zugTyp, LocalTime eingegebeneZeit) {
-             
+        final int dauerPZ = 18; //Fahrdauer IC/EC in min.
         if(zugTyp.equals("IC")){
             this.zugTyp = zugTyp;
             this.startZeit = eingegebeneZeit.plusMinutes(17); //Durchfahrtszeit Erstfeld
@@ -57,6 +54,7 @@ public class Fahrt implements Comparable<Fahrt>{
      * @throws TrainToSmallException Wenn mehr als 98 Container mitgegeben werden.
      */
     public Fahrt(LocalTime eingegebeneZeit, int containers) throws TrainToSmallException {
+        final int dauerGZ = 22; //Fahrdauer GZ in min.
         this.zugTyp = "GZ";
         this.endZeit = eingegebeneZeit; //Durchfahrtszeit Erstfeld
         this.startZeit = this.endZeit.minusMinutes(dauerGZ); //Ausfahrtszeit aus GBT
