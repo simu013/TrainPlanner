@@ -20,8 +20,6 @@ import java.util.Collections;
 public class Fahrplan {
     
     private ArrayList<Fahrt> fahrten = new ArrayList<Fahrt>();
-    private ArrayList<Fahrt> persohnenFahrten = new ArrayList<Fahrt>();
-    private ArrayList<Fahrt> gueterFahrten = new ArrayList<Fahrt>();
     BufferedReader br = null;
     
     /**
@@ -251,7 +249,7 @@ public class Fahrplan {
      * @return ArrayList persohnenFahrten mit allen erfassten Persohnenfahrten.
     */
     public ArrayList<Fahrt> getPersonenFahrten(){
-        persohnenFahrten.clear();
+        ArrayList<Fahrt> persohnenFahrten = new ArrayList<Fahrt>();
         for(int i=0; i<fahrten.size(); i++){
             if((fahrten.get(i).getZugTyp() == "IC")|(fahrten.get(i).getZugTyp()== "EC")){
                 persohnenFahrten.add(fahrten.get(i));
@@ -268,7 +266,7 @@ public class Fahrplan {
      * @return ArrayList gueterFahrten mit allen erfassten Persohnenfahrten.
      */
     public ArrayList<Fahrt> getGueterFahrten(){
-        gueterFahrten.clear();
+        ArrayList<Fahrt> gueterFahrten = new ArrayList<Fahrt>();
         for(int i=0; i<fahrten.size(); i++){
             if((fahrten.get(i).getZugTyp() == "GZ")){
                 gueterFahrten.add(fahrten.get(i));
