@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<comment>Client Einstellungen</comment>
+<comment>1234</comment>
 <entry key="FrameBreite">750</entry>
 <entry key="FrameFarbe">#404040</entry>
 <entry key="FrameHoehe">400</entry>
 <entry key="SocketTrennzeichen">;</entry>
-<entry key="IP">Localhost</entry>
-<entry key="PortNr">5555</entry>
+<entry key="PortNr">1234</entry>
+<entry key="IP">172.20.0.1</entry>
 </properties>

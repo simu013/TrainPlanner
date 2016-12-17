@@ -42,6 +42,11 @@ public class Einstellungen {
 
     public void setEinstellung(String name, String wert) {
         einstellungen.setProperty(name, wert);
+        try {
+            einstellungen.storeToXML(new FileOutputStream(dateiName), wert);
+        } catch (IOException ex) {
+            Logger.getLogger(Einstellungen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
