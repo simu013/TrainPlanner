@@ -5,8 +5,6 @@
  */
 package ch.abbts.szskfh.trainplanner.server;
 
-import java.time.LocalTime;
-
 /**
  *
  * @author Simon

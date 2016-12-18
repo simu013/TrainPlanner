@@ -7,14 +7,21 @@ package ch.abbts.szskfh.trainplanner.server;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 
 /**
- * Prüft und übersetzt, splittet Nachrichten zugunsten Disponent. Setzt Nachrichten-Fragemente vom Disponent zusammen. 
+ * Prüft und übersetzt, splittet Nachrichten zugunsten Disponent. Setzt
+ * Nachrichten-Fragemente vom Disponent zusammen.
+ *
  * @author Simon
  */
 public class Parser {
 
     Einstellungen einstellungen = new Einstellungen();
+    Disponent disponent = new Disponent();
 
     private Parser() {
     }
@@ -31,15 +38,26 @@ public class Parser {
         String[] splitString = socketString.split(einstellungen.getEinstellung("SocketTrennzeichen"));
         try {
             for (int i = 0; i < splitString.length; i++) {
-                
+
                 System.out.println(splitString[i]);
-                
+
             }
-            
+
             switch (splitString[0].toUpperCase()) {
                 case "REQUEST": {
-                    antwortString = "Sie haben eine Transport Anfrage gestellt. ";                   
-                    // Request mit Parameter 'Firma', 'AnzahlCOntainer', 'Startzeit', 'Prio' an Disponent weitergeben. 
+                    try {
+                        // Request mit Parameter 'Firma', 'AnzahlContainer', 'Startzeit', 'Prio' an Disponent weitergeben.
+                        String nameFirma = splitString[1];
+                        short anzahlContainer = Short.parseShort(splitString[2]);
+                        LocalTime startZeit = LocalTime.parse(splitString[3]);
+                        short prio = Short.parseShort(splitString[4]); 
+                        antwortString = disponent.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
+
+                    } catch (NumberFormatException nfe) {
+                        nfe.printStackTrace();
+                    } catch (DateTimeParseException dtpe) {
+                        dtpe.printStackTrace();
+                    }
                     break;
                 }
                 case "STATE": {
@@ -52,8 +70,8 @@ public class Parser {
                     break;
                 }
                 case "TIME": {
-                    antwortString = "Sie haben eine Zeit Anfrage gestellt. ";
-                    
+                    SimpleDateFormat zeitStempelFormat = new SimpleDateFormat("dd.MM.YYYY mm:ss");
+                    antwortString = zeitStempelFormat.format(new Date());
                     break;
                 }
                 default: {
@@ -64,7 +82,7 @@ public class Parser {
 
         } catch (NullPointerException ex) {
             ex.toString();
-        }
+        } 
         return antwortString;
     }
 
