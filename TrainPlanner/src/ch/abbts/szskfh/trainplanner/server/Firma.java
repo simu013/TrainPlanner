@@ -25,4 +25,7 @@ public class Firma {
     public void addAuftrag(Auftrag auftrag) {
         auftraege.add(auftrag);
     }
+    public ArrayList<Auftrag> getAuftraege() {
+        return auftraege;
+    }
 }

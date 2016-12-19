@@ -14,10 +14,11 @@ import java.util.HashMap;
  * @author Simon
  */
 public class Disponent {
+
     Fahrplan fahrplan = new Fahrplan();
     HashMap<ArrayList<Auftrag>, ArrayList<Container>> auftragsBuch = new HashMap<>();
     ArrayList<Firma> firmen = new ArrayList<>();
-    
+
     public String addAuftrag(String nameFirma, short anzContainer, LocalTime startZeit, short prio) {
         Auftrag auftrag = new Auftrag(anzContainer, startZeit, prio);
         boolean firmaExistiert = false;
@@ -31,5 +32,18 @@ public class Disponent {
             firmen.add(new Firma(nameFirma, auftrag));
         }
         return auftrag.getTransportID();
+    }
+
+    public String getState(String transportID) throws NullPointerException {
+        String state = null;
+        for (int i = 0; i < firmen.size(); i++) {
+            for (int j = 0; j < firmen.get(i).getAuftraege().size(); j++) {
+                if (transportID.equals(firmen.get(i).getAuftraege().get(j).getTransportID())) {
+                    state = "PLANNED";
+                }
+            }
+
+        }
+        return state;
     }
 }

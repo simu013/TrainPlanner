@@ -65,6 +65,12 @@ public class Parser {
                 case "STATE": {
                     antwortString = "Sie haben eine Status ANfrage gestellt. ";
                     // State mit Parameter 'Transport ID' an Disponent übergeben. 
+                    try {
+                        antwortString = disponent.getState(splitString[1]);
+                    } catch (NullPointerException e) {
+                        System.out.println(e.toString());
+                        antwortString = "ERROR" + "Ungültige TransportID";
+                    }
                     break;
                 }
                 case "READY": {
