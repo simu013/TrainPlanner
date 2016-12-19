@@ -13,7 +13,7 @@ public class Server {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws TransportNotPossibleException, TrainToSmallException{
+    public static void main(String[] args) {
         new SocketConnection();
     }
 }

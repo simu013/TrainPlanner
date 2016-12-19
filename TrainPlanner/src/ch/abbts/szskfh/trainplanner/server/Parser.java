@@ -50,13 +50,15 @@ public class Parser {
                         String nameFirma = splitString[1];
                         short anzahlContainer = Short.parseShort(splitString[2]);
                         LocalTime startZeit = LocalTime.parse(splitString[3]);
-                        short prio = Short.parseShort(splitString[4]); 
+                        short prio = Short.parseShort(splitString[4]);
                         antwortString = disponent.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
 
-                    } catch (NumberFormatException nfe) {
-                        nfe.printStackTrace();
-                    } catch (DateTimeParseException dtpe) {
-                        dtpe.printStackTrace();
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.toString());
+                        antwortString = "ERROR" + einstellungen.getEinstellung("SocketTrennzeichen") + "Nummern Eingabefehler";
+                    } catch (DateTimeParseException e) {
+                        System.out.println(e.toString());
+                        antwortString = "ERROR" + einstellungen.getEinstellung("SocketTrennzeichen") + "Datum Eingabefehler";
                     }
                     break;
                 }
@@ -75,14 +77,15 @@ public class Parser {
                     break;
                 }
                 default: {
-                    antwortString = "ERROR";
+                    antwortString = "ERROR" + einstellungen.getEinstellung("SocketTrennzeichen") + "Anfrage wird nicht unterstützt";
                     break;
                 }
             }
 
-        } catch (NullPointerException ex) {
-            ex.toString();
-        } 
+        } catch (NullPointerException e) {
+            System.out.println(e.toString());
+            antwortString = "ERROR" + einstellungen.getEinstellung("SocketTrennzeichen") + "Leere Anfrage";
+        }
         return antwortString;
     }
 
@@ -93,6 +96,5 @@ public class Parser {
         } catch (IOException ex) {
             System.out.println("Fehler beim Erstellen der Log Datei! ");;
         }
-
     }
 }
