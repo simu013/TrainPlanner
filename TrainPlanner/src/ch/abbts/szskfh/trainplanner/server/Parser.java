@@ -51,7 +51,10 @@ public class Parser {
                         short anzahlContainer = Short.parseShort(splitString[2]);
                         LocalTime startZeit = LocalTime.parse(splitString[3]);
                         short prio = Short.parseShort(splitString[4]);
-                        antwortString = disponent.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
+                        String transportID = disponent.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
+                        // Antwort mit 'TransportID', 'Ankunftszeit', 'ZugNr', 'Preis' an Client. 
+                        antwortString = transportID + einstellungen.getEinstellung("SocketTrennzeichen") + (startZeit.plusHours(2)) 
+                                + einstellungen.getEinstellung("SocketTrennzeichen") + "01" + einstellungen.getEinstellung("SocketTrennzeichen") + (anzahlContainer*25);
 
                     } catch (NumberFormatException e) {
                         System.out.println(e.toString());
@@ -63,13 +66,12 @@ public class Parser {
                     break;
                 }
                 case "STATE": {
-                    antwortString = "Sie haben eine Status ANfrage gestellt. ";
                     // State mit Parameter 'Transport ID' an Disponent übergeben. 
                     try {
-                        antwortString = disponent.getState(splitString[1]);
+                        antwortString = splitString[1] + einstellungen.getEinstellung("SocketTrennzeichen") + disponent.getState(splitString[1]);
                     } catch (NullPointerException e) {
                         System.out.println(e.toString());
-                        antwortString = "ERROR" + "Ungültige TransportID";
+                        antwortString = "ERROR" + einstellungen.getEinstellung("SocketTrennzeichen") + "Ungültige TransportID";
                     }
                     break;
                 }
