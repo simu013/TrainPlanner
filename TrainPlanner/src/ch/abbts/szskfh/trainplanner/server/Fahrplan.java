@@ -6,6 +6,7 @@
 package ch.abbts.szskfh.trainplanner.server;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -42,29 +43,50 @@ public class Fahrplan {
     public void iniFahrplan() throws TrainToSmallException{
         
         String line = "";
-        LocalTime csvEingegebeneZeit;
-        int csvWagons = 0;
+        LocalTime eingeleseneZeit;
         
-        try(BufferedReader br = new BufferedReader(new FileReader("Fahrten.csv"))){
+        try(BufferedReader br = new BufferedReader(new FileReader("PersonenFahrten.csv"))){
             while ((line = br.readLine())!= null){
                 
                 String[] wert = null;
                 wert = line.split(",");
                 String[] part = wert[1].split(":");
-                csvEingegebeneZeit = LocalTime.of(Integer.parseInt(part[0]), Integer.parseInt(part[1]));
+                eingeleseneZeit = LocalTime.of(Integer.parseInt(part[0]), Integer.parseInt(part[1]));
                 
-                if(wert.length == 3){
-                    csvWagons = Integer.parseInt(wert[2]);
-                    fahrten.add(new Fahrt(csvEingegebeneZeit, csvWagons));
-                
-                }
-                else{
-                    fahrten.add(new Fahrt(wert[0], csvEingegebeneZeit));
-                }
+                fahrten.add(new Fahrt(wert[0], eingeleseneZeit));
             }
         }
         catch (FileNotFoundException e){
+            new File("PersonenFahrten.csv");
+        }
+        catch (IOException e){
             e.printStackTrace();
+        }
+        finally{
+            if(br != null){
+                try{
+                    br.close();
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        
+        
+        try(BufferedReader br = new BufferedReader(new FileReader("GueterFahrten.csv"))){
+            while ((line = br.readLine())!= null){
+                
+                String[] wert = null;
+                wert = line.split(",");
+                String[] part = wert[0].split(":");
+                eingeleseneZeit = LocalTime.of(Integer.parseInt(part[0]), Integer.parseInt(part[1]));
+                
+                fahrten.add(new Fahrt(eingeleseneZeit, Integer.parseInt(wert[1])));
+            }
+        }
+        catch (FileNotFoundException e){
+            new File("GueterFahrten.csv");
         }
         catch (IOException e){
             e.printStackTrace();
