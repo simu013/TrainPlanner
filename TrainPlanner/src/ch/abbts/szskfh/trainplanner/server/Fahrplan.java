@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -102,6 +103,17 @@ public class Fahrplan {
             }
         }
         Collections.sort(fahrten);
+    }
+    
+    public void resetGueterFahrten(){
+        File file = new File("GueterFahrten.csv"); // ich weiß nich genau was FileWriter als parameter bekommt. evtl. auch einen stream oder so...
+        file.delete();
+        try{
+            file.createNewFile();
+        }
+        catch(IOException ex){
+            ex.printStackTrace();
+        }
     }
     
     /**
