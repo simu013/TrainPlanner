@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.time.LocalTime;
 import java.util.Date;
@@ -27,8 +28,9 @@ public class SocketConnection {
     
     String receiveString = null;
 
-    private String initSocketConnection(String senden) {
-        try {
+    private String initSocketConnection(String senden) throws Exception{
+  
+              
                 Socket socket = new Socket(einstellungen.getEinstellung("IP"), Integer.parseInt(einstellungen.getEinstellung("PortNr")));
 
                 // Streams verbinden
@@ -47,9 +49,8 @@ public class SocketConnection {
                 out.close();
                 socket.close();
 
-        } catch (IOException ex) {
-            System.out.println("Exception: " + ex.toString());
-        }
+   
+
         return receiveString;
     }
     /**
@@ -65,7 +66,7 @@ public class SocketConnection {
      *                          Keine Transportmöglichkeit = NO_TRANSPORT
      *                          Störungsfall = EMERGENCY
      */
-    public String sendeTransportanfrage(String firma, short anzahlContainer, LocalTime startZeit, short prio) {
+    public String sendeTransportanfrage(String firma, short anzahlContainer, LocalTime startZeit, short prio) throws Exception {
         return initSocketConnection("request" + begrenzer + firma + begrenzer + anzahlContainer + begrenzer + startZeit + begrenzer + prio);
     }
     /**
@@ -73,15 +74,15 @@ public class SocketConnection {
      * @param transportID       String Transportauftragsnummer
      * @return                  String TransportID;Status (Mögliche Zustände: Planned, Transporting, delayed, emergency, done). 
      */
-    public String getTransportStatus(String transportID) {
+    public String getTransportStatus(String transportID) throws Exception {
         return initSocketConnection("state" + begrenzer + transportID);
     }
     
-    public String getServerStatus() {
+    public String getServerStatus() throws Exception  {
         return initSocketConnection("ready");
     }
     
-    public String getZeit() {
+    public String getZeit() throws Exception  {
         return initSocketConnection("TIME");
     }
 }

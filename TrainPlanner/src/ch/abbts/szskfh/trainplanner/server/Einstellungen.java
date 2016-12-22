@@ -42,6 +42,9 @@ public class Einstellungen {
     public void setDefaultEinstellungen() {
         einstellungen.setProperty("PortNr", "5555");
         einstellungen.setProperty("SocketTrennzeichen", ";");
+        einstellungen.setProperty("FrameFarbe", "#404040");
+        einstellungen.setProperty("FrameHoehe", "400");
+        einstellungen.setProperty("FrameBreite", "750");
         
         try {
             einstellungen.storeToXML(new ObjectOutputStream(new FileOutputStream("srv_einstellungen.xml")), wert);

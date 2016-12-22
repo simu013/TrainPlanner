@@ -12,6 +12,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -119,6 +121,11 @@ public class AbfragePanel extends JPanel{
            
             
             if (button == abfrageSenden){
+                
+                Pattern p = Pattern.compile("[0-9]");
+                Matcher m = p.matcher("");
+                
+
                
                 if (trpIdTextField.getText().trim().isEmpty()){
                     
@@ -127,6 +134,32 @@ public class AbfragePanel extends JPanel{
                     "Fehler", JOptionPane.ERROR_MESSAGE);
                     nachrichtAngezeigt = true;
                     
+                }
+                else {
+                    m = p.matcher(trpIdTextField.getText());
+                }
+                if(!trpIdTextField.getText().trim().isEmpty()& nachrichtAngezeigt ==false & !m.find()){
+                                       
+                    JOptionPane.showMessageDialog(null,
+                    "Transport ID kann nur aus Zahlen bestehen.", 
+                    "Fehler", JOptionPane.ERROR_MESSAGE);
+                    nachrichtAngezeigt = true;
+                    
+                }
+                if (nachrichtAngezeigt == false){
+                    abfrageSenden.setEnabled(false);
+                    statusTextArea.append("Transportstatusabfrage wird gesendet...");
+                    statusTextArea.append("\n");
+                    try {
+                        
+                        SocketConnection Socket = new SocketConnection();
+                        statusTextArea.append(Socket.getTransportStatus(trpIdTextField.getText()));
+                        statusTextArea.append("\n");
+                    }catch (Exception e){
+                        statusTextArea.append("keine Verbindung zum Server möglich");
+                        statusTextArea.append("\n");
+                        statusTextArea.update(statusTextArea.getGraphics());
+                    }  
                 }
               
             }

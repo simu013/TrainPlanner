@@ -71,6 +71,9 @@ public class Einstellungen {
             einstellungen.setProperty("FrameFarbe", "#404040");
             einstellungen.setProperty("FrameHoehe", "400");
             einstellungen.setProperty("FrameBreite", "750");
+            einstellungen.setProperty("SchriftFarbe", "#FF0000");
+            einstellungen.setProperty("SchriftFarbeTitel", "#808080");
+            
             
             einstellungen.storeToXML(new FileOutputStream(dateiName), "Client Einstellungen");
         } catch (IOException ex) {

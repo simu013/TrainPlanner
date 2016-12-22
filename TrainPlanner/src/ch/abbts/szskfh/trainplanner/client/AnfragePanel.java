@@ -14,6 +14,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -45,12 +47,11 @@ class AnfragePanel extends JPanel {
     private String firmenName;
     private short container;
     private LocalTime ankunftsZeit;
-    private short prio = 0;
+    private short prio = 1;
     
     private boolean nachrichtAngezeigt = false;
     private int ankunftsZeitH;
     private int ankunftsZeitM;
-    
     
     
     public AnfragePanel() {
@@ -151,6 +152,11 @@ class AnfragePanel extends JPanel {
        
     }
     
+    public void setAusgabeText (String text){
+        ausgabeTextArea.setText(text);
+    }
+    
+    
     class MyActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent a) {
@@ -159,6 +165,11 @@ class AnfragePanel extends JPanel {
            
             
             if (button == anfrageSenden){
+                
+                Pattern p = Pattern.compile("[A-Za-z]");
+                Matcher m = p.matcher("");
+                
+
                
                 if (firmaTextField.getText().trim().isEmpty() | containerTextField.getText().trim().isEmpty() | ankunftTextFieldH.getText().trim().isEmpty() | ankunftTextFieldM.getText().trim().isEmpty()){
                     
@@ -168,6 +179,18 @@ class AnfragePanel extends JPanel {
                     nachrichtAngezeigt = true;
                     
                 }
+                else {
+                    m = p.matcher(firmaTextField.getText());
+                }
+                
+                if (!firmaTextField.getText().trim().isEmpty() & nachrichtAngezeigt == false & (!m.find() | firmaTextField.getText().contains(";"))){
+                    
+                    JOptionPane.showMessageDialog(null,
+                    "Firmenname muss mindestens aus einem Buchstaben bestehen und darf kein ; enthalten.", 
+                    "Fehler", JOptionPane.ERROR_MESSAGE);
+                    nachrichtAngezeigt = true;
+                        
+                    }
                 else {
                     firmenName = firmaTextField.getText();
                 }
@@ -228,25 +251,37 @@ class AnfragePanel extends JPanel {
                 }
                 
                 if (nachrichtAngezeigt == false){
+                    anfrageSenden.setEnabled(false);
+                    ausgabeTextArea.append("Transportanfrage wird gesendet...");
+                    ausgabeTextArea.append("\n");
                     ankunftsZeit = LocalTime.of(ankunftsZeitH, ankunftsZeitM);
-                    SocketConnection Socket = new SocketConnection();
-                    ausgabeTextArea.setText(Socket.sendeTransportanfrage(firmenName, container, ankunftsZeit, prio));
+                    ausgabeTextArea.update(ausgabeTextArea.getGraphics());
+               
                     
-                } 
+                    try {
+                        SocketConnection Socket = new SocketConnection();
+                        ausgabeTextArea.append(Socket.sendeTransportanfrage(firmenName, container, ankunftsZeit, prio));
+                        ausgabeTextArea.append("\n");
+                    }catch (Exception e){
+                        ausgabeTextArea.append("keine Verbindung zum Server möglich");
+                        ausgabeTextArea.append("\n");
+                        ausgabeTextArea.update(ausgabeTextArea.getGraphics());
+
+                         
+                    }
+
+ 
+                    firmaTextField.setText("");
+                    containerTextField.setText("");
+                    ankunftTextFieldH.setText("");
+                    ankunftTextFieldM.setText("");
+                }
+
+                nachrichtAngezeigt = false;
                     
             }
-            nachrichtAngezeigt = false;
+            
         }
+    
     }
 }
-     
-        
- 
-    
-
-
-        
-    
-
-    
-

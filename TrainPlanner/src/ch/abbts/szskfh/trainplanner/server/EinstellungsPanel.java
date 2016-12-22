@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.abbts.szskfh.trainplanner.client;
+package ch.abbts.szskfh.trainplanner.server;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,10 +21,8 @@ import javax.swing.JTextField;
  * @author Sascha
  */
 public class EinstellungsPanel extends JPanel{
-    
-    private JLabel ipLabel;
+     
     private JLabel portLabel;
-    private JTextField ipTextField;
     private JTextField portTextField;
     private JButton einstellenButton;
     
@@ -40,27 +38,18 @@ public class EinstellungsPanel extends JPanel{
     private void initPanel() {
                 
         this.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
-        this.setLayout(new BorderLayout());
+        this.setLayout(new FlowLayout());
         
         JPanel einstellungsPanel = new JPanel (new FlowLayout());
         einstellungsPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         
-        ipLabel = new JLabel ("IP Adresse:");
-        ipLabel.setForeground(Color.RED);
-        einstellungsPanel.add(ipLabel);
-        
-        ipTextField = new JTextField ();
-        ipTextField.setColumns(15);
-        ipTextField.setText("127.0.0.1");
-        einstellungsPanel.add(ipTextField);
-         
+
         portLabel = new JLabel("Port Nummer:");
         portLabel.setForeground(Color.RED);
         einstellungsPanel.add(portLabel);
         
         portTextField = new JTextField();
         portTextField.setColumns(5);
-        portTextField.setText("5555");
         einstellungsPanel.add(portTextField);
         
         einstellenButton = new JButton("einstellen");
@@ -75,7 +64,6 @@ public class EinstellungsPanel extends JPanel{
                 
     }
 
-
    class MyActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -83,41 +71,13 @@ public class EinstellungsPanel extends JPanel{
             
             if (button == einstellenButton){
                 
-                if (ipTextField.getText().trim().isEmpty() | portTextField.getText().trim().isEmpty()){
+                if (portTextField.getText().trim().isEmpty()){
                     JOptionPane.showMessageDialog(null,
-                    "Bitte alle Felder ausfüllen.", 
+                    "Bitte Feld ausfüllen.", 
                     "Fehler", JOptionPane.ERROR_MESSAGE);   
                     nachrichtAngezeigt = true;
                 }
                 
-                if (!ipTextField.getText().trim().isEmpty() & nachrichtAngezeigt == false){
-                    
-                    
-                    String [] ip = ipTextField.getText().split("[.]");
-
-                    try {
-                        
-                        if (ip.length != 4 | ipTextField.getText().lastIndexOf(".") == ipTextField.getText().length()-1){
-                            throw new NumberFormatException();
-                        }
-                        
-                        for (int i=0; i<ip.length ; i++){
-                           int ipPart = Integer.parseInt(ip[i]);
-                           
-                           if (ipPart > 255 | ipPart < 0){
-                               throw new NumberFormatException();
-                           }
-                        }
-                        Einstellungen Einstellungen = new Einstellungen ();
-                        Einstellungen.setEinstellung("IP", ipTextField.getText());
-                        
-                    } catch (NumberFormatException a){
-                        JOptionPane.showMessageDialog(null,
-                        "Bitte gültige IP Adresse (z.B. 192.168.0.1) eingeben.", 
-                        "Fehler", JOptionPane.ERROR_MESSAGE);
-                        nachrichtAngezeigt = true;
-                    }
-                }
                 
                 if (!portTextField.getText().trim().isEmpty() & nachrichtAngezeigt == false){
                     
@@ -141,8 +101,6 @@ public class EinstellungsPanel extends JPanel{
                     }
                 }
                 nachrichtAngezeigt = false;
-                ipTextField.setText("");
-                portTextField.setText("");
             }
 
                 
@@ -152,14 +110,3 @@ public class EinstellungsPanel extends JPanel{
         }
     }
 }
-            
-
-        
-    
-
-    
-
-
-    
-    
-
