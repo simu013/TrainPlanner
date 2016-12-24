@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.abbts.szskfh.trainplanner.client;
+package ch.abbts.szskfh.trainplanner.test;
 
+import ch.abbts.szskfh.trainplanner.client.Einstellungen;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,29 +13,30 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- *  Stellt eine Socket Verbindung mit dem Server her. 
+ *
  * @author Simon
  */
-public class SocketConnection {
-
-    Einstellungen einstellungen = new Einstellungen();
-    String begrenzer = einstellungen.getEinstellung("SocketTrennzeichen");
-    String receiveString = null;
-
-    public SocketConnection() {
-
+public class TestSocket {
+        Einstellungen einstellungen = new Einstellungen();
+        String begrenzer = einstellungen.getEinstellung("SocketTrennzeichen");
+        String receiveString = null;
+        
+    public static void main(String[] args) throws IOException {
+        new TestSocket();
     }
 
-    /**
-     * Initialisiert die Socket Verbindung.
-     *
-     * @param senden String der an Server gesendet werden soll.
-     * @return String Antwort des Servers.
-     * @throws Exception
-     */
-    private String initSocketConnection(String senden) throws Exception {
+    private TestSocket() {
+            try {
+                System.out.println(initSocketConnection("STATE" + begrenzer +  "20161224133001172"));
+            } catch (IOException ex) {
+                Logger.getLogger(TestSocket.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    private String initSocketConnection(String senden) throws IOException {
 
         Socket socket = new Socket(einstellungen.getEinstellung("IP"), Integer.parseInt(einstellungen.getEinstellung("PortNr")));
 
@@ -45,7 +47,7 @@ public class SocketConnection {
         out.println(senden); // senden
         out.flush();
         receiveString = in.readLine(); // empfangen
-        System.out.println("empfangen: " + receiveString); // Daten vom Server zu Testzwecken auf Console ausgeben. 
+        System.out.println("Client Empfang: " + receiveString); // Daten vom Server zu Testzwecken auf Console ausgeben. 
         out.println("exit " + new Date().toString());
         out.flush();
 
@@ -53,24 +55,10 @@ public class SocketConnection {
         in.close();
         out.close();
         socket.close();
-
+        
         return receiveString;
     }
 
-    /**
-     * Sendet eine Transportanfrage (REQUEST) an den Server. Gibt die
-     * Transportbestätigung des Servers zurück.
-     *
-     * @param firma String mit Name der Firma
-     * @param anzahlContainer Ganzzahl Anzahl Container
-     * @param startZeit Gewünschte Startzeit des Transports (hh:mm)
-     * @param prio Ganzzahl zwischen 1 und 3 für Transport Priorität. Prio1 =
-     * Höchste; Prio3 = Niedrigste
-     * @return Gibt einen String mit Transportbestätigung zurück. TransportID
-     * (int);Ankunftszeit (hh:mm);ZugNr (int);Preis (in CHF ohne Rappen) Keine
-     * Transportmöglichkeit = NO_TRANSPORT Störungsfall = EMERGENCY
-     * @throws java.lang.Exception
-     */
     public String sendeTransportanfrage(String firma, short anzahlContainer, LocalTime startZeit, short prio) throws Exception {
         return initSocketConnection("request" + begrenzer + firma + begrenzer + anzahlContainer + begrenzer + startZeit + begrenzer + prio);
     }
@@ -107,3 +95,4 @@ public class SocketConnection {
         return initSocketConnection("TIME");
     }
 }
+

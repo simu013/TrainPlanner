@@ -22,7 +22,7 @@ public class Parser {
 
     Einstellungen einstellungen = new Einstellungen();
     Disponent disponent = new Disponent();
-
+    
     private Parser() {
     }
 

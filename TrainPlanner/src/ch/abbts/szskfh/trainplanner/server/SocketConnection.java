@@ -23,6 +23,7 @@ public class SocketConnection {
     }
     private void initSocketConnection() {
         ServerSocket serverSocket = null;
+        Parser parser = Parser.getInstance();
         
         // Socket bereitstellen
         try {
@@ -44,7 +45,6 @@ public class SocketConnection {
                 do {
                     
                     String empfangsString = in.readLine();      // Daten von CLient empfangen
-                    Parser parser = Parser.getInstance();       // Parser instanzieren
                     out.write (parser.lesen(empfangsString));
                     out.flush();
 
