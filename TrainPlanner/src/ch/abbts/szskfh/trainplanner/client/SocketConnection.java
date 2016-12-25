@@ -45,7 +45,6 @@ public class SocketConnection {
         out.println(senden); // senden
         out.flush();
         receiveString = in.readLine(); // empfangen
-        System.out.println("empfangen: " + receiveString); // Daten vom Server zu Testzwecken auf Console ausgeben. 
         out.println("exit " + new Date().toString());
         out.flush();
 
