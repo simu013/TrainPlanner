@@ -28,12 +28,15 @@ public class EinstellungsPanel extends JPanel{
     private JTextField portTextField;
     private JButton einstellenButton;
     
+    private JLabel aktuelleIP;
+    private JLabel aktuellerPort;
+    
     private boolean nachrichtAngezeigt = false;
     
     
 
     public EinstellungsPanel() {
-       initPanel();
+       initPanel();        
         
     }
     
@@ -41,6 +44,15 @@ public class EinstellungsPanel extends JPanel{
                 
         this.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         this.setLayout(new BorderLayout());
+        
+        addTopPanel();
+        addCenterPanel();
+        addBottomPanel();
+        
+      
+    }
+
+    private void addTopPanel() {
         
         JPanel einstellungsPanel = new JPanel (new FlowLayout());
         einstellungsPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
@@ -69,10 +81,29 @@ public class EinstellungsPanel extends JPanel{
         EinstellungsPanel.MyActionListener listener = new EinstellungsPanel.MyActionListener ();
         einstellenButton.addActionListener(listener);
         
-        add(einstellungsPanel);
+        add(einstellungsPanel, BorderLayout.NORTH);
         
         
-                
+    }
+
+    private void addCenterPanel() {
+       
+        JPanel centerPanel = new JPanel (new FlowLayout());
+        centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        
+        aktuelleIP = new JLabel("aktuell eigestellte IP: " + new Einstellungen().getEinstellung("IP"));
+        aktuelleIP.setForeground(Color.red);
+        centerPanel.add(aktuelleIP);
+        
+        aktuellerPort = new JLabel("aktuell eingestellter Port: " + new Einstellungen().getEinstellung("PortNr"));
+        aktuellerPort.setForeground(Color.red);
+        centerPanel.add(aktuellerPort);
+        
+        add(centerPanel, BorderLayout.CENTER);
+    }
+
+    private void addBottomPanel() {
+        
     }
 
 
@@ -108,8 +139,7 @@ public class EinstellungsPanel extends JPanel{
                                throw new NumberFormatException();
                            }
                         }
-                        Einstellungen Einstellungen = new Einstellungen ();
-                        Einstellungen.setEinstellung("IP", ipTextField.getText());
+
                         
                     } catch (NumberFormatException a){
                         JOptionPane.showMessageDialog(null,
@@ -128,8 +158,11 @@ public class EinstellungsPanel extends JPanel{
                             throw new NumberFormatException();
                         }
                         
-                        Einstellungen Einstellungen = new Einstellungen();
+                        Einstellungen Einstellungen = new Einstellungen ();
+                        Einstellungen.setEinstellung("IP", ipTextField.getText());
                         Einstellungen.setEinstellung("PortNr", portTextField.getText());
+                        ipTextField.setText("");
+                        portTextField.setText("");
                     } 
                     catch(NumberFormatException a){
                         
@@ -141,8 +174,10 @@ public class EinstellungsPanel extends JPanel{
                     }
                 }
                 nachrichtAngezeigt = false;
-                ipTextField.setText("");
-                portTextField.setText("");
+
+                //Aktualisierung der IP und Port
+                aktuelleIP.setText("aktuell eigestellte IP: " + new Einstellungen().getEinstellung("IP"));
+                aktuellerPort.setText("aktuell eingestellter Port: " + new Einstellungen().getEinstellung("PortNr"));
             }
 
                 

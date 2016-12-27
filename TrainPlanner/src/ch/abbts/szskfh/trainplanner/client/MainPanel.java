@@ -11,7 +11,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -45,21 +44,24 @@ public class MainPanel extends JPanel{
         JPanel topPanel = new JPanel (new FlowLayout());
         topPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
 
-        
-       
+        //Bild wird hinzugefügt
         ImageIcon tunnel = new ImageIcon ("TitelBild.jpg");
         Image titelBild = tunnel.getImage().getScaledInstance(400, 300, 400);
  
         topPanel.add(new JLabel(new ImageIcon(titelBild)));
         
+        //Panel wird hinzugefügt
         add(topPanel, BorderLayout.WEST);
         
         
     }
     
     private void addCenterPanel (){
+        
         JPanel centerPanel = new JPanel (new BorderLayout());
         centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        
+        //Components werde am Panel hinzugefügt und lokalisiert
         title = new JLabel ("WILLKOMMEN BEI");
         title.setForeground(Color.lightGray);
         title.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
@@ -70,7 +72,6 @@ public class MainPanel extends JPanel{
         title.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
         centerPanel.add(title, BorderLayout.CENTER);
         
-        
         add(centerPanel, BorderLayout.CENTER);
 
         
@@ -79,15 +80,12 @@ public class MainPanel extends JPanel{
     private void addBottomPanel (){
        
         JPanel bottomPanel = new JPanel (new FlowLayout());
-
         bottomPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        
         title = new JLabel ("Planung von Heute!");
         title.setForeground(Color.RED);
         add(bottomPanel, BorderLayout.SOUTH);
         bottomPanel.add(title);
     }
-
-    
-    
     
 }

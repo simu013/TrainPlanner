@@ -168,7 +168,7 @@ class AnfragePanel extends JPanel {
                 
                 Pattern p = Pattern.compile("[A-Za-z]");
                 Matcher m = p.matcher("");
-                
+                ausgabeTextArea.setText("");
 
                
                 if (firmaTextField.getText().trim().isEmpty() | containerTextField.getText().trim().isEmpty() | ankunftTextFieldH.getText().trim().isEmpty() | ankunftTextFieldM.getText().trim().isEmpty()){
@@ -260,8 +260,16 @@ class AnfragePanel extends JPanel {
                     
                     try {
                         SocketConnection Socket = new SocketConnection();
-                        ausgabeTextArea.append(Socket.sendeTransportanfrage(firmenName, container, ankunftsZeit, prio));
-                        ausgabeTextArea.append("\n");
+                        String [] anfrage = Socket.sendeTransportanfrage(firmenName, container, ankunftsZeit, prio).split(";");
+                                    
+
+                        ausgabeTextArea.append("Transport ID: " + anfrage[0] + "\n");
+                        ausgabeTextArea.append("Akunftszeit: " + anfrage[1] + "\n");
+                        ausgabeTextArea.append("Priorität: " + anfrage[2] + "\n");
+                        ausgabeTextArea.append("Preis: " + anfrage[3] + "CHF" +"\n");
+  
+                        anfrageSenden.setEnabled(true);
+                        
                     }catch (Exception e){
                         ausgabeTextArea.append("keine Verbindung zum Server möglich");
                         ausgabeTextArea.append("\n");
