@@ -13,28 +13,25 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Erstellt eine neue Socket Verbindung. 
+ * Erstellt eine neue Socket Verbindung.
+ *
  * @author Simon
  */
 public class SocketConnection {
-    
-    public SocketConnection() {
+    Controller controller;
+    public SocketConnection(Controller c) {
+        controller = c;
         initSocketConnection();
     }
+
     private void initSocketConnection() {
-        ServerSocket serverSocket = null;
-        Parser parser = Parser.getInstance();
-        
-        // Socket bereitstellen
-        try {
-            serverSocket = new ServerSocket(Integer.parseInt(new Einstellungen().getEinstellung("PortNr"))); 
-        } 
-        catch (IOException ex) {
-            System.out.println("Exception: " + ex.toString());
-        }
-        while (true) {
-            // Auf Client Verbindung warten
-            try {
+        Parser parser = new Parser(controller);
+
+        // Socket bereitstellen 
+        try (ServerSocket serverSocket = new ServerSocket(Integer.parseInt(new Einstellungen().getEinstellung("PortNr")));) {
+
+            while (true) {
+                // Auf Client Verbindung warten
                 Socket socket = serverSocket.accept();
 
                 // IO Streams verbinden
@@ -43,22 +40,21 @@ public class SocketConnection {
 
                 // Datenaustausch
                 do {
-                    
+
                     String empfangsString = in.readLine();      // Daten von CLient empfangen
-                    out.write (parser.lesen(empfangsString));
+                    out.write(parser.lesen(empfangsString));
                     out.flush();
 
                 } while (socket.isClosed()); // Verbindung halten bis Socket von Client geschlossen wird. 
                 System.out.println("Socket closed");
-                
+
                 // Socket und Streams schliessen. 
                 in.close();
                 out.close();
                 socket.close();
-            } catch (IOException ex) {
-                ex.toString();
-            } finally{
             }
+        } catch (IOException e) {
+            new Parser(controller).schreibeInLog(e.getMessage());
         }
     }
 }

@@ -15,10 +15,21 @@ import java.util.HashMap;
  */
 public class Disponent {
 
-    Fahrplan fahrplan = new Fahrplan();
-    HashMap<ArrayList<Auftrag>, ArrayList<Container>> auftragsBuch = new HashMap<>();
-    ArrayList<Firma> firmen = new ArrayList<>();
+    private Fahrplan fahrplan = new Fahrplan();
+    private HashMap<ArrayList<Auftrag>, ArrayList<Container>> auftragsBuch = new HashMap<>();
+    private ArrayList<Firma> firmen = new ArrayList<>();
+    private static final Disponent disponent = new Disponent();
 
+    private Disponent() {
+
+    }
+    /**
+     * Stellt Disponent als Singelton zur Verfügung. 
+     * @return Disponent Objekt
+     */
+    public static Disponent getInstance() {
+        return disponent;
+    }
     public String addAuftrag(String nameFirma, short anzContainer, LocalTime startZeit, short prio) {
         Auftrag auftrag = new Auftrag(anzContainer, startZeit, prio);
         boolean firmaExistiert = false;
