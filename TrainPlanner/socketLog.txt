@@ -5,3 +5,4 @@
 28.12.2016 15:26:40 Address already in use: JVM_Bind
 28.12.2016 15:27:49 Address already in use: JVM_Bind
 28.12.2016 15:31:18 ERROR;Leere Anfrage;null
+29.12.2016 15:25:48 Address already in use: JVM_Bind

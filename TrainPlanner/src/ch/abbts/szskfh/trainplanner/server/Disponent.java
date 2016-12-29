@@ -49,8 +49,20 @@ public class Disponent {
         String state = null;
         for (int i = 0; i < firmen.size(); i++) {
             for (int j = 0; j < firmen.get(i).getAuftraege().size(); j++) {
+
                 if (transportID.equals(firmen.get(i).getAuftraege().get(j).getTransportID())) {
+                    //Status PLANNED wenn Start Zeit nach aktuelle Zeit
+                    if (firmen.get(i).getAuftraege().get(j).getStartZeit().isAfter(LocalTime.now())) {
                     state = "PLANNED";
+                    }
+                    if (firmen.get(i).getAuftraege().get(j).getStartZeit().isBefore(LocalTime.now())) {
+                        if (firmen.get(i).getAuftraege().get(j).getStartZeit().plusHours(2).isBefore(LocalTime.now())) {
+                            state = "DONE";
+                        }
+                        if (firmen.get(i).getAuftraege().get(j).getStartZeit().plusHours(2).isAfter(LocalTime.now())) {
+                            state = "TRANSPORTING";
+                        }
+                    }
                 }
             }
 
