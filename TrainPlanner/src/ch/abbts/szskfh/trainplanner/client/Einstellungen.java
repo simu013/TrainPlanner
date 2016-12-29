@@ -57,7 +57,6 @@ public class Einstellungen {
         try {
             einstellungen.loadFromXML(new FileInputStream(dateiName));
         } catch (IOException ex) {
-            // Logger.getLogger(Einstellungen.class.getName()).log(Level.SEVERE, null, ex);
             setDefaultEinstellungen();
         }
 

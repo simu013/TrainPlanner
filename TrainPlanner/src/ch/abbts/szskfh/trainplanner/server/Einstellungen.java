@@ -5,11 +5,10 @@
  */
 package ch.abbts.szskfh.trainplanner.server;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +20,7 @@ import java.util.logging.Logger;
 public class Einstellungen {
     Properties einstellungen = new Properties();
     String wert;
+    String dateiName = "serverconfig.xml";
     
     public Einstellungen() {
         setDefaultEinstellungen();
@@ -31,13 +31,26 @@ public class Einstellungen {
      */
     public String getEinstellung(String name) {
         return wert = einstellungen.getProperty(name); 
-        
+    }
     /** 
      * Setzt Einstellungswert
      */
-    } 
     public void setEinstellung(String name, String wert) {
         einstellungen.setProperty(name, wert);
+        try {
+            einstellungen.storeToXML(new FileOutputStream(dateiName), wert);
+        } catch (IOException ex) {
+            Logger.getLogger(Einstellungen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void initEinstellungen() {
+        try {
+            einstellungen.loadFromXML(new FileInputStream(dateiName));
+        } catch (IOException ex) {
+            setDefaultEinstellungen();
+        }
+        
     }
     public void setDefaultEinstellungen() {
         einstellungen.setProperty("PortNr", "5555");
@@ -47,7 +60,7 @@ public class Einstellungen {
         einstellungen.setProperty("FrameBreite", "750");
         
         try {
-            einstellungen.storeToXML(new ObjectOutputStream(new FileOutputStream("srv_einstellungen.xml")), wert);
+            einstellungen.storeToXML(new ObjectOutputStream(new FileOutputStream(dateiName)), "Server Einstellungen");
         } catch (IOException ex) {
             Logger.getLogger(Einstellungen.class.getName()).log(Level.SEVERE, null, ex);
         }

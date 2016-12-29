@@ -13,7 +13,7 @@ import ch.abbts.szskfh.trainplanner.server.Parser;
  */
 public class TestParser {
 
-    Parser parser = Parser.getInstance();
+    Parser parser = new Parser();
 
     public static void main(String[] args) {
         TestParser testParser = new TestParser();
