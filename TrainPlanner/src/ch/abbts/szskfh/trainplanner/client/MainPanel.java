@@ -29,7 +29,8 @@ public class MainPanel extends JPanel{
     }
 
     private void initMainPanel() {
-        
+        //Main Panel wird initialisert und weitere Panel hinzugefügt
+        //Farbe wird aus der Einstellungsklasse gelesen
         this.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         this.setLayout(new BorderLayout());
         this.addTopPanel();
@@ -40,8 +41,9 @@ public class MainPanel extends JPanel{
     
     private void addTopPanel (){
         
-
+        //neues Panel wird erzeugt
         JPanel topPanel = new JPanel (new FlowLayout());
+        //Farbe wird aus der Einstellungsklasse gelesen
         topPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
 
         //Bild wird hinzugefügt
@@ -57,20 +59,20 @@ public class MainPanel extends JPanel{
     }
     
     private void addCenterPanel (){
-        
-        JPanel centerPanel = new JPanel (new BorderLayout());
+        //neues Panel wird erzeugt
+        JPanel centerPanel = new JPanel (new FlowLayout());
         centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         
         //Components werde am Panel hinzugefügt und lokalisiert
-        title = new JLabel ("WILLKOMMEN BEI");
+        title = new JLabel ("WILLKOMMEN BEI ");
         title.setForeground(Color.lightGray);
         title.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
-        centerPanel.add(title, BorderLayout.NORTH);
+        centerPanel.add(title);
 
         title = new JLabel ("TRAINPLANNER");
         title.setForeground(Color.lightGray);
         title.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
-        centerPanel.add(title, BorderLayout.CENTER);
+        centerPanel.add(title);
         
         add(centerPanel, BorderLayout.CENTER);
 
@@ -78,12 +80,13 @@ public class MainPanel extends JPanel{
     }
     
     private void addBottomPanel (){
-       
+        //neues Panel wird erzeugt
         JPanel bottomPanel = new JPanel (new FlowLayout());
+        //Farbe wird aus der Einstellungsklasse gelesen
         bottomPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         
         title = new JLabel ("Planung von Heute!");
-        title.setForeground(Color.RED);
+        title.setForeground(Color.DARK_GRAY);
         add(bottomPanel, BorderLayout.SOUTH);
         bottomPanel.add(title);
     }

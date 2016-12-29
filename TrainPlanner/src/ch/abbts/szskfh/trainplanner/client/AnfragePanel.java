@@ -46,12 +46,13 @@ class AnfragePanel extends JPanel {
     
     private String firmenName;
     private short container;
-    private LocalTime ankunftsZeit;
-    private short prio = 1;
-    
-    private boolean nachrichtAngezeigt = false;
     private int ankunftsZeitH;
     private int ankunftsZeitM;
+    private LocalTime ankunftsZeit;
+    private short prio = 1;
+
+    //Variable zur überprüfung, ob schon einmal eine Nachricht angezeigt wurde bei einer Falscheingabe
+    private boolean nachrichtAngezeigt = false;
     
     
     public AnfragePanel() {
@@ -59,6 +60,8 @@ class AnfragePanel extends JPanel {
     }
     
     private void initPanel() {
+        //Main Panel wird initialisert und weitere Panel hinzugefügt
+        //Farbe wird aus der Einstellungsklasse gelesen
         this.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         this.setLayout(new BorderLayout());
         addTopPanel();
@@ -69,15 +72,16 @@ class AnfragePanel extends JPanel {
     private void addTopPanel() {
         
         JPanel anfragePanel = new JPanel (new GridLayout(3,3,50,10));
+        //Farbe wird aus der Einstellungsklasse gelesen
         anfragePanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
-        
+        //Komponenten werden am Panel hinzugefügt 
         firmaLabel = new JLabel ("Firma:");
         firmaLabel.setForeground(Color.RED);
         anfragePanel.add(firmaLabel);
         
         firmaTextField = new JTextField ();
         anfragePanel.add(firmaTextField);
-         
+        //DummieLabel wird erzeugt und hinzugefügt um einen leeren Platz im GridLayout zu besetzen 
         anfragePanel.add(new JLabel (""));
        
         containerLabel = new JLabel("Anzahl Container:");
@@ -86,14 +90,16 @@ class AnfragePanel extends JPanel {
         
         containerTextField = new JTextField();
         anfragePanel.add(containerTextField);
-        
+        //DummieLabel wird erzeugt und hinzugefügt um einen leeren Platz im GridLayout zu besetzen
         anfragePanel.add(new JLabel (""));
         
         ankunftLabel = new JLabel ("gewünschte Ankunftszeit in 00:00 :");
         ankunftLabel.setForeground(Color.RED);
         anfragePanel.add(ankunftLabel);
         
+        //neues Panel wird erzeugt um die Komponenten für die Eingabe der Ankunftszeit wie gewünscht darstellen zu können
         JPanel ankunftPanel = new JPanel (new FlowLayout());
+        //Farbe wird aus der Einstellungsklasse gelesen
         ankunftPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         
         ankunftTextFieldH = new JTextField ();
@@ -107,15 +113,20 @@ class AnfragePanel extends JPanel {
         ankunftTextFieldM = new JTextField ();
         ankunftTextFieldM.setColumns(5);
         ankunftPanel.add(ankunftTextFieldM);
-       
+        //Ankunft Panel wird am Anfrage Panel (GridLayout) hinzugefügt
         anfragePanel.add(ankunftPanel);
-        
+        //neues Panel wird erzeugt, damit die Grösse des Button definiert werden kann
+        JPanel buttonPanel = new JPanel (new FlowLayout());
+        //Farbe wird aus der Einstellungsklasse gelesen
+        buttonPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         anfrageSenden = new JButton ("Anfrage absenden");
         anfrageSenden.setEnabled(true);
+        anfrageSenden.setSize(30, 20);
         MyActionListener listener = new MyActionListener ();
         anfrageSenden.addActionListener(listener);
-        anfragePanel.add(anfrageSenden);
-        
+        buttonPanel.add(anfrageSenden);
+        anfragePanel.add(buttonPanel);
+        //Top Panel wird am Anfrage Panel hinzugefügt
         add (anfragePanel, BorderLayout.NORTH);  
          
     }
@@ -123,8 +134,9 @@ class AnfragePanel extends JPanel {
     private void addCenterPanel (){
                 
         JPanel centerPanel = new JPanel (new GridLayout(2,1));
+        //Farbe wird aus der Einstellungsklasse gelesen
         centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
-        
+        //Komponenten werden am Panel hinzugefügt 
         ausgabeLabel = new JLabel("Ausgabe:");
         ausgabeLabel.setForeground(Color.RED);
         ausgabeLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -133,7 +145,7 @@ class AnfragePanel extends JPanel {
         ausgabeTextArea = new JTextArea();
         ausgabeTextArea.setEditable(false);
         centerPanel.add(ausgabeTextArea);
-
+        //Center Panel wird am Abfrage Panel hinzugefügt
         add(centerPanel, BorderLayout.CENTER);
         
     }
@@ -141,13 +153,14 @@ class AnfragePanel extends JPanel {
     private void addBottomPanel() {
         
         JPanel bottomPanel = new JPanel (new BorderLayout());
+        //Farbe wird aus der Einstellungsklasse gelesen
         bottomPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
 
         JLabel dummieLabel4 = new JLabel("  ");
         dummieLabel4.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
 
         bottomPanel.add(dummieLabel4);
-        
+        //Bottom Panel wird am Abfrage Panel hinzugefügt
         add(bottomPanel, BorderLayout.SOUTH);
        
     }
@@ -165,12 +178,12 @@ class AnfragePanel extends JPanel {
            
             
             if (button == anfrageSenden){
-                
+                //Pattern dient zur Überprüfung, dass die Eingabe des Firmennamen mindestens aus einem Buchstaben besteht und nicht nur aus Zahlen und Sonderzeichen
                 Pattern p = Pattern.compile("[A-Za-z]");
                 Matcher m = p.matcher("");
                 ausgabeTextArea.setText("");
 
-               
+                //überprüft ob die Textfelder leer sind und gibt allenfalls eine Meldung
                 if (firmaTextField.getText().trim().isEmpty() | containerTextField.getText().trim().isEmpty() | ankunftTextFieldH.getText().trim().isEmpty() | ankunftTextFieldM.getText().trim().isEmpty()){
                     
                     JOptionPane.showMessageDialog(null,
@@ -179,10 +192,11 @@ class AnfragePanel extends JPanel {
                     nachrichtAngezeigt = true;
                     
                 }
+                //Firmennamen wird am Matcher hinzugefügt
                 else {
                     m = p.matcher(firmaTextField.getText());
                 }
-                
+                //überprüft den Firmennamen, ob mindestens einen Buchtaben und kein ; eingeben wurden und gibt sonst eine Meldung
                 if (!firmaTextField.getText().trim().isEmpty() & nachrichtAngezeigt == false & (!m.find() | firmaTextField.getText().contains(";"))){
                     
                     JOptionPane.showMessageDialog(null,
@@ -190,13 +204,14 @@ class AnfragePanel extends JPanel {
                     "Fehler", JOptionPane.ERROR_MESSAGE);
                     nachrichtAngezeigt = true;
                         
-                    }
+                }
+                //Wenn alles im richtigen Format ist, wird der Firmannamen in die Variable gespeichert
                 else {
                     firmenName = firmaTextField.getText();
                 }
                 
                 if (!containerTextField.getText().trim().isEmpty() & nachrichtAngezeigt == false){
-                    
+                    //Containerzahl wird veruscht in einen Int zu parsen, wenn das Format stimmt, wird die Zahl auf die Variable gespeichert
                     try {
                         container = Short.parseShort(containerTextField.getText()); 
                         
@@ -209,13 +224,12 @@ class AnfragePanel extends JPanel {
                         JOptionPane.showMessageDialog(null,
                         "Bitte Container als positive Ganzzahl (>=1) eingeben.", 
                         "Fehler", JOptionPane.ERROR_MESSAGE);
-                        nachrichtAngezeigt = true;
-                        
+                        nachrichtAngezeigt = true;       
                     }
                 }
                 
                 if (!ankunftTextFieldH.getText().trim().isEmpty() & nachrichtAngezeigt == false){
-                    
+                    //ankunftszeit Stunden wird versucht in einen Int zu parsen, wenn das Format stimmt, wird die Zahl auf die Variable gespeichert
                     try {
                         ankunftsZeitH = Integer.parseInt(ankunftTextFieldH.getText());
                         
@@ -233,7 +247,7 @@ class AnfragePanel extends JPanel {
                 }
                 
                 if (!ankunftTextFieldM.getText().trim().isEmpty() & nachrichtAngezeigt == false){
-                    
+                    //ankunftszeit Minuten wird versucht in einen Int zu parsen, wenn das Format stimmt, wird die Zahl auf die Variable gespeichert
                     try {
                         ankunftsZeitM = Integer.parseInt(ankunftTextFieldM.getText());
                         
@@ -249,20 +263,18 @@ class AnfragePanel extends JPanel {
                         nachrichtAngezeigt = true; 
                     }
                 }
-                
                 if (nachrichtAngezeigt == false){
                     anfrageSenden.setEnabled(false);
                     ausgabeTextArea.append("Transportanfrage wird gesendet...");
                     ausgabeTextArea.append("\n");
                     ankunftsZeit = LocalTime.of(ankunftsZeitH, ankunftsZeitM);
                     ausgabeTextArea.update(ausgabeTextArea.getGraphics());
-               
-                    
+                    //Versucht eine Anfrage zu senden, bei allfälligen Exceptions wird eine Meldung auf der TextArea ausgegeben
                     try {
                         SocketConnection Socket = new SocketConnection();
+                        //Der Rückgabe String wird in ein Array gespeichert und bei ; gesplitet
                         String [] anfrage = Socket.sendeTransportanfrage(firmenName, container, ankunftsZeit, prio).split(";");
-                                    
-
+                        //Ausgabe der einzelnen Werten des Array auf der TextArea            
                         ausgabeTextArea.append("Transport ID: " + anfrage[0] + "\n");
                         ausgabeTextArea.append("Akunftszeit: " + anfrage[1] + "\n");
                         ausgabeTextArea.append("Priorität: " + anfrage[2] + "\n");
@@ -273,23 +285,17 @@ class AnfragePanel extends JPanel {
                     }catch (Exception e){
                         ausgabeTextArea.append("keine Verbindung zum Server möglich");
                         ausgabeTextArea.append("\n");
-                        ausgabeTextArea.update(ausgabeTextArea.getGraphics());
-
-                         
+                        ausgabeTextArea.update(ausgabeTextArea.getGraphics());                         
                     }
-
- 
+                    //Textfelder werden zurückgesetzt
                     firmaTextField.setText("");
                     containerTextField.setText("");
                     ankunftTextFieldH.setText("");
                     ankunftTextFieldM.setText("");
                 }
-
-                nachrichtAngezeigt = false;
-                    
+                nachrichtAngezeigt = false;    
             }
             
         }
-    
     }
 }

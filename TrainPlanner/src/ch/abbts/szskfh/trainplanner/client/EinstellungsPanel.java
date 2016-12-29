@@ -30,7 +30,7 @@ public class EinstellungsPanel extends JPanel{
     
     private JLabel aktuelleIP;
     private JLabel aktuellerPort;
-    
+    //Variable zur überprüfung, ob schon einmal eine Nachricht angezeigt wurde bei einer Falscheingabe
     private boolean nachrichtAngezeigt = false;
     
     
@@ -41,22 +41,21 @@ public class EinstellungsPanel extends JPanel{
     }
     
     private void initPanel() {
-                
+        //Einstellungs Panel wird initialisert und weitere Panel hinzugefügt   
+        //Farbe wird aus der Einstellungsklasse gelesen
         this.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         this.setLayout(new BorderLayout());
         
         addTopPanel();
         addCenterPanel();
-        addBottomPanel();
-        
-      
     }
 
     private void addTopPanel() {
-        
+
         JPanel einstellungsPanel = new JPanel (new FlowLayout());
+        //Farbe wird aus der Einstellungsklasse gelesen
         einstellungsPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
-        
+        //Komponenten werden erstellt und am Panel hinzugefügt
         ipLabel = new JLabel ("IP Adresse:");
         ipLabel.setForeground(Color.RED);
         einstellungsPanel.add(ipLabel);
@@ -80,32 +79,28 @@ public class EinstellungsPanel extends JPanel{
         einstellungsPanel.add(einstellenButton);
         EinstellungsPanel.MyActionListener listener = new EinstellungsPanel.MyActionListener ();
         einstellenButton.addActionListener(listener);
-        
+        //Top Panel wird am EinstellungsPanel hinzugefügt
         add(einstellungsPanel, BorderLayout.NORTH);
         
         
     }
 
     private void addCenterPanel() {
-       
-        JPanel centerPanel = new JPanel (new FlowLayout());
+
+        JPanel centerPanel = new JPanel (new FlowLayout());      
+        //Farbe wird aus der Einstellungsklasse gelesen
         centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
-        
+        //Komponenten werden erstellt und am Panel hinzugefügt, IP Adresse wird aus Einstellungsklasse gelesen und angezeigt
         aktuelleIP = new JLabel("aktuell eigestellte IP: " + new Einstellungen().getEinstellung("IP"));
         aktuelleIP.setForeground(Color.red);
         centerPanel.add(aktuelleIP);
-        
+        //Port wird aus Einstellungsklasse gelesen und angezeigt
         aktuellerPort = new JLabel("aktuell eingestellter Port: " + new Einstellungen().getEinstellung("PortNr"));
         aktuellerPort.setForeground(Color.red);
         centerPanel.add(aktuellerPort);
-        
+        //Center Panel wird am EinstellungsPanel hinzugefügt
         add(centerPanel, BorderLayout.CENTER);
     }
-
-    private void addBottomPanel() {
-        
-    }
-
 
    class MyActionListener implements ActionListener {
         @Override
@@ -113,7 +108,7 @@ public class EinstellungsPanel extends JPanel{
             JButton button = (JButton)e.getSource();
             
             if (button == einstellenButton){
-                
+                //überprüft ob Textfelder leer sind und gibt allenfalls eine Meldung
                 if (ipTextField.getText().trim().isEmpty() | portTextField.getText().trim().isEmpty()){
                     JOptionPane.showMessageDialog(null,
                     "Bitte alle Felder ausfüllen.", 
@@ -123,24 +118,24 @@ public class EinstellungsPanel extends JPanel{
                 
                 if (!ipTextField.getText().trim().isEmpty() & nachrichtAngezeigt == false){
                     
-                    
+                    //String wird beim Punkt gesplitet
                     String [] ip = ipTextField.getText().split("[.]");
 
                     try {
-                        
+                        //überprüft ob die IP Adresse das richtige Format hat
                         if (ip.length != 4 | ipTextField.getText().lastIndexOf(".") == ipTextField.getText().length()-1){
                             throw new NumberFormatException();
                         }
                         
                         for (int i=0; i<ip.length ; i++){
                            int ipPart = Integer.parseInt(ip[i]);
-                           
+                           //überprüft ob die einzelnen Parts der IP Adresse im gewünschten Format sind, sonst wird eine Exception geworfen
                            if (ipPart > 255 | ipPart < 0){
                                throw new NumberFormatException();
                            }
                         }
 
-                        
+                    //Meldung für das gewünschte Format der IP Adresse   
                     } catch (NumberFormatException a){
                         JOptionPane.showMessageDialog(null,
                         "Bitte gültige IP Adresse (z.B. 192.168.0.1) eingeben.", 
@@ -150,20 +145,21 @@ public class EinstellungsPanel extends JPanel{
                 }
                 
                 if (!portTextField.getText().trim().isEmpty() & nachrichtAngezeigt == false){
-                    
+                    //Port wird versucht in einen Int zu parsen
                     try {
                         Short.parseShort(portTextField.getText()); 
-                        
+                        //Port Adresse wird auf gewünschtes Format geprüft
                         if (Short.parseShort(portTextField.getText())<=1023 | Short.parseShort(portTextField.getText())>65536){
                             throw new NumberFormatException();
                         }
-                        
+                        //Wenn das Format stimmt, werden die IP und der Port in die Einstellungen geschrieben und somit gespeichert
                         Einstellungen Einstellungen = new Einstellungen ();
                         Einstellungen.setEinstellung("IP", ipTextField.getText());
                         Einstellungen.setEinstellung("PortNr", portTextField.getText());
                         ipTextField.setText("");
                         portTextField.setText("");
                     } 
+                    //Meldung für das gewünschte Format des Ports
                     catch(NumberFormatException a){
                         
                         JOptionPane.showMessageDialog(null,
@@ -175,15 +171,10 @@ public class EinstellungsPanel extends JPanel{
                 }
                 nachrichtAngezeigt = false;
 
-                //Aktualisierung der IP und Port
+                //Aktualisierung der IP und Port auf der Anzeige
                 aktuelleIP.setText("aktuell eigestellte IP: " + new Einstellungen().getEinstellung("IP"));
                 aktuellerPort.setText("aktuell eingestellter Port: " + new Einstellungen().getEinstellung("PortNr"));
-            }
-
-                
-                
-                
-            
+            }  
         }
     }
 }

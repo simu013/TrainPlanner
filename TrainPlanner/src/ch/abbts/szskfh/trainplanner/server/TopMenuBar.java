@@ -30,11 +30,13 @@ public class TopMenuBar extends JMenuBar{
     }
 
     private void initMenuBar() {
+        //eine TopMenuBar wird erzeugt und weitere Menus hinzugefügt
         menu = new JMenu("Datei");
         this.add(menu);
         
         menuItem = new JMenuItem ("Einstellungen");
         menu.add(menuItem);
+        //Panel wird umgeschaltet bei Betätigung des Button
         menuItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,6 +51,7 @@ public class TopMenuBar extends JMenuBar{
         
         menuItem = new JMenuItem ("Beenden");
         menu.add(menuItem);
+        //Programm wird beendet bei Betätigung des Button
         menuItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,6 +67,7 @@ public class TopMenuBar extends JMenuBar{
         
         menuItem = new JMenuItem("Zurück");
         menu.add(menuItem);
+        //Panel wird umgeschaltet bei Betätigung des Button
         menuItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,8 +77,15 @@ public class TopMenuBar extends JMenuBar{
             topFrame.repaint();
             } 
         });
-                
-        
+        menuItem = new JMenuItem("Rücksetzen");
+        menu.add(menuItem);
+        //Panel wird umgeschaltet bei Betätigung des Button
+        menuItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            } 
+        });
         
     }
 }

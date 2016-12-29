@@ -18,7 +18,7 @@ public class ClientGUI extends JFrame {
     private MainPanel mainPanel;
     private TopMenuBar topMenuBar;
     private static ClientGUI mainFrame;
-    //Initialisiert die Grösse des Rahmens aus der Einstellungsdatei
+    //Initialisiert die Grösse des Rahmens aus der Einstellungsklasse
     private int frameHoehe = Integer.parseInt(new Einstellungen().getEinstellung("FrameHoehe"));
     private int frameBreite = Integer.parseInt(new Einstellungen().getEinstellung("FrameBreite"));
     

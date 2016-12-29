@@ -34,7 +34,7 @@ public class AbfragePanel extends JPanel{
     private JTextArea statusTextArea;
     
     private JButton abfrageSenden;
-    
+    //Variable zur überprüfung, ob schon einmal eine Nachricht angezeigt wurde bei einer Falscheingabe
     private boolean nachrichtAngezeigt = false;
 
     
@@ -44,6 +44,8 @@ public class AbfragePanel extends JPanel{
     }
     
     private void initPanel() {
+        //Main Panel wird initialisert und weitere Panel hinzugefügt
+        //Farbe wird aus der Einstellungsklasse gelesen
         this.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
         this.setLayout(new BorderLayout());
         addTopPanel();
@@ -52,10 +54,11 @@ public class AbfragePanel extends JPanel{
     }
     
     private void addTopPanel() {
-        
+
         JPanel abfragePanel = new JPanel (new FlowLayout());
+        //Farbe wird aus der Einstellungsklasse gelesen
         abfragePanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
-        
+        //Komponenten werden erstellt und am Panel hinzugefügt
         trpIdLabel = new JLabel ("Transport ID:");
         trpIdLabel.setForeground(Color.RED);
         abfragePanel.add(trpIdLabel);
@@ -64,17 +67,12 @@ public class AbfragePanel extends JPanel{
         trpIdTextField.setColumns(15);
         abfragePanel.add(trpIdTextField);
 
-        
-        JPanel ankunftPanel = new JPanel (new FlowLayout());
-        ankunftPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
-        
-
         abfrageSenden = new JButton ("Anfrage absenden");
         abfrageSenden.setEnabled(true);
         MyActionListener listener = new MyActionListener ();
         abfrageSenden.addActionListener(listener);
         abfragePanel.add(abfrageSenden);
-        
+        //Top Panel wird am Abfrage Panel hinzugefügt
         add (abfragePanel, BorderLayout.NORTH);  
          
     }
@@ -82,8 +80,9 @@ public class AbfragePanel extends JPanel{
     private void addCenterPanel (){
                 
         JPanel centerPanel = new JPanel (new GridLayout(2,1));
+        //Farbe wird aus der Einstellungsklasse gelesen
         centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
-        
+        //Komponenten werden erstellt und am Panel hinzugefügt
         ausgabeLabel = new JLabel("Status:");
         ausgabeLabel.setForeground(Color.RED);
         ausgabeLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -92,7 +91,7 @@ public class AbfragePanel extends JPanel{
         statusTextArea = new JTextArea();
         statusTextArea.setEditable(false);
         centerPanel.add(statusTextArea);
-
+        //Center Panel wird am EinstellungsPanel hinzugefügt
         add(centerPanel, BorderLayout.CENTER);
         
     }
@@ -100,13 +99,14 @@ public class AbfragePanel extends JPanel{
     private void addBottomPanel() {
         
         JPanel bottomPanel = new JPanel (new BorderLayout());
+        //Farbe wird aus der Einstellungsklasse gelesen
         bottomPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
-
+        //Ein DummieLabel wird erstellt und am Panel hinzugefügt
         JLabel dummieLabel4 = new JLabel("  ");
         dummieLabel4.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
 
         bottomPanel.add(dummieLabel4);
-        
+        //Bottom Panel wird am EinstellungsPanel hinzugefügt
         add(bottomPanel, BorderLayout.SOUTH);
        
     }
@@ -120,10 +120,10 @@ public class AbfragePanel extends JPanel{
             
             if (button == abfrageSenden){
                 
-  
+                //Text in TextArea wird zurückgesetzt
                 statusTextArea.setText(" ");
 
-               
+               //überprüft, ob das Textfeld leer ist und gibt allenfalls eine Meldung
                 if (trpIdTextField.getText().trim().isEmpty()){
                     
                     JOptionPane.showMessageDialog(null,
@@ -134,7 +134,7 @@ public class AbfragePanel extends JPanel{
                 }
  
                 if(!trpIdTextField.getText().trim().isEmpty()& nachrichtAngezeigt ==false ){
-                                     
+                    //versucht die Eingabe in einen int zu parsen um somit überprüfen zu können, dass die Eingabe nur aus Zahlen besteht               
                     try {
                         int trpID = Integer.parseInt(trpIdTextField.getText());
  
@@ -153,11 +153,13 @@ public class AbfragePanel extends JPanel{
                     abfrageSenden.setEnabled(false);
                     statusTextArea.append("Transportstatusabfrage wird gesendet...");
                     statusTextArea.append("\n");
+                    //Versucht eine Anfrage zu senden, bei allfälligen Exceptions wird eine Meldung auf der TextArea ausgegeben
                     try {
                         
                         SocketConnection Socket = new SocketConnection();
+                        //Der Rückgabe String wird in ein Array gespeichert und bei ; gesplitet
                         String [] trpStatus = (Socket.getTransportStatus(trpIdTextField.getText())).split(";");
-                        
+                        //Ausgabe der einzelnen Werten des Array auf der TextArea
                         statusTextArea.setText("Transport ID: " + trpStatus[0] + "\n");
                         statusTextArea.setText("Status: " + trpStatus[1] + "\n");
                         
