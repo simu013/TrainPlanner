@@ -6,21 +6,28 @@
 package ch.abbts.szskfh.trainplanner.server;
 
 /**
- *
+ * Stellt eine Transporteinheit mit Länge und Gewicht zur Verfügung. 
  * @author Florian Häusermann
  */
 public class Transporteinheit {
     protected short laenge;
     protected float gewicht;
     
-    Transporteinheit(){
+    public Transporteinheit(){
         
     }
-    float getGewicht(){
+    /**
+     * Gibt Gewicht der Transporteinheit zurück. 
+     * @return Float Gewicht der Transporteinheit. 
+     */
+    public float getGewicht(){
         return gewicht;
     }
-    
-    short getLaenge(){
+    /**
+     * Gibt Länge der Transporteinheit zurück
+     * @return Short Länge der Transporteinheit. 
+     */
+    public short getLaenge(){
         return laenge;
     }
 }

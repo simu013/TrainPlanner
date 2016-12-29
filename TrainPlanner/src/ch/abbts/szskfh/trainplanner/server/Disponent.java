@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
+ * Verwaltet Firmen, Aufträge und Fahrplan. 
  * @author Simon
  */
 public class Disponent {
@@ -21,7 +21,6 @@ public class Disponent {
     private static final Disponent disponent = new Disponent();
 
     private Disponent() {
-
     }
     /**
      * Stellt Disponent als Singelton zur Verfügung. 
@@ -30,6 +29,14 @@ public class Disponent {
     public static Disponent getInstance() {
         return disponent;
     }
+    /** 
+     * Eröffnet einen neuen Auftrag
+     * @param nameFirma String Name der Firma
+     * @param anzContainer Short Anzahl zu transportierender Container
+     * @param startZeit LocalTime Abfahrtszeit in hh:mm
+     * @param prio Short Priorität (Mögliche Zustände: Höchste Prio = 1; mittlere Prio = 2; niedrige Prio = 3)
+     * @return String Transport ID
+     */
     public String addAuftrag(String nameFirma, short anzContainer, LocalTime startZeit, short prio) {
         Auftrag auftrag = new Auftrag(anzContainer, startZeit, prio);
         boolean firmaExistiert = false;
@@ -44,7 +51,12 @@ public class Disponent {
         }
         return auftrag.getTransportID();
     }
-
+/**
+ * Liefert den Transportstatus eines Auftrags
+ * @param transportID String Transport ID des Auftrags
+ * @return String Status (Mögliche Zustände: PLANNED, TRANSPORTING, DONE, EMERGENCY, DELAYED)
+ * @throws NullPointerException Wenn Transport ID nicht existiert. 
+ */
     public String getState(String transportID) throws NullPointerException {
         String state = null;
         for (int i = 0; i < firmen.size(); i++) {

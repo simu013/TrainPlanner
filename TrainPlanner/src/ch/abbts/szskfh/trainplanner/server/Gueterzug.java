@@ -13,11 +13,9 @@ import java.util.ArrayList;
  */
 public class Gueterzug extends Transporteinheit{
     
-    private float gewicht = 0;
-    private short laenge = 0;
     private int anzahlWagons;
     private int freiePlätze = 98;
-    private ArrayList<Container> container;
+    private ArrayList<Container> container = new ArrayList<>();
     
     /**
      *  Konstruktor für einen neuen Güterzug.
@@ -25,7 +23,9 @@ public class Gueterzug extends Transporteinheit{
      * @throws TrainToSmallException Wenn mehr Container als möglich hinzugefügt werden.
      */
     public Gueterzug(int container) throws TrainToSmallException{
-        this.container = new ArrayList<Container>();
+        super.gewicht = 0;
+        super.laenge = 0;
+        
         if(container <= 98){
             anzahlWagons = container/2;
             for(int i = 0;  i < container; i++){
@@ -54,6 +54,7 @@ public class Gueterzug extends Transporteinheit{
      *  Gibt das gesamt Gewicht der Zugkomposition in Tonnen aus.
      * @return gewicht
      */
+    @Override
     public float getGewicht(){
         float gewichtWagons = 0;
         float gewichtContainers = 0;
@@ -72,6 +73,7 @@ public class Gueterzug extends Transporteinheit{
      *  Gibt die gesamt Länge der Zugkomposition in Meter aus.
      * @return laenge
      */
+    @Override
     public short getLaenge(){
         short laengeWagons = 0;
         final short laengeLoks = (short) 37.8; //Länge von 2 Loks in Meter (je 19,8 M).
