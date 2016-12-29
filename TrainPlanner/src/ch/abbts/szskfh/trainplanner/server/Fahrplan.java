@@ -114,6 +114,16 @@ public class Fahrplan {
         catch(IOException ex){
             ex.printStackTrace();
         }
+        
+        for(int i = 0 ; i < fahrten.size() ; i++){
+            if(fahrten.get(i).getZugTyp().equals("GZ")){
+                fahrten.remove(i);
+                continue;
+            }
+            else{
+                continue;
+            }
+        }
     }
     
     /**
