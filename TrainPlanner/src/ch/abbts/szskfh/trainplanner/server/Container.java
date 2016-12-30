@@ -12,7 +12,8 @@ package ch.abbts.szskfh.trainplanner.server;
 public class Container extends Transporteinheit{
 
     public Container() {
-        super.laenge = 6; //Laenge = 6m.
-        super.gewicht = 24; //Gewicht = 24 Tonnen.
+        super.laenge = 6; //Laenge in Meter.
+        super.gewicht = (float) 2.3; //Gewicht in Tonnen.
+        super.maxLadung = (float) 21.7; // Maximale Ladung in Tonnen
     }
 }

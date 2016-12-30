@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class Disponent {
 
     private Fahrplan fahrplan = new Fahrplan();
-    private HashMap<ArrayList<Auftrag>, ArrayList<Container>> auftragsBuch = new HashMap<>();
+    private HashMap<ArrayList<Auftrag>, ArrayList<Container>> auftraege = new HashMap<>();
     private ArrayList<Firma> firmen = new ArrayList<>();
     private static final Disponent disponent = new Disponent();
 

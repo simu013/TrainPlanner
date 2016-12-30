@@ -10,8 +10,9 @@ package ch.abbts.szskfh.trainplanner.server;
  * @author Florian Häusermann
  */
 public class Transporteinheit {
-    protected short laenge;
+    protected float laenge;
     protected float gewicht;
+    protected float maxLadung;
     
     public Transporteinheit(){
         
@@ -27,8 +28,11 @@ public class Transporteinheit {
      * Gibt Länge der Transporteinheit zurück
      * @return Short Länge der Transporteinheit. 
      */
-    public short getLaenge(){
+    public float getLaenge(){
         return laenge;
+    }
+    public float getLadung() {
+        return maxLadung;
     }
 }
 
