@@ -25,7 +25,7 @@ public class Fahrplan {
 
     }
 
-    public void addFahrt(Zugtyp zugTyp, LocalTime startZeit, LocalTime endZeit) {
+    public int addFahrt(Zugtyp zugTyp, LocalTime startZeit, LocalTime endZeit) {
         ++zugNr;
         if (zugTyp.equals(Zugtyp.GUETERZUG)) {
             fahrten.add(new Fahrt(zugTyp, startZeit, endZeit, zugNr));
@@ -35,6 +35,7 @@ public class Fahrplan {
             LocalTime effektiveAnkunftzeit = effektiveAbfahrtszeit.plusMinutes(18);
             fahrten.add(new Fahrt(zugTyp, effektiveAbfahrtszeit, effektiveAnkunftzeit, zugNr));
         }
+        return zugNr;
     }
     
     public ArrayList<Fahrt> getFahrten() {

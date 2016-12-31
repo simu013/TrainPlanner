@@ -24,12 +24,13 @@ import java.util.logging.Logger;
 public class Disponent {
 
     private Fahrplan fahrplan = new Fahrplan();
-    private HashMap<ArrayList<Auftrag>, ArrayList<Container>> auftraege = new HashMap<>();
+    private HashMap<String, ArrayList<Container>> auftraege = new HashMap<String, ArrayList<Container>>();
     private ArrayList<Firma> firmen = new ArrayList<>();
     private static final Disponent disponent = new Disponent();
 
     /**
-     * Iitialisiert den Fahrplan und sorgt für die Umsetzung  des Disponenten als Singleton. 
+     * Iitialisiert den Fahrplan und sorgt für die Umsetzung des Disponenten als
+     * Singleton.
      */
     private Disponent() {
         initFahrplan();
@@ -76,16 +77,6 @@ public class Disponent {
     }
 
     /**
-     * TEST METHODE! Dient dazu bei Tests den Fahrplan zur Verfügung zu stellen.
-     *
-     * @return Gibt eine ArrayList mit allen Fahrt Objekten des Fahrplans
-     * zurück.
-     */
-    public ArrayList<Fahrt> getFahrten() {
-        return fahrplan.getFahrten();
-    }
-
-    /**
      * Eröffnet einen neuen Auftrag
      *
      * @param nameFirma String Name der Firma
@@ -96,17 +87,26 @@ public class Disponent {
      * @return String Transport ID
      */
     public String addAuftrag(String nameFirma, short anzContainer, LocalTime startZeit, short prio) {
+        float containerGewicht = (float) 2.3; // Gewicht eines Containers in Tonnen
+        float containerLaenge = (float) 6; // Länge eines Containers in Meter
+        float containerMaxLadung = (float) 21.7; // Maximale Ladung eines Containers in Tonnen
+
         Auftrag auftrag = new Auftrag(anzContainer, startZeit, prio);
-        boolean firmaExistiert = false;
-        for (int i = 0; i < firmen.size(); i++) {
+
+        for (int i = 0; i < firmen.size(); i++) {        // Fügt den Auftrag der bestehnden Firma zu. 
             if (firmen.get(i).getName().equals(nameFirma)) {
                 firmen.get(i).addAuftrag(auftrag);
-                firmaExistiert = true;
+            } else {                                    // Legt eine neue Firma an und erzeugt darin einen neuen Auftrag. 
+                firmen.add(new Firma(nameFirma, auftrag));
             }
         }
-        if (firmaExistiert == false) {
-            firmen.add(new Firma(nameFirma, auftrag));
-        }
+        // Fügt den Auftrag mit einer Container Liste dem Auftragsbuch auftraege hinzu
+        ArrayList<Container> containers = auftraege.put(auftrag.getTransportID(), createContainers(anzContainer, containerLaenge, containerGewicht, containerMaxLadung));
+        // Fügt eine neue Fahrt dem Fahrplan hinzu
+        int zugNr = fahrplan.addFahrt(Zugtyp.GUETERZUG, startZeit, startZeit.plusMinutes(22)); // Fahrtzeit des Güterzuges beträgt 22min
+        
+        verladeGueter(zugNr, containers);
+        
         return auftrag.getTransportID();
     }
 
@@ -142,4 +142,54 @@ public class Disponent {
         }
         return state;
     }
+    /**
+     * Erstellt eine ArrayList mit der angegebenen Anzahl Container.
+     *
+     * @param anzahlContainer int Anzahl Container die angelegt werden sollen.
+     * @return ArrayList mit Container Objekten.
+     */
+    private ArrayList<Container> createContainers(int anzahlContainer, float laenge, float gewicht, float maxLadung) {
+        ArrayList<Container> containers = new ArrayList<>();
+        for (int i = 0; i < anzahlContainer; i++) {
+            containers.add(new Container(laenge, gewicht, maxLadung));
+        }
+        return containers;
+    }
+    
+    private void verladeGueter(int zugNr, ArrayList<Container> containers) {
+                float wagonGewicht = (float) 13.5; // Gewicht eines Güterwagons in Tonnen
+        float wagonLaenge = (float) 14.5; // Länge eines Güterwagons in Meter
+        
+        for (Fahrt fahrt : fahrplan.getFahrten()) {
+            if (fahrt.getGueterzug().getZugNr() == zugNr) {
+                for (int containerCounter = containers.size(); containerCounter > 0; containerCounter--) {
+                    Gueterzug gueterzug = fahrt.getGueterzug();
+                    ArrayList<Gueterwagon> gueterwagons = gueterzug.getGueterwagons();
+
+                    if (gueterwagons != null) {
+                        for (int i = 0; i < gueterwagons.size(); i++) {
+                            boolean b;
+                            do {
+                                b = gueterwagons.get(i).addContainer(wagonLaenge, wagonGewicht, wagonLaenge);
+                                if (b == true) {
+                                    --containerCounter;
+                                }
+                            } while (b);
+                        }
+                    }
+                    Gueterwagon wagon = new Gueterwagon(wagonGewicht, wagonLaenge);
+                    boolean a;
+                    do {
+                        a = wagon.addContainer(wagonLaenge, wagonGewicht, wagonLaenge);
+                        if (a == true) {
+                            --containerCounter;
+                        }
+                    } while (a);
+                    gueterwagons.add(wagon);
+
+                }
+            }
+        }
+    }
+
 }

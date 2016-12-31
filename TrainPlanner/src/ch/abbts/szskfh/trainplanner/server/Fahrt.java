@@ -18,17 +18,18 @@ public class Fahrt {
     private LocalTime endZeit;
     private String status;
     private Zugtyp zugTyp;
-    private int zugNr;
 
     public Fahrt(Zugtyp zugTyp, LocalTime startZeit, LocalTime endZeit, int zugNr) {
         this.zugTyp = zugTyp;
         this.startZeit = startZeit;
         this.endZeit = endZeit;
-        this.zugNr = zugNr;
+        float maxGewicht = (float) 3200; // Maximales Gewicht eines Güterzuges
+        float maxLaenge = (float) 750; // Maximale Länge eines Güterzuges
         if(zugTyp.equals(Zugtyp.GUETERZUG)) {
-            gueterzug = new Gueterzug();
+            gueterzug = new Gueterzug(zugNr, maxGewicht, maxLaenge);
         }
     }
+
     /**
      * Gibt das Güterzug Objekt der Fahrt zurück. 
      * @return Güterzug Objekt. Gibt null zurück wenn Fahrt keine Güterzugfahrt ist. 
@@ -36,17 +37,26 @@ public class Fahrt {
     public Gueterzug getGueterzug() {
         return gueterzug;
     }
+    /**
+     * Gibt die Abfahrtszeit der Fahrt zurück.
+     * @return LocalTime Abfahrtszeit im Format HH:mm
+     */
     public LocalTime getStartZeit() {
         return startZeit;
     }
+    /**
+     * Gibt die Ankunftszeit der Fahrt zurück. 
+     * @return LocalTime Ankunftszeit im Format HH:mm
+     */
     public LocalTime getEndZeit() {
         return endZeit;
     }
+    /**
+     * Gibt den Zugtyp der Fahrt zurück. 
+     * @return Enum Zugtyp (PERSONENZUG, GUETERZUG)
+     */
     public Zugtyp getZugtyp() {
         return zugTyp;
-    }
-    public int getZugNr() {
-        return zugNr;
     }
 
 }
