@@ -5,11 +5,6 @@
  */
 package ch.abbts.szskfh.trainplanner.server;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -18,62 +13,40 @@ import java.util.ArrayList;
  * @author Florian Haeusermann
  */
 public class Fahrplan {
-    
+
     private ArrayList<Fahrt> fahrten = new ArrayList<>();
+    private int zugNr = 0;
     
     /**
-     * Konstruktor initialisiert den Fahrplan durch ausführen von iniFahrplan();
-     * 
+     * Stellt einen Fahrplan zur Verfügung. 
+     * Der Fahrplan besteht aus einer ArrayList mit Fahrt-Objekten. 
      */
-    public Fahrplan(){
-        
-            initFahrplan();
-        
+    public Fahrplan() {
+
+    }
+
+    public void addFahrt(Zugtyp zugTyp, LocalTime startZeit, LocalTime endZeit) {
+        ++zugNr;
+        if (zugTyp.equals(Zugtyp.GUETERZUG)) {
+            fahrten.add(new Fahrt(zugTyp, startZeit, endZeit, zugNr));
+        }
+        if (zugTyp.equals(Zugtyp.PERSONENZUG)) {
+            LocalTime effektiveAbfahrtszeit = startZeit.plusMinutes(18);
+            LocalTime effektiveAnkunftzeit = effektiveAbfahrtszeit.plusMinutes(18);
+            fahrten.add(new Fahrt(zugTyp, effektiveAbfahrtszeit, effektiveAnkunftzeit, zugNr));
+        }
     }
     
-    /**
-     * Initialisiert den Fahrplan aus der datei Fahrten.csv.
-     * 
-     */
-    public void initFahrplan() {
-        
-        String line = "";
-        LocalTime startZeit;
-        
-        try(BufferedReader br = new BufferedReader(new FileReader("PersonenFahrten.csv"))){
-            while ((line = br.readLine())!= null){
-                
-                String[] subString = line.split(",");
-                String[] zeitString = subString[1].split(":");
-                startZeit = LocalTime.of(Integer.parseInt(zeitString[0]), Integer.parseInt(zeitString[1]));
-                
-                fahrten.add(new Fahrt());
-            }
-        } catch (FileNotFoundException e) {
-            new File("PersonenFahrten.csv");
-        } catch (IOException e){
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }        
-        
-        try(BufferedReader br = new BufferedReader(new FileReader("GueterFahrten.csv"))){
-            while ((line = br.readLine())!= null){
-                
-                String[] wert = null;
-                wert = line.split(",");
-                String[] part = wert[0].split(":");
-                startZeit = LocalTime.of(Integer.parseInt(part[0]), Integer.parseInt(part[1]));
-               
+    public ArrayList<Fahrt> getFahrten() {
+        return fahrten;
+    }
+    public ArrayList<Fahrt> getPersonenFahrten() {
+        ArrayList<Fahrt> personenFahrten = new ArrayList<>();
+        for (int i = 0; i < fahrten.size(); i++) {
+            if (fahrten.get(i).getZugtyp().equals(Zugtyp.PERSONENZUG)) {
+                personenFahrten.add(fahrten.get(i));
             }
         }
-        catch (FileNotFoundException e){
-            new File("GueterFahrten.csv");
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-    }    
+        return personenFahrten;
+    }
 }
