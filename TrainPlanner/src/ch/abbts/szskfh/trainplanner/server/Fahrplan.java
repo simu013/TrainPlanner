@@ -144,13 +144,13 @@ public class Fahrplan {
     }
     
     /**
-     * Fügt der ArrayList fahrten eine neue Güterfahrt hinzu.
+     * Fügt der ArrayList fahrten eine neue Güterfahrt hinzu inkl. Sperrtest.
      * @param ankunftsZeit gewünste Ankunftszeit des Güterzuges.
      * @param container Anzahl Wagons des Güterzuges.
      * @throws ch.abbts.szskfh.trainplanner.server.TransportNotPossibleException
      * @throws ch.abbts.szskfh.trainplanner.server.TrainToSmallException
      */
-    public void addFahrt(LocalTime ankunftsZeit, int container) throws TransportNotPossibleException, TrainToSmallException{
+    private void addFahrt(LocalTime ankunftsZeit, int container) throws TransportNotPossibleException, TrainToSmallException{
         LocalTime abfahrtsZeit = ankunftsZeit.minusMinutes(22); //Die zur Ankunftszeit gehörende Abfahrtszeit
         
         if(sperrTest(abfahrtsZeit) == true){
@@ -234,11 +234,9 @@ public class Fahrplan {
         LocalTime startZeitraum = endeZeitraum.minusHours(2);
         LocalTime zugZeit; //Startzeit des Jeweiligen zu testenden Zuges
         LocalTime ankunftsZeit = null;
-        int zugIndex = fahrten.size()*3;
-        
         for(int i = 0; i<fahrten.size(); i++){
             zugZeit = fahrten.get(i).getStartZeit();
-            if ((zugZeit.isAfter(startZeitraum))&(zugZeit.isBefore(endeZeitraum))){
+            if ((zugZeit.isAfter(startZeitraum)|zugZeit.equals(startZeitraum))&(zugZeit.isBefore(endeZeitraum)|zugZeit.equals(endeZeitraum))){
                 if(fahrten.get(i).getZugTyp().equals("GZ")){
                     try{
                         fahrten.get(i).getGueterZug().addContainer(container);

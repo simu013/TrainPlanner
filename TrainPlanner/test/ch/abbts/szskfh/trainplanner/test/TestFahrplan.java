@@ -22,7 +22,7 @@ public class TestFahrplan {
         Fahrplan fahrplan = new Fahrplan();
         
         try {
-            fahrplan.addAuftrag(LocalTime.of(12, 00), 25);
+            fahrplan.addAuftrag(LocalTime.of(10, 00), 25);
         } catch (TransportNotPossibleException ex) {
             Logger.getLogger(TestFahrplan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TrainToSmallException ex) {
