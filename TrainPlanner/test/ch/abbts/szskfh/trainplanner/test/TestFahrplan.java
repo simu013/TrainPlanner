@@ -22,16 +22,27 @@ public class TestFahrplan {
         Fahrplan fahrplan = new Fahrplan();
         
         try {
-            fahrplan.addFahrt(LocalTime.of(12, 00), 25);
+            fahrplan.addAuftrag(LocalTime.of(12, 00), 25);
         } catch (TransportNotPossibleException ex) {
             Logger.getLogger(TestFahrplan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TrainToSmallException ex) {
             Logger.getLogger(TestFahrplan.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        for (int i = 0; i<fahrplan.getGueterFahrten().size(); i++){
-            
-        System.out.println(fahrplan.getGueterFahrten().get(i).getGueterZug().getLaenge());
+        try {
+            fahrplan.addAuftrag(LocalTime.of(12, 00), 25);
+        } catch (TransportNotPossibleException ex) {
+            Logger.getLogger(TestFahrplan.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TrainToSmallException ex) {
+            Logger.getLogger(TestFahrplan.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        for (int i = 0; i<fahrplan.getFahrten().size(); i++){
+            System.out.print(fahrplan.getFahrt(i).toString());
+            System.out.print("    ");
+            System.out.print(fahrplan.getFahrt(i).getStatus());
+            System.out.println("");
+        }
+        
     }
 }
