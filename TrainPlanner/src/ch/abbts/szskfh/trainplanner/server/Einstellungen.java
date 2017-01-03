@@ -38,7 +38,7 @@ public class Einstellungen {
     public void setEinstellung(String name, String wert) {
         einstellungen.setProperty(name, wert);
         try {
-            einstellungen.storeToXML(new FileOutputStream(dateiName), wert);
+            einstellungen.storeToXML(new FileOutputStream(dateiName), "Server Einstellungen", "UTF-8");
         } catch (IOException ex) {
             Logger.getLogger(Einstellungen.class.getName()).log(Level.SEVERE, null, ex);
         }
