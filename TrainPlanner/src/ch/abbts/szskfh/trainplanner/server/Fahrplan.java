@@ -24,6 +24,9 @@ public class Fahrplan {
     public Fahrplan() {
 
     }
+    public int getZugNr() {
+        return zugNr;
+    }
 
     public int addFahrt(Zugtyp zugTyp, LocalTime startZeit, LocalTime endZeit) {
         ++zugNr;
@@ -41,10 +44,10 @@ public class Fahrplan {
     public ArrayList<Fahrt> getFahrten() {
         return fahrten;
     }
-    public ArrayList<Fahrt> getPersonenFahrten() {
+    public ArrayList<Fahrt> getFahrtenByZugTyp(Zugtyp zugTyp) {
         ArrayList<Fahrt> personenFahrten = new ArrayList<>();
         for (int i = 0; i < fahrten.size(); i++) {
-            if (fahrten.get(i).getZugtyp().equals(Zugtyp.PERSONENZUG)) {
+            if (fahrten.get(i).getZugtyp().equals(zugTyp)) {
                 personenFahrten.add(fahrten.get(i));
             }
         }

@@ -12,30 +12,26 @@ import java.util.ArrayList;
  * @author Simon
  */
 public class Gueterwagon extends Transporteinheit {
-    ArrayList <Container> containers = new ArrayList<>();
-    
-    public Gueterwagon(float gewicht, float laenge) {
-        super.gewicht = gewicht; // Gewicht in Tonnen
-        super.laenge = laenge; // Länge in Meter
 
-    }    
+    ArrayList<Container> containers = new ArrayList<>();
+
+    public Gueterwagon() {
+        super(Config.getFloatProperty("WagonLeerGewicht"), Config.getFloatProperty("WagonLaenge"),
+                Config.getFloatProperty("WagonGesamtGewicht"));
+    }
+
     /**
      * Fügt einen Container hinzu
-     * @param laenge Länge des Containers
-     * @param gewicht Gewicht des Containers
-     * @param maxLadung Maximale Ladung des Containers
-     * @return Gibt false zurück wenn kein Platz mehr vorhanden ist.  
+     * @return Gibt false zurück wenn kein Platz mehr vorhanden ist.
      */
-    public boolean addContainer(float laenge, float gewicht, float maxLadung ) {
+    public boolean addContainer() {
         float a = 0; // Gesamtlänge aller Container
         boolean b = false; // Wird true wenn Container verstaut werden konnte
-        for (int i = 0; i < containers.size(); i++ ) {
+        for (int i = 0; i < containers.size(); i++) {
             a += containers.get(i).getLaenge();
         }
         if (a + laenge <= super.laenge) {
-            Container container = new Container(laenge, gewicht, maxLadung);
-            containers.add(container);
-            super.gewicht += container.getGewicht();
+            containers.add(new Container());
         }
         return b;
     }

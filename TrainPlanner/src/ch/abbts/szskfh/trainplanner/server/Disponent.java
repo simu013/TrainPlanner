@@ -25,7 +25,7 @@ public class Disponent {
 
     private Fahrplan fahrplan = new Fahrplan();
     private HashMap<String, ArrayList<Container>> auftraege = new HashMap<String, ArrayList<Container>>();
-    private ArrayList<Firma> firmen = new ArrayList<>();
+    private HashMap<String, Firma> firmen = new HashMap<String, Firma>();
     private static final Disponent disponent = new Disponent();
 
     /**
@@ -87,27 +87,27 @@ public class Disponent {
      * @return String Transport ID
      */
     public String addAuftrag(String nameFirma, short anzContainer, LocalTime startZeit, short prio) {
-        float containerGewicht = (float) 2.3; // Gewicht eines Containers in Tonnen
-        float containerLaenge = (float) 6; // Länge eines Containers in Meter
-        float containerMaxLadung = (float) 21.7; // Maximale Ladung eines Containers in Tonnen
-
-        Auftrag auftrag = new Auftrag(anzContainer, startZeit, prio);
-
-        for (int i = 0; i < firmen.size(); i++) {        // Fügt den Auftrag der bestehnden Firma zu. 
-            if (firmen.get(i).getName().equals(nameFirma)) {
-                firmen.get(i).addAuftrag(auftrag);
-            } else {                                    // Legt eine neue Firma an und erzeugt darin einen neuen Auftrag. 
-                firmen.add(new Firma(nameFirma, auftrag));
-            }
-        }
-        // Fügt den Auftrag mit einer Container Liste dem Auftragsbuch auftraege hinzu
-        ArrayList<Container> containers = auftraege.put(auftrag.getTransportID(), createContainers(anzContainer, containerLaenge, containerGewicht, containerMaxLadung));
-        // Fügt eine neue Fahrt dem Fahrplan hinzu
-        int zugNr = fahrplan.addFahrt(Zugtyp.GUETERZUG, startZeit, startZeit.plusMinutes(22)); // Fahrtzeit des Güterzuges beträgt 22min
-        
-        verladeGueter(zugNr, containers);
-        
+        Auftrag auftrag = addAuftragZuFirma(nameFirma, anzContainer, startZeit, prio);
         return auftrag.getTransportID();
+    }
+
+    public Auftrag addAuftragZuFirma(String nameFirma, short anzContainer, LocalTime startZeit, short prio) {
+        Auftrag auftrag = new Auftrag(anzContainer, startZeit, prio);
+        getFirma(nameFirma).addAuftrag(auftrag);
+        return auftrag;
+    }
+
+    private Firma addFirma(String name) {
+        Firma firma = new Firma(name);
+        firmen.put(name, firma);
+        return firma;
+    }
+
+    private Firma getFirma(String name) {
+        if (firmen.containsKey(name)) {
+            return firmen.get(name);
+        }
+        return addFirma(name);
     }
 
     /**
@@ -142,6 +142,7 @@ public class Disponent {
         }
         return state;
     }
+
     /**
      * Erstellt eine ArrayList mit der angegebenen Anzahl Container.
      *
@@ -155,11 +156,11 @@ public class Disponent {
         }
         return containers;
     }
-    
+
     private void verladeGueter(int zugNr, ArrayList<Container> containers) {
-                float wagonGewicht = (float) 13.5; // Gewicht eines Güterwagons in Tonnen
+        float wagonGewicht = (float) 13.5; // Gewicht eines Güterwagons in Tonnen
         float wagonLaenge = (float) 14.5; // Länge eines Güterwagons in Meter
-        
+
         for (Fahrt fahrt : fahrplan.getFahrten()) {
             if (fahrt.getGueterzug().getZugNr() == zugNr) {
                 for (int containerCounter = containers.size(); containerCounter > 0; containerCounter--) {

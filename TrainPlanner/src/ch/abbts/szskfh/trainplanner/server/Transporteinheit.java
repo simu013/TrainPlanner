@@ -10,19 +10,22 @@ package ch.abbts.szskfh.trainplanner.server;
  * @author Florian Häusermann
  */
 public class Transporteinheit {
+    
+    protected float leerGewicht;
     protected float laenge;
-    protected float gewicht;
     protected float maxLadung;
     
-    public Transporteinheit(){
-        
+    public Transporteinheit(float leerGewicht, float laenge, float maxLadung) {
+        this.leerGewicht = leerGewicht;
+        this.laenge = laenge;
+        this.maxLadung = maxLadung;
     }
     /**
-     * Gibt Gewicht der Transporteinheit zurück. 
+     * Gibt Leergewicht der Transporteinheit zurück. 
      * @return Float Gewicht der Transporteinheit. 
      */
-    public float getGewicht(){
-        return gewicht;
+    public float getLeerGewicht(){
+        return leerGewicht;
     }
     /**
      * Gibt Länge der Transporteinheit zurück
@@ -31,8 +34,15 @@ public class Transporteinheit {
     public float getLaenge(){
         return laenge;
     }
-    public float getLadung() {
+    public float getMaxLadung() {
         return maxLadung;
+    }
+    /**
+     * Gibt das maximale Gesamtgewicht zurück. 
+     * @return maximales Gesamtgewicht
+     */
+    public float getMaxGesamtGewicht() {
+        return leerGewicht + maxLadung;
     }
 }
 
