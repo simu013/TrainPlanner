@@ -7,11 +7,8 @@ package ch.abbts.szskfh.trainplanner.server;
 
 /**
  *
- * @author Florian
+ * @author Simon
  */
-public class TransportNotPossibleException extends Exception{
-
-    public TransportNotPossibleException() {
-        super("Der Transport ist zur angegebenen Zeit nicht möglich!");
-    }
+public enum Zugtyp {
+    PERSONENZUG, GUETERZUG
 }

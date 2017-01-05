@@ -6,13 +6,15 @@
 package ch.abbts.szskfh.trainplanner.server;
 
 /**
- *  Diese Klasse representiert einen Container mit einer Laenge von 6m und einem Gewicht von 24 Tonnen.
+ * Diese Klasse representiert einen Container mit einer Laenge von 6m und einem
+ * Gewicht von 24 Tonnen.
+ *
  * @author Florian
  */
-public class Container extends Transporteinheit{
+public class Container extends Transporteinheit {
 
     public Container() {
-        super.laenge = 6; //Laenge = 6m.
-        super.gewicht = 24; //Gewicht = 24 Tonnen.
+        super(Config.getFloatProperty("ContainerLeerGewicht"), Config.getFloatProperty("ContainerLaenge"),
+                Config.getFloatProperty("ContainerMaxLadung"));
     }
 }
