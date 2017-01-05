@@ -26,7 +26,7 @@ public class Fahrt {
         float maxGewicht = (float) 3200; // Maximales Gewicht eines Güterzuges
         float maxLaenge = (float) 750; // Maximale Länge eines Güterzuges
         if(zugTyp.equals(Zugtyp.GUETERZUG)) {
-            gueterzug = new Gueterzug(zugNr, maxGewicht, maxLaenge);
+           // gueterzug = new Gueterzug(zugNr, maxGewicht, maxLaenge);
         }
     }
 

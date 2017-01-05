@@ -28,7 +28,7 @@ public class Gueterzug extends Transporteinheit {
     /**
      * Fügt dem Gueterzug einen neuen Gueterwagon hinzu.
      * @return Gibt false zurück wenn kein Platz mehr vorhanden ist.
-     */
+     
     public boolean addWagon() {
         boolean b = false; // Wird true wenn Wagon angehängt werden konnte
         if (((super.gewicht + gewicht) <= maxGewicht) && ((super.laenge + laenge) <= maxLaenge)) {
@@ -38,7 +38,7 @@ public class Gueterzug extends Transporteinheit {
             gueterwagons.add(gueterwagon);
         }
         return b;
-    }
+    }*/
 
     public ArrayList<Gueterwagon> getGueterwagons() {
         return gueterwagons;
@@ -61,7 +61,7 @@ public class Gueterzug extends Transporteinheit {
         return super.leerGewicht + super.maxLadung;
     }
 
-    public float getMaxLaenge() {
+    /*public float getMaxLaenge() {
         return maxLaenge;
-    }
+    }*/
 }

@@ -148,7 +148,7 @@ public class Disponent {
      *
      * @param anzahlContainer int Anzahl Container die angelegt werden sollen.
      * @return ArrayList mit Container Objekten.
-     */
+
     private ArrayList<Container> createContainers(int anzahlContainer, float laenge, float gewicht, float maxLadung) {
         ArrayList<Container> containers = new ArrayList<>();
         for (int i = 0; i < anzahlContainer; i++) {
@@ -191,6 +191,6 @@ public class Disponent {
                 }
             }
         }
-    }
+    }*/
 
 }
