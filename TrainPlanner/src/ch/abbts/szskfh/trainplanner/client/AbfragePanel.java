@@ -134,9 +134,9 @@ public class AbfragePanel extends JPanel{
                 }
  
                 if(!trpIdTextField.getText().trim().isEmpty()& nachrichtAngezeigt ==false ){
-                    //versucht die Eingabe in einen int zu parsen um somit überprüfen zu können, dass die Eingabe nur aus Zahlen besteht               
+                    //versucht die Eingabe in einen Long zu parsen um somit überprüfen zu können, dass die Eingabe nur aus Zahlen besteht               
                     try {
-                        int trpID = Integer.parseInt(trpIdTextField.getText());
+                        long trpID = Long.parseLong(trpIdTextField.getText());
  
                     } 
                     catch(NumberFormatException e){

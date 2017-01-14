@@ -93,7 +93,7 @@ class AnfragePanel extends JPanel {
         //DummieLabel wird erzeugt und hinzugefügt um einen leeren Platz im GridLayout zu besetzen
         anfragePanel.add(new JLabel (""));
         
-        ankunftLabel = new JLabel ("gewünschte Ankunftszeit in 00:00 :");
+        ankunftLabel = new JLabel ("gewünschte Startzeit in 00:00 :");
         ankunftLabel.setForeground(Color.RED);
         anfragePanel.add(ankunftLabel);
         
