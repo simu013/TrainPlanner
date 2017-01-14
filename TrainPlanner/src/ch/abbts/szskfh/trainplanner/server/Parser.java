@@ -66,6 +66,7 @@ public class Parser {
                 case "STATE": {
                     // State mit Parameter 'Transport ID' an Disponent übergeben. 
                     try {
+                        System.out.println(antwortString);
                         antwortString = splitString[1] + begrenzer + controller.getStatus(splitString[1]);
                     } catch (NullPointerException e) {
                         antwortString = "ERROR" + begrenzer + "Ungültige TransportID";

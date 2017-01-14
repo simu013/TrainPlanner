@@ -10,3 +10,7 @@
 04.01.2017 20:02:31 ERROR;Leere Anfrage;null
 04.01.2017 20:03:11 ERROR;Leere Anfrage;null
 04.01.2017 20:10:10 ERROR;Leere Anfrage;null
+14.01.2017 11:16:40 ERROR;Ungültige TransportID;null
+14.01.2017 11:18:57 Address already in use: JVM_Bind
+14.01.2017 11:19:50 ERROR;Ungültige TransportID;null
+14.01.2017 11:20:20 ERROR;Ungültige TransportID;null

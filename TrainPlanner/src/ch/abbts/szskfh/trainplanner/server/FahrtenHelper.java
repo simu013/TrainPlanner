@@ -11,7 +11,7 @@ import java.time.LocalTime;
  *
  * @author Simon
  */
-public class DisponentHelper {
+public class FahrtenHelper {
 
     public void planeFahrt(Zugtyp zugTyp, LocalTime startZeit, int zugNr, Fahrplan fahrplan) {
         LocalTime verfuegbareStartZeit = findeStartZeit(startZeit, fahrplan);
