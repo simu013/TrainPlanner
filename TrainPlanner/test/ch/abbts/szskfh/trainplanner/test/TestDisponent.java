@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class TestDisponent {
 
     public static void main(String[] args) {
-        Disponent dispo = new Disponent();
+        Disponent dispo = Disponent.getInstance();
         String auftrag1 = dispo.addAuftrag("Meier", (short) 21, LocalTime.of(10, 00), (short) 1);
         System.out.println(auftrag1);
         try {

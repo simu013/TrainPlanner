@@ -21,21 +21,15 @@ import java.util.Date;
  */
 public class Parser {
 
-    Einstellungen einstellungen = new Einstellungen();
-    Disponent disponent = new Disponent();
-    String begrenzer = einstellungen.getEinstellung("SocketTrennzeichen");
-    SimpleDateFormat zeitStempelFormat = new SimpleDateFormat("dd.MM.YYYY HH:mm:ss");
+    private Einstellungen einstellungen = new Einstellungen();
+    private String begrenzer = einstellungen.getEinstellung("SocketTrennzeichen");
+    private SimpleDateFormat zeitStempelFormat = new SimpleDateFormat("dd.MM.YYYY HH:mm:ss");
+    private Controller controller;
     
-    private Parser() {
+    public Parser (Controller controller) {
+        this.controller = controller;
     }
-/** 
- * Instanziert einen Parser. 
- * @return Gibt das Parser Objekt zurück. 
- */
-    public static Parser getInstance() {
-        Parser parser = new Parser();
-        return parser;
-    }
+    
 /** 
  * Liest neue Strings ein. 
  * Prüft, übersetzt und splittet zugunsten Disponent. 
@@ -56,9 +50,9 @@ public class Parser {
                         short anzahlContainer = Short.parseShort(splitString[2]);
                         LocalTime startZeit = LocalTime.parse(splitString[3]);
                         short prio = Short.parseShort(splitString[4]);
-                        String transportID = disponent.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
+                        String transportID = controller.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
                         // Antwort mit 'TransportID', 'Ankunftszeit', 'ZugNr', 'Preis' an Client. 
-                        antwortString = transportID + begrenzer + (startZeit.plusHours(2)) + begrenzer + "01" + begrenzer + (anzahlContainer*25);
+                        antwortString = transportID + begrenzer + (startZeit.plusHours(2)) + begrenzer + "01" + begrenzer + (anzahlContainer*25); // Statische Übergabe zu Testzwecken
                         
                     } catch (NumberFormatException e) {
                         antwortString = "ERROR" + begrenzer + "Nummern Eingabefehler";
@@ -72,7 +66,7 @@ public class Parser {
                 case "STATE": {
                     // State mit Parameter 'Transport ID' an Disponent übergeben. 
                     try {
-                        antwortString = splitString[1] + begrenzer + disponent.getState(splitString[1]);
+                        antwortString = splitString[1] + begrenzer + controller.getStatus(splitString[1]);
                     } catch (NullPointerException e) {
                         antwortString = "ERROR" + begrenzer + "Ungültige TransportID";
                         schreibeInLog(antwortString + begrenzer + e.getMessage());
@@ -96,6 +90,8 @@ public class Parser {
 
         } catch (NullPointerException e) {
             antwortString = "ERROR" + begrenzer + "Leere Anfrage";
+            System.out.println(e.toString());
+            System.out.println(e.getMessage());
             schreibeInLog(antwortString + begrenzer + e.getMessage());
         }
         return antwortString;

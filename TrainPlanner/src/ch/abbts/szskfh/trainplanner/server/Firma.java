@@ -15,9 +15,8 @@ public class Firma {
     private String name;
     private ArrayList<Auftrag> auftraege = new ArrayList();
 
-    public Firma(String name, Auftrag auftrag) {
+    public Firma(String name) {
         this.name = name;
-        auftraege.add(auftrag);
     }
     public String getName() {
         return name;

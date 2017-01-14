@@ -12,9 +12,7 @@ package ch.abbts.szskfh.trainplanner.server;
 public class Server {
     
     public static void main(String[] args) {
-        new ServerGUI();
-        new SocketConnection();
-        
+        new Controller();
     }
 }
 

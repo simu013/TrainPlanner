@@ -1,0 +1,12 @@
+28.12.2016 15:08:59 ERROR;Leere Anfrage;null
+28.12.2016 15:11:15 ERROR;Leere Anfrage;null
+28.12.2016 15:12:09 ERROR;Leere Anfrage;null
+28.12.2016 15:24:52 ERROR;Ungültige TransportID;null
+28.12.2016 15:26:40 Address already in use: JVM_Bind
+28.12.2016 15:27:49 Address already in use: JVM_Bind
+28.12.2016 15:31:18 ERROR;Leere Anfrage;null
+29.12.2016 15:25:48 Address already in use: JVM_Bind
+04.01.2017 20:02:04 ERROR;Leere Anfrage;null
+04.01.2017 20:02:31 ERROR;Leere Anfrage;null
+04.01.2017 20:03:11 ERROR;Leere Anfrage;null
+04.01.2017 20:10:10 ERROR;Leere Anfrage;null

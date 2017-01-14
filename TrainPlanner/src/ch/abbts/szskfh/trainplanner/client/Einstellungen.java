@@ -8,6 +8,7 @@ package ch.abbts.szskfh.trainplanner.client;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +44,7 @@ public class Einstellungen {
     public void setEinstellung(String name, String wert) {
         einstellungen.setProperty(name, wert);
         try {
-            einstellungen.storeToXML(new FileOutputStream(dateiName), wert);
+            einstellungen.storeToXML(new FileOutputStream(dateiName), "Client Einstellungen", "UTF-8");
         } catch (IOException ex) {
             Logger.getLogger(Einstellungen.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,7 +58,6 @@ public class Einstellungen {
         try {
             einstellungen.loadFromXML(new FileInputStream(dateiName));
         } catch (IOException ex) {
-            // Logger.getLogger(Einstellungen.class.getName()).log(Level.SEVERE, null, ex);
             setDefaultEinstellungen();
         }
 
