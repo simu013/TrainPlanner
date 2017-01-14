@@ -40,6 +40,10 @@ public class Parser {
         String antwortString = "";
 
         String[] splitString = socketString.split(begrenzer);
+        
+        for (String subString : splitString) {
+            System.out.println(subString);
+        }
         try {
 
             switch (splitString[0].toUpperCase()) {
@@ -66,11 +70,11 @@ public class Parser {
                 case "STATE": {
                     // State mit Parameter 'Transport ID' an Disponent übergeben. 
                     try {
-                        System.out.println(antwortString);
                         antwortString = splitString[1] + begrenzer + controller.getStatus(splitString[1]);
+                        System.out.println("Antwort: " + antwortString);
                     } catch (NullPointerException e) {
                         antwortString = "ERROR" + begrenzer + "Ungültige TransportID";
-                        schreibeInLog(antwortString + begrenzer + e.getMessage());
+                        schreibeInLog(antwortString + begrenzer + e.getLocalizedMessage());
                     }
                     break;
                 }

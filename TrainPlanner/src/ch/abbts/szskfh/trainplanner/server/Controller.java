@@ -13,10 +13,11 @@ import java.time.LocalTime;
  * @author Simon
  */
 public class Controller {
+
     private Disponent disponent = Disponent.getInstance();
     private ServerGUI gui = new ServerGUI();
     private SocketConnection socket = new SocketConnection(this);
-    
+
     public Controller() {
 
     }
@@ -27,6 +28,6 @@ public class Controller {
     }
 
     public String getStatus(String transportID) {
-        return disponent.getState((String) transportID);
+        return disponent.getState(transportID);
     }
 }

@@ -32,10 +32,12 @@ public class TestServer {
             for (String subStringA1 : subStringA) {
                 System.out.print(subStringA1 + " - ");
             }
+            System.out.println(" \n Transport ID: " + subStringA[0]);
+            
 
             String ganzerStringS = socket.getTransportStatus(subStringA[0]);
             String[] subStringS = ganzerStringS.split(";");
-
+            System.out.println("");
             for (String subStringS1 : subStringS) {
                 System.out.print(subStringS1 + " - ");
             }

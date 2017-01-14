@@ -19,28 +19,33 @@ public class TestDisponent {
 
     public static void main(String[] args) {
         Disponent dispo = Disponent.getInstance();
-        String auftrag1 = dispo.addAuftrag("Meier", (short) 21, LocalTime.of(10, 00), (short) 1);
-        System.out.println(auftrag1);
+
+        String transportID1 = dispo.addAuftrag("Meier", (short) 21, LocalTime.of(10, 00), (short) 1);
+        System.out.println(transportID1);
         try {
-            Thread.sleep(3000);
-            String auftrag2 = dispo.addAuftrag("Meier", (short) 35, LocalTime.of(10, 00), (short) 1);
-            System.out.println(auftrag2);
+            Thread.sleep(1000);
+            String transportID2 = dispo.addAuftrag("Meier", (short) 35, LocalTime.of(17, 00), (short) 1);
+            System.out.println(transportID2);
 
-            Thread.sleep(3000);
-            String auftrag3 = dispo.addAuftrag("Mueller", (short) 21, LocalTime.of(11, 00), (short) 1);
-            System.out.println(auftrag3);
+            Thread.sleep(1000);
+            String transportID3 = dispo.addAuftrag("Mueller", (short) 21, LocalTime.of(11, 00), (short) 1);
+            System.out.println(transportID3);
 
-            Thread.sleep(2000);
-            String auftrag4 = dispo.addAuftrag("Acklin", (short) 21, LocalTime.of(12, 00), (short) 1);
-            System.out.println(auftrag4);
+            Thread.sleep(1000);
+            String transportID4 = dispo.addAuftrag("Acklin", (short) 21, LocalTime.of(21, 00), (short) 1);
+            System.out.println(transportID4);
 
-            System.out.println(dispo.getState(auftrag1));
-            System.out.println(dispo.getState(auftrag2));
-            System.out.println(dispo.getState(auftrag3));
-            System.out.println(dispo.getState(auftrag4));
+            System.out.println(dispo.getState(transportID1));
+            System.out.println(dispo.getState(transportID2));
+            System.out.println(dispo.getState(transportID3));
+            System.out.println(dispo.getState(transportID4));
             System.out.println(dispo.getState("blablabla"));
 
         } catch (InterruptedException ex) {
+            System.out.println(ex.toString());
+            Logger.getLogger(TestDisponent.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullPointerException ex) {
+            System.out.println(ex.toString());
             Logger.getLogger(TestDisponent.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

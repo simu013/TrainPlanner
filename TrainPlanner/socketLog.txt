@@ -14,3 +14,33 @@
 14.01.2017 11:18:57 Address already in use: JVM_Bind
 14.01.2017 11:19:50 ERROR;Ungültige TransportID;null
 14.01.2017 11:20:20 ERROR;Ungültige TransportID;null
+14.01.2017 11:58:07 Address already in use: JVM_Bind
+14.01.2017 11:58:36 ERROR;Ungültige TransportID;null
+14.01.2017 12:00:37 ERROR;Ungültige TransportID;null
+14.01.2017 12:01:26 ERROR;Ungültige TransportID;null
+14.01.2017 12:01:29 ERROR;Ungültige TransportID;null
+14.01.2017 12:01:49 ERROR;Ungültige TransportID;null
+14.01.2017 12:02:10 ERROR;Ungültige TransportID;null
+14.01.2017 12:03:23 ERROR;Ungültige TransportID;null
+14.01.2017 12:07:40 ERROR;Ungültige TransportID;null
+14.01.2017 12:09:48 Address already in use: JVM_Bind
+14.01.2017 12:10:33 ERROR;Ungültige TransportID;null
+14.01.2017 12:12:07 ERROR;Ungültige TransportID;null
+14.01.2017 12:17:48 ERROR;Ungültige TransportID;[Ljava.lang.StackTraceElement;@5d6f64b1
+14.01.2017 12:20:10 ERROR;Ungültige TransportID;null
+14.01.2017 12:27:49 ERROR;Ungültige TransportID;null
+14.01.2017 12:28:23 ERROR;Ungültige TransportID;null
+14.01.2017 12:28:48 ERROR;Ungültige TransportID;null
+14.01.2017 12:35:20 ERROR;Ungültige TransportID;null
+14.01.2017 16:33:02 ERROR;Ungültige TransportID;null
+14.01.2017 16:35:33 ERROR;Ungültige TransportID;null
+14.01.2017 16:37:35 ERROR;Ungültige TransportID;null
+14.01.2017 16:39:15 ERROR;Ungültige TransportID;null
+14.01.2017 16:39:26 ERROR;Ungültige TransportID;null
+14.01.2017 16:40:52 ERROR;Ungültige TransportID;null
+14.01.2017 16:41:09 ERROR;Ungültige TransportID;null
+14.01.2017 16:47:33 ERROR;Ungültige TransportID;null
+14.01.2017 16:49:07 ERROR;Ungültige TransportID;null
+14.01.2017 16:49:38 ERROR;Ungültige TransportID;null
+14.01.2017 17:50:49 Address already in use: JVM_Bind
+14.01.2017 17:52:14 Address already in use: JVM_Bind
