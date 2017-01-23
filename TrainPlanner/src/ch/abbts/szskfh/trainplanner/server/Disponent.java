@@ -11,12 +11,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,20 +24,19 @@ import java.util.logging.Logger;
 public class Disponent {
 
     private Fahrplan fahrplan = new Fahrplan();
-    private HashMap<String, ArrayList<Container>> auftraege = new HashMap<String, ArrayList<Container>>();
-    private HashMap<String, Firma> firmen = new HashMap<String, Firma>();
-    private static final Disponent disponent = new Disponent();
+    private HashMap<String, Firma> firmen = new HashMap<>(); // Name der Firma, Firma Objekt
+    private static final Disponent disponent = new Disponent(); // Disponent als Singleton
 
     /**
-     * Iitialisiert den Fahrplan und sorgt für die Umsetzung des Disponenten als
-     * Singleton.
+     * Initialisiert den Fahrplan und sorgt für die Umsetzung des Disponenten
+     * als Singleton.
      */
     private Disponent() {
         initFahrplan();
     }
 
     /**
-     * Stellt Disponent als Singelton zur Verfügung.
+     * Stellt Disponent als Singleton zur Verfügung.
      *
      * @return Disponent Objekt
      */
@@ -65,7 +60,7 @@ public class Disponent {
                 String[] subString = line.split(csvTrennzeichen);
 
                 if (subString[0].equals("IC") | subString[0].equals("EC")) {
-                    fahrplan.addFahrt(Zugtyp.PERSONENZUG, LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")), LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")));
+                    fahrplan.addFahrt(new Fahrt(Zugtyp.PERSONENZUG, LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")), LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")), fahrplan.getZugNr()));
                 }
             }
         } catch (FileNotFoundException ex) {
@@ -90,15 +85,26 @@ public class Disponent {
      * mittlere Prio = 2; niedrige Prio = 3)
      * @return String Transport ID
      */
-    public String addAuftrag(String nameFirma, short anzContainer, LocalTime startZeit, short prio) {
+    public Auftrag addAuftrag(String nameFirma, short anzContainer, LocalTime startZeit, short prio) {
         Auftrag auftrag = addAuftragZuFirma(nameFirma, anzContainer, startZeit, prio);
-        return auftrag.getTransportID();
+        if (! new DisponentHelper().planeAuftrag(auftrag, fahrplan)) {
+            deleteAuftragVonFirma(auftrag);
+            return null;
+        }
+        return auftrag;
     }
 
     public Auftrag addAuftragZuFirma(String nameFirma, short anzContainer, LocalTime startZeit, short prio) {
         Auftrag auftrag = new Auftrag(anzContainer, startZeit, prio);
         getFirma(nameFirma).addAuftrag(auftrag);
         return auftrag;
+    }
+    public void deleteAuftragVonFirma(Auftrag auftrag) {
+        for (Entry<String, Firma> entry : firmen.entrySet()) {
+            if (entry.getValue().getAuftraege().contains(auftrag)) {
+                entry.getValue().getAuftraege().remove(auftrag);
+            }
+        }
     }
 
     private Firma addFirma(String name) {
@@ -122,62 +128,19 @@ public class Disponent {
      * EMERGENCY, DELAYED)
      * @throws NullPointerException Wenn Transport ID nicht existiert.
      */
-    public String getState(String transportID) throws NullPointerException {
-        String state = null;
+    public Status getState(String transportID) throws NullPointerException {
+        Status state = null;
         for (Entry<String, Firma> firma : firmen.entrySet()) {
             for (Auftrag auftrag : firma.getValue().getAuftraege()) {
                 if (auftrag.getTransportID().equals(transportID)) {
-                    if (auftrag.getStartZeit().isAfter(LocalTime.now())) {
-                        state = "PLANNED";
-                    }
-                    if (auftrag.getStartZeit().isBefore(LocalTime.now())) {
-                        if (auftrag.getStartZeit().plusHours(2).isBefore(LocalTime.now())) {
-                            state = "DONE";
-                        }
-                        if (auftrag.getStartZeit().plusHours(2).isAfter(LocalTime.now())) {
-                            state = "TRANSPORTING";
-                        }
-                    }
-                    return state;
+                    state = fahrplan.getStatusByZugNr(auftrag.getZugNr());
                 }
             }
         }
         return state;
     }
-
-    /**
-     * Erstellt eine ArrayList mit der angegebenen Anzahl Container.
-     *
-     * @param anzahlContainer int Anzahl Container die angelegt werden sollen.
-     * @return ArrayList mit Container Objekten.
-     *
-     * private ArrayList<Container> createContainers(int anzahlContainer, float
-     * laenge, float gewicht, float maxLadung) { ArrayList<Container> containers
-     * = new ArrayList<>(); for (int i = 0; i < anzahlContainer; i++) {
-     * containers.add(new Container(laenge, gewicht, maxLadung)); } return
-     * containers; }
-     *
-     * private void verladeGueter(int zugNr, ArrayList<Container> containers) {
-     * float wagonGewicht = (float) 13.5; // Gewicht eines Güterwagons in Tonnen
-     * float wagonLaenge = (float) 14.5; // Länge eines Güterwagons in Meter
-     *
-     * for (Fahrt fahrt : fahrplan.getFahrten()) { if
-     * (fahrt.getGueterzug().getZugNr() == zugNr) { for (int containerCounter =
-     * containers.size(); containerCounter > 0; containerCounter--) { Gueterzug
-     * gueterzug = fahrt.getGueterzug(); ArrayList<Gueterwagon> gueterwagons =
-     * gueterzug.getGueterwagons();
-     *
-     * if (gueterwagons != null) { for (int i = 0; i < gueterwagons.size(); i++)
-     * { boolean b; do { b = gueterwagons.get(i).addContainer(wagonLaenge,
-     * wagonGewicht, wagonLaenge); if (b == true) { --containerCounter; } }
-     * while (b); } } Gueterwagon wagon = new Gueterwagon(wagonGewicht,
-     * wagonLaenge); boolean a; do { a = wagon.addContainer(wagonLaenge,
-     * wagonGewicht, wagonLaenge); if (a == true) { --containerCounter; } }
-     * while (a); gueterwagons.add(wagon);
-     *
-     * }
-     * }
-     * }
-     * }
-     */
+    
+    public LocalTime getAnkunftszeitByZugNr(int zugNr){
+        return fahrplan.getFahrtByZugNr(zugNr).getEndZeit();
+    }
 }

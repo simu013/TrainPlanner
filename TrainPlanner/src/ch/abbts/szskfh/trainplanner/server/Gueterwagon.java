@@ -17,22 +17,21 @@ public class Gueterwagon extends Transporteinheit {
 
     public Gueterwagon() {
         super(Config.getFloatProperty("WagonLeerGewicht"), Config.getFloatProperty("WagonLaenge"),
-                Config.getFloatProperty("WagonGesamtGewicht"));
+                Config.getFloatProperty("WagonMaxLadung"));
     }
 
     /**
      * Fügt einen Container hinzu
-     * @return Gibt false zurück wenn kein Platz mehr vorhanden ist.
      */
-    public boolean addContainer() {
-        float a = 0; // Gesamtlänge aller Container
-        boolean b = false; // Wird true wenn Container verstaut werden konnte
-        for (int i = 0; i < containers.size(); i++) {
-            a += containers.get(i).getLaenge();
-        }
-        if (a + laenge <= super.laenge) {
-            containers.add(new Container());
-        }
-        return b;
+    public void addContainer(Container container) {
+        containers.add(container);
+    }
+
+    /**
+     * Gibt die Container des Güterwagons zurück
+     * @return ArrayList mit Container
+     */
+    public ArrayList<Container> getContainers() {
+        return containers;
     }
 }

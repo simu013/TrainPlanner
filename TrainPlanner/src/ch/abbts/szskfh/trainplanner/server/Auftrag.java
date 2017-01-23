@@ -7,6 +7,7 @@ package ch.abbts.szskfh.trainplanner.server;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -19,6 +20,8 @@ public class Auftrag {
     private LocalTime startZeit;
     private short prioritaet;
     private String transportID;
+    private ArrayList<Container> containers = new ArrayList<Container>();
+    private int zugNr;
 
     public Auftrag(short anzahlContainer, LocalTime startZeit, short prio) {
         this.anzahlContainer = anzahlContainer;
@@ -28,6 +31,10 @@ public class Auftrag {
         // Transport ID erzeugen
         SimpleDateFormat zeitStempelFormat = new SimpleDateFormat("YYYYMMddHHmmssSS");
         transportID = zeitStempelFormat.format(new Date());
+    }
+    
+    public void addContainer(Container container) {
+        containers.add(container);
     }
 
     public short getAnzahlContainer() {
@@ -44,5 +51,15 @@ public class Auftrag {
 
     public LocalTime getStartZeit() {
         return startZeit;
+    }
+    public ArrayList<Container> getContainers() {
+        return containers;
+    }
+    public int getZugNr() {
+        return zugNr;
+    }
+
+    public void setZugNr(int zugNr) {
+        this.zugNr = zugNr;
     }
 }

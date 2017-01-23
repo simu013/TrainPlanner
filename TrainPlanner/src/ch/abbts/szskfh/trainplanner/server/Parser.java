@@ -54,9 +54,9 @@ public class Parser {
                         short anzahlContainer = Short.parseShort(splitString[2]);
                         LocalTime startZeit = LocalTime.parse(splitString[3]);
                         short prio = Short.parseShort(splitString[4]);
-                        String transportID = controller.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
+                        Auftrag auftrag = controller.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
                         // Antwort mit 'TransportID', 'Ankunftszeit', 'ZugNr', 'Preis' an Client. 
-                        antwortString = transportID + begrenzer + (startZeit.plusHours(2)) + begrenzer + "01" + begrenzer + (anzahlContainer*25); // Statische Übergabe zu Testzwecken
+                        antwortString = auftrag.getTransportID() + begrenzer + controller.getAnkunftszeitByZugNr(auftrag.getZugNr()).toString() + begrenzer + prio + begrenzer + (auftrag.getAnzahlContainer()*25); // Statische Übergabe zu Testzwecken
                         
                     } catch (NumberFormatException e) {
                         antwortString = "ERROR" + begrenzer + "Nummern Eingabefehler";
@@ -70,7 +70,7 @@ public class Parser {
                 case "STATE": {
                     // State mit Parameter 'Transport ID' an Disponent übergeben. 
                     try {
-                        antwortString = splitString[1] + begrenzer + controller.getStatus(splitString[1]);
+                        antwortString = splitString[1] + begrenzer + controller.getStatus(splitString[1]).toString();
                         System.out.println("Antwort: " + antwortString);
                     } catch (NullPointerException e) {
                         antwortString = "ERROR" + begrenzer + "Ungültige TransportID";

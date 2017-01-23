@@ -22,12 +22,16 @@ public class Controller {
 
     }
 
-    public String addAuftrag(String nameFirma, Short anzahlContainer, LocalTime startZeit, Short prio) {
+    public Auftrag addAuftrag(String nameFirma, Short anzahlContainer, LocalTime startZeit, Short prio) {
         System.out.println(nameFirma + ", " + anzahlContainer + ", " + startZeit + ", " + prio);
         return disponent.addAuftrag(nameFirma, (short) anzahlContainer, (LocalTime) startZeit, (short) prio);
     }
 
-    public String getStatus(String transportID) {
+    public Status getStatus(String transportID) {
         return disponent.getState(transportID);
+    }
+    
+    public LocalTime getAnkunftszeitByZugNr(int zugNr){
+        return disponent.getAnkunftszeitByZugNr(zugNr);
     }
 }

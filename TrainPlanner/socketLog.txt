@@ -44,3 +44,22 @@
 14.01.2017 16:49:38 ERROR;Ungültige TransportID;null
 14.01.2017 17:50:49 Address already in use: JVM_Bind
 14.01.2017 17:52:14 Address already in use: JVM_Bind
+19.01.2017 00:55:22 ERROR;Leere Anfrage;null
+19.01.2017 01:25:48 ERROR;Leere Anfrage;null
+19.01.2017 01:27:12 ERROR;Leere Anfrage;null
+19.01.2017 01:31:13 ERROR;Leere Anfrage;null
+19.01.2017 01:32:42 ERROR;Leere Anfrage;null
+19.01.2017 01:33:51 ERROR;Leere Anfrage;null
+19.01.2017 01:38:58 ERROR;Leere Anfrage;null
+19.01.2017 01:40:32 ERROR;Leere Anfrage;null
+19.01.2017 01:41:19 ERROR;Leere Anfrage;null
+19.01.2017 01:43:56 ERROR;Leere Anfrage;null
+19.01.2017 02:18:30 ERROR;Leere Anfrage;null
+19.01.2017 02:26:17 ERROR;Leere Anfrage;null
+19.01.2017 02:27:54 ERROR;Leere Anfrage;null
+19.01.2017 02:30:16 ERROR;Leere Anfrage;null
+19.01.2017 02:31:48 ERROR;Leere Anfrage;null
+19.01.2017 03:48:00 ERROR;Leere Anfrage;null
+19.01.2017 03:50:15 ERROR;Leere Anfrage;null
+19.01.2017 03:56:38 ERROR;Leere Anfrage;null
+19.01.2017 03:57:42 ERROR;Leere Anfrage;null

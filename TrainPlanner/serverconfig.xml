@@ -3,7 +3,7 @@
 <properties>
 <comment>Client Einstellungen</comment>
 <entry key="SicherheitsabstandsZeit">3</entry>
-<entry key="ZugMaxLaenge">750</entry>
+<entry key="ZugMaxLaenge">710.4</entry>
 <entry key="FrameFarbe">#404040</entry>
 <entry key="WagonLeerGewicht">13.5</entry>
 <entry key="SocketTrennzeichen">;</entry>
@@ -19,5 +19,5 @@
 <entry key="ContainerMaxLadung">21.7</entry>
 <entry key="GueterzugDauer">22</entry>
 <entry key="ZugLaenge">37.8</entry>
-<entry key="WagonGesamtGewicht">48</entry>
+<entry key="WagonMaxLadung">48</entry>
 </properties>

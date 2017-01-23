@@ -61,11 +61,11 @@ public class Config {
             properties.setProperty("ContainerMaxLadung", "21.7");
             properties.setProperty("WagonLeerGewicht", "13.5");
             properties.setProperty("WagonLaenge", "14.5");
-            properties.setProperty("WagonGesamtGewicht", "48");
+            properties.setProperty("WagonMaxLadung", "48");
             properties.setProperty("ZugLeerGewicht", "170.8"); //Gewicht von 2 Loks in Tonnen (je 85,4 T).
             properties.setProperty("ZugLaenge", "37.8"); //Länge von 2 Loks in Meter (je 19,8 M).
             properties.setProperty("ZugGesamtGewicht", "3029.2"); // Zugelassenes Gesamtgewicht abzüglich Loks (3200 T - 170.8 T)
-            properties.setProperty("ZugMaxLaenge", "750");
+            properties.setProperty("ZugMaxLaenge", "710.4"); // Zugelassene Zuglänge abzüglich Loks (750m - 39.6m)
             properties.setProperty("PersonenzugDauer", "18");
             properties.setProperty("GueterzugDauer", "22");
             properties.setProperty("SicherheitsabstandsZeit", "3");

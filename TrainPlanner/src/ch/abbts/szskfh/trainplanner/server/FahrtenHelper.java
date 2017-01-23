@@ -8,16 +8,31 @@ package ch.abbts.szskfh.trainplanner.server;
 import java.time.LocalTime;
 
 /**
+ * Errechnet mögliche Startzeit für Güterzüge. Dient dem Disponent als Helper
+ * zur Einplanung von Güterzügen.
  *
  * @author Simon
  */
 public class FahrtenHelper {
 
-    public void planeFahrt(Zugtyp zugTyp, LocalTime startZeit, int zugNr, Fahrplan fahrplan) {
+    /**
+     * Plant eine Fahrt für einen Güterzug.
+     *
+     * @param startZeit Abfahrtszeit des Güterzuges
+     * @param fahrplan Fahrplan mit bereits erfassten Fahrten
+     */
+    public LocalTime planeFahrt(LocalTime startZeit, Fahrplan fahrplan) {
         LocalTime verfuegbareStartZeit = findeStartZeit(startZeit, fahrplan);
-
+        return verfuegbareStartZeit;
     }
 
+    /**
+     * Sucht eine mögliche Startzeit
+     *
+     * @param startZeit Abfahrtszeit des Güterzuges.
+     * @param fahrplan Fahrplan mit allen bereits erfassten Fahrten.
+     * @return
+     */
     private LocalTime findeStartZeit(LocalTime startZeit, Fahrplan fahrplan) {
         LocalTime verfuegbareStartZeit = startZeit;
         while (true) {
@@ -42,6 +57,14 @@ public class FahrtenHelper {
         }
     }
 
+    /**
+     * Errechnet eine mögliche Startzeit für Güterzüge denen keine unmittelbare
+     * Fahrt vorausgeht.
+     *
+     * @param folgendeFahrt Nächste nachfolgende, bereits eingeplante Fahrt
+     * @param verfuegbareStartZeit Nächstgelegene mögliche Abfahrtszeit
+     * @return Gibt die nahegelegenste Fahrt zurück.
+     */
     private LocalTime findeStartZeitOhneVorherigeFahrt(Fahrt folgendeFahrt, LocalTime verfuegbareStartZeit) {
         if (!verfuegbareStartZeit.isAfter(folgendeFahrt.getEndZeit().minusMinutes(Config.getIntProperty("SicherheitsabstandsZeit")).minusMinutes(Config.getIntProperty("GueterzugDauer")))) {
             return verfuegbareStartZeit;
@@ -49,6 +72,14 @@ public class FahrtenHelper {
         return folgendeFahrt.getEndZeit().minusMinutes(Config.getIntProperty("SicherheitsabstandsZeit")).minusMinutes(Config.getIntProperty("GueterzugDauer"));
     }
 
+    /**
+     * Errechnet eine mögliche Startzeit für Güterzüge denen keine unmittelbare
+     * Fahrt folgt.
+     *
+     * @param vorherigeFahrt
+     * @param verfuegbareStartZeit
+     * @return
+     */
     private LocalTime findeStartZeitOhneFolgendeFahrt(Fahrt vorherigeFahrt, LocalTime verfuegbareStartZeit) {
         if (!verfuegbareStartZeit.isAfter(vorherigeFahrt.getStartZeit().plusMinutes(Config.getIntProperty("SicherheitsabstandsZeit")))) {
             return verfuegbareStartZeit;
@@ -56,17 +87,31 @@ public class FahrtenHelper {
         return vorherigeFahrt.getStartZeit().plusMinutes(Config.getIntProperty("SicherheitsabstandsZeit"));
     }
 
+    /**
+     * Ermittelt ob eine Lücke zwischen zwei Fahrten / Zügen vorhanden ist.
+     *
+     * @param vorherigeFahrt Nächste vorausgehende, bereits eingeplante Fahrt
+     * @param folgendeFahrt Nächste nachfolgende, bereits eingeplante Fahrt
+     * @return Gibt die nächste vorangehende Fahrt zurück.
+     */
     private boolean lueckeVorhanden(Fahrt vorherigeFahrt, Fahrt folgendeFahrt) {
         LocalTime fruehesteAnkunft = vorherigeFahrt.getStartZeit().plusMinutes((Config.getIntProperty("SicherheitsabstandsZeit") * 2))
                 .plusMinutes(Config.getIntProperty("GueterzugDauer"));
         return !fruehesteAnkunft.isAfter(folgendeFahrt.getEndZeit());
     }
 
+    /**
+     *
+     * @param fahrplan
+     * @param startZeit
+     * @return
+     */
     private Fahrt getVorherigeFahrt(Fahrplan fahrplan, LocalTime startZeit) {
         Fahrt fahrt = null;
+
         for (Fahrt f : fahrplan.getFahrtenByZugTyp(Zugtyp.PERSONENZUG)) {
             if (startZeit.isAfter(f.getStartZeit())) {
-                if (((fahrt == null) || fahrt.getStartZeit().isAfter(f.getStartZeit()))) {
+                if (((fahrt == null) || f.getStartZeit().isAfter(fahrt.getStartZeit()))) {
                     fahrt = f;
                 }
             }
@@ -78,7 +123,7 @@ public class FahrtenHelper {
         Fahrt fahrt = null;
         for (Fahrt f : fahrplan.getFahrtenByZugTyp(Zugtyp.PERSONENZUG)) {
             if (startZeit.isBefore(f.getStartZeit())) {
-                if (((fahrt == null) || fahrt.getStartZeit().isBefore(f.getStartZeit()))) {
+                if (((fahrt == null) || f.getStartZeit().isBefore(fahrt.getStartZeit()))) {
                     fahrt = f;
                 }
             }
@@ -86,8 +131,9 @@ public class FahrtenHelper {
         return fahrt;
     }
 
-    private boolean istMoeglicheAnkunftszeit(LocalTime endZeit, Fahrt folgendeFahrt) {
-        return (endZeit.plusMinutes(Config.getIntProperty("SicherheitsabstandsZeit")).compareTo(folgendeFahrt.getEndZeit()) <= 0);
+    private boolean istMoeglicheAnkunftszeit(LocalTime startZeit, Fahrt folgendeFahrt) {
+        return (startZeit.plusMinutes(Config.getIntProperty("SicherheitsabstandsZeit"))
+                .plusMinutes(Config.getIntProperty("GueterzugDauer")).compareTo(folgendeFahrt.getEndZeit()) <= 0);
     }
 
     private LocalTime getBesteAbfahrtszeit(LocalTime referenzZeit, LocalTime startZeit) {
@@ -101,8 +147,8 @@ public class FahrtenHelper {
                     .minusMinutes(Config.getIntProperty("GueterzugDauer"));
             do {
                 besteZeit = temp;
-                temp.minusMinutes(Config.getIntProperty("SicherheitsabstandsZeit"));
-            } while (temp.isBefore(startZeit));
+                temp = temp.minusMinutes(Config.getIntProperty("SicherheitsabstandsZeit"));
+            } while (startZeit.isBefore(temp));
         }
         return besteZeit;
     }

@@ -16,34 +16,28 @@ public class Fahrplan {
 
     private ArrayList<Fahrt> fahrten = new ArrayList<>();
     private int zugNr = 0;
-    
+
     /**
-     * Stellt einen Fahrplan zur Verfügung. 
-     * Der Fahrplan besteht aus einer ArrayList mit Fahrt-Objekten. 
+     * Stellt einen Fahrplan zur Verfügung. Der Fahrplan besteht aus einer
+     * ArrayList mit Fahrt-Objekten.
      */
     public Fahrplan() {
-
+        zugNr = 1;
     }
+
     public int getZugNr() {
         return zugNr;
     }
 
-    public int addFahrt(Zugtyp zugTyp, LocalTime startZeit, LocalTime endZeit) {
+    public void addFahrt(Fahrt fahrt) {
         ++zugNr;
-        if (zugTyp.equals(Zugtyp.GUETERZUG)) {
-            fahrten.add(new Fahrt(zugTyp, startZeit, endZeit, zugNr));
-        }
-        if (zugTyp.equals(Zugtyp.PERSONENZUG)) {
-            LocalTime effektiveAbfahrtszeit = startZeit.plusMinutes(18);
-            LocalTime effektiveAnkunftzeit = effektiveAbfahrtszeit.plusMinutes(18);
-            fahrten.add(new Fahrt(zugTyp, effektiveAbfahrtszeit, effektiveAnkunftzeit, zugNr));
-        }
-        return zugNr;
+        fahrten.add(fahrt);
     }
-    
+
     public ArrayList<Fahrt> getFahrten() {
         return fahrten;
     }
+
     public ArrayList<Fahrt> getFahrtenByZugTyp(Zugtyp zugTyp) {
         ArrayList<Fahrt> personenFahrten = new ArrayList<>();
         for (int i = 0; i < fahrten.size(); i++) {
@@ -52,5 +46,31 @@ public class Fahrplan {
             }
         }
         return personenFahrten;
+    }
+
+    public Fahrt getFahrtByZugNr(int zugNr) {
+        for (Fahrt fahrt : fahrten) {
+            if (fahrt.getZugNr() == zugNr) {
+                return fahrt;
+            }
+        }
+        return null;
+    }
+
+    private void updateStatus(Fahrt fahrt) {
+        if (fahrt.getStatus() == null) {
+            fahrt.setStatus(Status.PLANNED);
+        }
+        if (fahrt.getStatus().equals(Status.PLANNED) && ! fahrt.getStartZeit().isBefore(LocalTime.now())) {
+            fahrt.setStatus(Status.TRANSPORTING);
+        }
+        if (fahrt.getStatus().equals(Status.TRANSPORTING) && ! fahrt.getEndZeit().isBefore(LocalTime.now())) {
+            fahrt.setStatus(Status.DONE);
+        }
+    }
+    public Status getStatusByZugNr(int zugNr) {
+        Fahrt fahrt = getFahrtByZugNr(zugNr);
+        updateStatus(fahrt);
+        return fahrt.getStatus();
     }
 }
