@@ -61,10 +61,10 @@ public class Fahrplan {
         if (fahrt.getStatus() == null) {
             fahrt.setStatus(Status.PLANNED);
         }
-        if (fahrt.getStatus().equals(Status.PLANNED) && ! fahrt.getStartZeit().isBefore(LocalTime.now())) {
+        if (fahrt.getStatus().equals(Status.PLANNED) && ! fahrt.getStartZeit().isAfter(LocalTime.now())) {
             fahrt.setStatus(Status.TRANSPORTING);
         }
-        if (fahrt.getStatus().equals(Status.TRANSPORTING) && ! fahrt.getEndZeit().isBefore(LocalTime.now())) {
+        if (fahrt.getStatus().equals(Status.TRANSPORTING) && ! fahrt.getEndZeit().isAfter(LocalTime.now())) {
             fahrt.setStatus(Status.DONE);
         }
     }

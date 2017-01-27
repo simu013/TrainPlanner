@@ -5,7 +5,6 @@
  */
 package ch.abbts.szskfh.trainplanner.server;
 
-import com.sun.security.ntlm.NTLMException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Iterator;
