@@ -72,7 +72,7 @@ public class Config {
 
             properties.storeToXML(new FileOutputStream(fileName), "Client Einstellungen", StandardCharsets.UTF_8.name());
         } catch (IOException ex) {
-            Logger.getLogger(ch.abbts.szskfh.trainplanner.client.Einstellungen.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ch.abbts.szskfh.trainplanner.server.Config.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -31,7 +31,7 @@ public class MainPanel extends JPanel{
     private void initMainPanel() {
         //Main Panel wird initialisert und weitere Panel hinzugefügt
         //Farbe wird aus der Einstellungsklasse gelesen
-        this.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        this.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         this.setLayout(new BorderLayout());
         this.addTopPanel();
         this.addCenterPanel();
@@ -44,7 +44,7 @@ public class MainPanel extends JPanel{
         //neues Panel wird erzeugt
         JPanel topPanel = new JPanel (new FlowLayout());
         //Farbe wird aus der Einstellungsklasse gelesen
-        topPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        topPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
 
         //Bild wird hinzugefügt
         ImageIcon tunnel = new ImageIcon ("TitelBild.jpg");
@@ -61,7 +61,7 @@ public class MainPanel extends JPanel{
     private void addCenterPanel (){
         //neues Panel wird erzeugt
         JPanel centerPanel = new JPanel (new FlowLayout());
-        centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        centerPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         
         //Components werde am Panel hinzugefügt und lokalisiert
         title = new JLabel ("WILLKOMMEN BEI ");
@@ -83,7 +83,7 @@ public class MainPanel extends JPanel{
         //neues Panel wird erzeugt
         JPanel bottomPanel = new JPanel (new FlowLayout());
         //Farbe wird aus der Einstellungsklasse gelesen
-        bottomPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        bottomPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         
         title = new JLabel ("Planung von Heute!");
         title.setForeground(Color.DARK_GRAY);

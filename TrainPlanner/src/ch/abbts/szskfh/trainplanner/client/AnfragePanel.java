@@ -62,7 +62,7 @@ class AnfragePanel extends JPanel {
     private void initPanel() {
         //Main Panel wird initialisert und weitere Panel hinzugefügt
         //Farbe wird aus der Einstellungsklasse gelesen
-        this.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        this.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         this.setLayout(new BorderLayout());
         addTopPanel();
         addCenterPanel();
@@ -73,7 +73,7 @@ class AnfragePanel extends JPanel {
         
         JPanel anfragePanel = new JPanel (new GridLayout(3,3,50,10));
         //Farbe wird aus der Einstellungsklasse gelesen
-        anfragePanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        anfragePanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         //Komponenten werden am Panel hinzugefügt 
         firmaLabel = new JLabel ("Firma:");
         firmaLabel.setForeground(Color.RED);
@@ -100,7 +100,7 @@ class AnfragePanel extends JPanel {
         //neues Panel wird erzeugt um die Komponenten für die Eingabe der Ankunftszeit wie gewünscht darstellen zu können
         JPanel ankunftPanel = new JPanel (new FlowLayout());
         //Farbe wird aus der Einstellungsklasse gelesen
-        ankunftPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        ankunftPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         
         ankunftTextFieldH = new JTextField ();
         ankunftTextFieldH.setColumns(5);
@@ -118,7 +118,7 @@ class AnfragePanel extends JPanel {
         //neues Panel wird erzeugt, damit die Grösse des Button definiert werden kann
         JPanel buttonPanel = new JPanel (new FlowLayout());
         //Farbe wird aus der Einstellungsklasse gelesen
-        buttonPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        buttonPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         anfrageSenden = new JButton ("Anfrage absenden");
         anfrageSenden.setEnabled(true);
         anfrageSenden.setSize(30, 20);
@@ -135,7 +135,7 @@ class AnfragePanel extends JPanel {
                 
         JPanel centerPanel = new JPanel (new GridLayout(2,1));
         //Farbe wird aus der Einstellungsklasse gelesen
-        centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        centerPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         //Komponenten werden am Panel hinzugefügt 
         ausgabeLabel = new JLabel("Ausgabe:");
         ausgabeLabel.setForeground(Color.RED);
@@ -154,7 +154,7 @@ class AnfragePanel extends JPanel {
         
         JPanel bottomPanel = new JPanel (new BorderLayout());
         //Farbe wird aus der Einstellungsklasse gelesen
-        bottomPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        bottomPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
 
         JLabel dummieLabel4 = new JLabel("  ");
         dummieLabel4.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));

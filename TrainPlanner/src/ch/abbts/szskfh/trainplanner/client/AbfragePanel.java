@@ -46,7 +46,7 @@ public class AbfragePanel extends JPanel{
     private void initPanel() {
         //Main Panel wird initialisert und weitere Panel hinzugefügt
         //Farbe wird aus der Einstellungsklasse gelesen
-        this.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        this.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         this.setLayout(new BorderLayout());
         addTopPanel();
         addCenterPanel();
@@ -57,7 +57,7 @@ public class AbfragePanel extends JPanel{
 
         JPanel abfragePanel = new JPanel (new FlowLayout());
         //Farbe wird aus der Einstellungsklasse gelesen
-        abfragePanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        abfragePanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         //Komponenten werden erstellt und am Panel hinzugefügt
         trpIdLabel = new JLabel ("Transport ID:");
         trpIdLabel.setForeground(Color.RED);
@@ -81,7 +81,7 @@ public class AbfragePanel extends JPanel{
                 
         JPanel centerPanel = new JPanel (new GridLayout(2,1));
         //Farbe wird aus der Einstellungsklasse gelesen
-        centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        centerPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         //Komponenten werden erstellt und am Panel hinzugefügt
         ausgabeLabel = new JLabel("Status:");
         ausgabeLabel.setForeground(Color.RED);
@@ -100,7 +100,7 @@ public class AbfragePanel extends JPanel{
         
         JPanel bottomPanel = new JPanel (new BorderLayout());
         //Farbe wird aus der Einstellungsklasse gelesen
-        bottomPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        bottomPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         //Ein DummieLabel wird erstellt und am Panel hinzugefügt
         JLabel dummieLabel4 = new JLabel("  ");
         dummieLabel4.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
