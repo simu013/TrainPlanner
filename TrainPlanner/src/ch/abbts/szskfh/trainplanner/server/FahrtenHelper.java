@@ -22,7 +22,13 @@ public class FahrtenHelper {
      * @param fahrplan Fahrplan mit bereits erfassten Fahrten
      */
     public LocalTime planeFahrt(LocalTime startZeit, Fahrplan fahrplan) {
-        LocalTime verfuegbareStartZeit = findeStartZeit(startZeit, fahrplan);
+        LocalTime verfuegbareStartZeit;
+        do {
+            verfuegbareStartZeit = findeStartZeit(startZeit, fahrplan);
+            if (verfuegbareStartZeit.isBefore(startZeit)) {
+                startZeit = startZeit.plusMinutes(1);
+            }
+        } while (verfuegbareStartZeit.isBefore(startZeit));
         return verfuegbareStartZeit;
     }
 

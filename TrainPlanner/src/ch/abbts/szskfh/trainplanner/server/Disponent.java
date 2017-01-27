@@ -60,7 +60,8 @@ public class Disponent {
                 String[] subString = line.split(csvTrennzeichen);
 
                 if (subString[0].equals("IC") | subString[0].equals("EC")) {
-                    fahrplan.addFahrt(new Fahrt(Zugtyp.PERSONENZUG, LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")), LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")), fahrplan.getZugNr()));
+                    fahrplan.addFahrt(new Fahrt(Zugtyp.PERSONENZUG, LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")).plusMinutes(Config.getIntProperty("PersonenzugDauer")), fahrplan.getZugNr()));
                 }
             }
         } catch (FileNotFoundException ex) {
@@ -87,7 +88,7 @@ public class Disponent {
      */
     public Auftrag addAuftrag(String nameFirma, short anzContainer, LocalTime startZeit, short prio) {
         Auftrag auftrag = addAuftragZuFirma(nameFirma, anzContainer, startZeit, prio);
-        if (! new DisponentHelper().planeAuftrag(auftrag, fahrplan)) {
+        if (!new DisponentHelper().planeAuftrag(auftrag, fahrplan)) {
             deleteAuftragVonFirma(auftrag);
             return null;
         }
@@ -99,6 +100,7 @@ public class Disponent {
         getFirma(nameFirma).addAuftrag(auftrag);
         return auftrag;
     }
+
     public void deleteAuftragVonFirma(Auftrag auftrag) {
         for (Entry<String, Firma> entry : firmen.entrySet()) {
             if (entry.getValue().getAuftraege().contains(auftrag)) {
@@ -139,8 +141,8 @@ public class Disponent {
         }
         return state;
     }
-    
-    public LocalTime getAnkunftszeitByZugNr(int zugNr){
+
+    public LocalTime getAnkunftszeitByZugNr(int zugNr) {
         return fahrplan.getFahrtByZugNr(zugNr).getEndZeit();
     }
 }
