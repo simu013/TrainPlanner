@@ -57,7 +57,7 @@ public class Fahrplan {
         return null;
     }
 
-    private void updateStatus(Fahrt fahrt) {
+    public void updateStatus(Fahrt fahrt) {
         if (fahrt.getStatus() == null) {
             fahrt.setStatus(Status.PLANNED);
         }

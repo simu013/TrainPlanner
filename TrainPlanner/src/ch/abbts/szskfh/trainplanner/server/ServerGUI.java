@@ -16,6 +16,7 @@ import javax.swing.JFrame;
  */
 public class ServerGUI extends JFrame{
     
+    private Controller controller;
     private MainPanel mainPanel;
     private TopMenuBar topMenuBar;
     private static ServerGUI mainFrame;
@@ -24,7 +25,8 @@ public class ServerGUI extends JFrame{
     private int frameBreite = Integer.parseInt(new Einstellungen().getEinstellung("FrameBreite"));
     
     
-    public ServerGUI() {
+    public ServerGUI(Controller controller) {
+        this.controller = controller;
         initGUI ();          
     }
 
@@ -58,5 +60,8 @@ public class ServerGUI extends JFrame{
     }
     public void schreibeInGui(String text) {
         mainPanel.setAusgabeText(text);
+    }
+    public Fahrplan getFahrplan() {
+        return controller.getFahrplan();
     }
 }

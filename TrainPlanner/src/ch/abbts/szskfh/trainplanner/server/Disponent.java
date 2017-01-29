@@ -145,4 +145,7 @@ public class Disponent {
     public LocalTime getAnkunftszeitByZugNr(int zugNr) {
         return fahrplan.getFahrtByZugNr(zugNr).getEndZeit();
     }
+    public Fahrplan getFahrplan() {
+        return fahrplan;
+    }
 }

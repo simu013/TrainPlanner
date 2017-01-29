@@ -5,6 +5,7 @@
  */
 package ch.abbts.szskfh.trainplanner.server;
 
+import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -55,6 +56,7 @@ public class Config {
             properties.setProperty("FrameFarbe", "#404040");
             properties.setProperty("FrameHoehe", "400");
             properties.setProperty("FrameBreite", "750");
+            properties.setProperty("Schriftfarbe", "#FF0000");
             // Züge
             properties.setProperty("ContainerLeerGewicht", "2.3");
             properties.setProperty("ContainerLaenge", "6");

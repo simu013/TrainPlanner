@@ -10,12 +10,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.ScrollPane;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
 
 /**
@@ -43,10 +40,10 @@ public class MainPanel extends JPanel {
     private void addCenterPanel() {
 
         JPanel centerPanel = new JPanel(new GridLayout(2, 1));
-        centerPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        centerPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
 
         ausgabeLabel = new JLabel("Log History:");
-        ausgabeLabel.setForeground(Color.RED);
+        ausgabeLabel.setForeground(Color.decode(Config.getProperty("Schriftfarbe")));
         ausgabeLabel.setHorizontalAlignment(JLabel.CENTER);
         centerPanel.add(ausgabeLabel);
 
@@ -63,7 +60,7 @@ public class MainPanel extends JPanel {
     private void addBottomPanel() {
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        bottomPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
 
         JLabel dummieLabel4 = new JLabel("  ");
         dummieLabel4.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));

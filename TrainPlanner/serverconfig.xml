@@ -3,6 +3,7 @@
 <properties>
 <comment>Client Einstellungen</comment>
 <entry key="SicherheitsabstandsZeit">3</entry>
+<entry key="Schriftfarbe">#FF0000</entry>
 <entry key="ZugMaxLaenge">710.4</entry>
 <entry key="FrameFarbe">#404040</entry>
 <entry key="WagonLeerGewicht">13.5</entry>

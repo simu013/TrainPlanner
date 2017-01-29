@@ -54,7 +54,7 @@ public class SocketConnection {
                 socket.close();
             }
         } catch (IOException e) {
-            new Parser(controller).schreibeInLog(e.getMessage());
+            controller.schreibeInLogDatei("Socket Fehler; " + e.getMessage());
         }
     }
 }
