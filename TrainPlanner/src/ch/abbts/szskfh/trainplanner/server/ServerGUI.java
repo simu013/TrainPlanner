@@ -64,4 +64,10 @@ public class ServerGUI extends JFrame{
     public Fahrplan getFahrplan() {
         return controller.getFahrplan();
     }
+    public boolean getEmergencyState() {
+        return controller.getEmergencyState();
+    }
+    public void setEmergencyState(boolean state) {
+        controller.setEmergencyState(state);
+    }
 }

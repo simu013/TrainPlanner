@@ -18,27 +18,27 @@ import java.util.Date;
  * @author Simon
  */
 public class Controller {
-    
+
     private Disponent disponent = Disponent.getInstance();
     private ServerGUI gui = new ServerGUI(this);
     private SocketConnection socket = new SocketConnection(this);
-    
+
     public Controller() {
-        
+
     }
-    
+
     public Auftrag addAuftrag(String nameFirma, Short anzahlContainer, LocalTime startZeit, Short prio) {
         return disponent.addAuftrag(nameFirma, (short) anzahlContainer, (LocalTime) startZeit, (short) prio);
     }
-    
+
     public Status getStatus(String transportID) {
         return disponent.getState(transportID);
     }
-    
+
     public LocalTime getAnkunftszeitByZugNr(int zugNr) {
         return disponent.getAnkunftszeitByZugNr(zugNr);
     }
-    
+
     public void schreibeInGui(String message) {
         gui.schreibeInGui(getZeitFormat().format(new Date()) + " " + message);
     }
@@ -68,7 +68,15 @@ public class Controller {
     public String[] trenneString(String string) {
         return string.split(Config.getProperty("SocketTrennzeichen"));
     }
+
     public Fahrplan getFahrplan() {
         return disponent.getFahrplan();
+    }
+
+    public boolean getEmergencyState() {
+        return disponent.getEmergencyState();
+    }
+    public void setEmergencyState(boolean state) {
+        disponent.setEmergencyState(state);
     }
 }

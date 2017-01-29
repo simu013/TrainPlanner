@@ -26,6 +26,7 @@ public class Disponent {
     private Fahrplan fahrplan = new Fahrplan();
     private HashMap<String, Firma> firmen = new HashMap<>(); // Name der Firma, Firma Objekt
     private static final Disponent disponent = new Disponent(); // Disponent als Singleton
+    private boolean emergencyState = false;
 
     /**
      * Initialisiert den Fahrplan und sorgt für die Umsetzung des Disponenten
@@ -147,5 +148,11 @@ public class Disponent {
     }
     public Fahrplan getFahrplan() {
         return fahrplan;
+    }
+    public boolean getEmergencyState() {
+        return emergencyState;
+    }
+    public void setEmergencyState(boolean state) {
+        emergencyState = state;
     }
 }

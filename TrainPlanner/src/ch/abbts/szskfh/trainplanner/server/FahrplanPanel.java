@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.ScrollPane;
 import javax.swing.BorderFactory;
@@ -21,8 +22,6 @@ import javax.swing.JPanel;
  * @author Sascha
  */
 public class FahrplanPanel extends JPanel {
-
-    private JLabel title;
 
     public FahrplanPanel() {
         initPanel();
@@ -37,6 +36,7 @@ public class FahrplanPanel extends JPanel {
 
         addTopPanel();
         addCenterPanel();
+        addBottomPanel();
 
     }
 
@@ -44,9 +44,9 @@ public class FahrplanPanel extends JPanel {
 
         JPanel fahrplanPanel = new JPanel(new FlowLayout());
         //Farbe wird aus der Einstellungsklasse gelesen
-        fahrplanPanel.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        fahrplanPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         //Komponenten werden erstellt und am Panel hinzugefügt
-        title = new JLabel("Fahrplan");
+        JLabel title = new JLabel("Fahrplan");
         title.setForeground(Color.decode(Config.getProperty("Schriftfarbe")));
         fahrplanPanel.add(title);
         //Top Panel wird am EinstellungsPanel hinzugefügt
@@ -57,10 +57,34 @@ public class FahrplanPanel extends JPanel {
      * Hinzufügen des CenterPanels 
      */
     private void addCenterPanel() {
-        JPanel centerPanel = new JPanel(new GridLayout(1, 1));
+
+        JPanel centerPanel = new JPanel(new GridLayout(2, 1));
         centerPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
+        JLabel dummieLabel = new JLabel("");
+        dummieLabel.setForeground(Color.decode(Config.getProperty("Schriftfarbe")));
         ScrollPane scrollPanel = new ScrollPane();
         scrollPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
+        scrollPanel.add(addZugListPanel());
+        centerPanel.add(dummieLabel);
+        centerPanel.add(scrollPanel);
+        add(centerPanel, BorderLayout.CENTER);
+    }
+
+    private void addBottomPanel() {
+
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
+
+        JLabel dummieLabel4 = new JLabel("  ");
+        dummieLabel4.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
+
+        bottomPanel.add(dummieLabel4);
+
+        add(bottomPanel, BorderLayout.SOUTH);
+
+    }
+
+    private JPanel addZugListPanel() {
         JPanel zugList = new JPanel();
         zugList.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         zugList.setLayout(new BoxLayout(zugList, BoxLayout.Y_AXIS));
@@ -76,25 +100,29 @@ public class FahrplanPanel extends JPanel {
             JLabel zugEndZeitLabel = new JLabel(String.valueOf(fahrt.getEndZeit()));
             zugEndZeitLabel.setPreferredSize(new Dimension(50, 20));
 
-            JLabel zugStatusLabel;
-            if (fahrt.getZugtyp().equals(Zugtyp.GUETERZUG)) {
-                ServerGUI.getMainFrame().getFahrplan().updateStatus(fahrt);
-                zugStatusLabel = new JLabel(fahrt.getStatus().name());
-            } else {
-                zugStatusLabel = new JLabel("");
-            }
-            
             zugPanel.add(zugNrLabel);
             zugPanel.add(zugTypLabel);
             zugPanel.add(zugStartZeitLabel);
             zugPanel.add(zugEndZeitLabel);
-            zugPanel.add(zugStatusLabel);
+            zugPanel.add(addZugStatusLabel(fahrt));
             zugPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode(Config.getProperty("FrameFarbe"))));
             zugList.add(zugPanel);
         }
+        return zugList;
+    }
 
-        scrollPanel.add(zugList);
-        centerPanel.add(scrollPanel);
-        add(centerPanel, BorderLayout.CENTER);
+    private JLabel addZugStatusLabel(Fahrt fahrt) {
+        JLabel zugStatusLabel;
+        if (fahrt.getZugtyp().equals(Zugtyp.GUETERZUG)) {
+            ServerGUI.getMainFrame().getFahrplan().updateStatus(fahrt);
+            zugStatusLabel = new JLabel(fahrt.getStatus().name());
+        } else {
+            if (ServerGUI.getMainFrame().getEmergencyState()) {
+                zugStatusLabel = new JLabel(Status.EMERGENCY.name());
+            } else {
+            zugStatusLabel = new JLabel("");
+            }
+        }
+        return zugStatusLabel;
     }
 }

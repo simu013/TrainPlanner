@@ -7,9 +7,13 @@ package ch.abbts.szskfh.trainplanner.server;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.ScrollPane;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -21,20 +25,32 @@ import javax.swing.text.BadLocationException;
  */
 public class MainPanel extends JPanel {
 
-    private JLabel ausgabeLabel;
+    private JCheckBox emergencyCheckBox;
     private JTextArea logTextArea;
     private ScrollPane logScrollPane;
-    private boolean nachrichtAngezeigt = false;
 
     public MainPanel() {
         initPanel();
     }
 
     private void initPanel() {
-        this.setBackground(Color.decode(new Einstellungen().getEinstellung("FrameFarbe")));
+        this.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
         this.setLayout(new BorderLayout());
+        addTopPanel();
         addCenterPanel();
         addBottomPanel();
+    }
+
+    private void addTopPanel() {
+        JPanel topPanel = new JPanel(new FlowLayout());
+        //Farbe wird aus der Einstellungsklasse gelesen
+        topPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
+        //Komponenten werden erstellt und am Panel hinzugefügt
+        JLabel title = new JLabel("Log History");
+        title.setForeground(Color.decode(Config.getProperty("Schriftfarbe")));
+        topPanel.add(title);
+        //Top Panel wird am EinstellungsPanel hinzugefügt
+        add(topPanel, BorderLayout.NORTH);
     }
 
     private void addCenterPanel() {
@@ -42,10 +58,18 @@ public class MainPanel extends JPanel {
         JPanel centerPanel = new JPanel(new GridLayout(2, 1));
         centerPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
 
-        ausgabeLabel = new JLabel("Log History:");
-        ausgabeLabel.setForeground(Color.decode(Config.getProperty("Schriftfarbe")));
-        ausgabeLabel.setHorizontalAlignment(JLabel.CENTER);
-        centerPanel.add(ausgabeLabel);
+        emergencyCheckBox = new JCheckBox("Störung");
+        emergencyCheckBox.setFocusPainted(false);
+        emergencyCheckBox.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
+        emergencyCheckBox.setForeground(Color.decode(Config.getProperty("Schriftfarbe")));
+        emergencyCheckBox.setHorizontalAlignment(JLabel.CENTER);
+        if (ServerGUI.getMainFrame().getEmergencyState()) {
+            emergencyCheckBox.setSelected(true);
+        }
+        centerPanel.add(emergencyCheckBox);
+        centerPanel.add(emergencyCheckBox);
+        MainPanel.MyItemListener listener = new MainPanel.MyItemListener();
+        emergencyCheckBox.addItemListener(listener);
 
         logTextArea = new JTextArea();
         logTextArea.setEditable(false);
@@ -54,7 +78,6 @@ public class MainPanel extends JPanel {
         centerPanel.add(logScrollPane);
 
         add(centerPanel, BorderLayout.CENTER);
-
     }
 
     private void addBottomPanel() {
@@ -92,4 +115,21 @@ public class MainPanel extends JPanel {
         }
         logTextArea.append(text + "\n");
     }
+    
+    class MyItemListener implements ItemListener {
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                JCheckBox checkbox = (JCheckBox) e.getSource();
+
+                if (checkbox == emergencyCheckBox) {
+                    //überprüft ob Textfeld leer ist und gibt allenfalls eine Meldung
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        ServerGUI.getMainFrame().setEmergencyState(true);
+                    } else {
+                        ServerGUI.getMainFrame().setEmergencyState(false);
+                    }
+                }
+            }
+        }
 }
