@@ -34,4 +34,7 @@ public class Controller {
     public LocalTime getAnkunftszeitByZugNr(int zugNr){
         return disponent.getAnkunftszeitByZugNr(zugNr);
     }
+    public void schreibeInGui(String message) {
+        gui.schreibeInGui(message);
+    }
 }

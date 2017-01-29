@@ -56,4 +56,7 @@ public class ServerGUI extends JFrame{
     public static ServerGUI getMainFrame(){
         return mainFrame;
     }
+    public void schreibeInGui(String text) {
+        mainPanel.setAusgabeText(text);
+    }
 }

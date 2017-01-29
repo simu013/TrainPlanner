@@ -14,8 +14,8 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 /**
- * Prüft, übersetzt und splittet Nachrichten für Disponent.
- * Setzt Nachrichten-Fragmente vom Disponent zusammen.
+ * Prüft, übersetzt und splittet Nachrichten für Disponent. Setzt
+ * Nachrichten-Fragmente vom Disponent zusammen.
  *
  * @author Simon
  */
@@ -25,21 +25,23 @@ public class Parser {
     private String begrenzer = einstellungen.getEinstellung("SocketTrennzeichen");
     private SimpleDateFormat zeitStempelFormat = new SimpleDateFormat("dd.MM.YYYY HH:mm:ss");
     private Controller controller;
-    
-    public Parser (Controller controller) {
+
+    public Parser(Controller controller) {
         this.controller = controller;
     }
-    
-/** 
- * Liest neue Strings ein. 
- * Prüft, übersetzt und splittet zugunsten Disponent. 
- * @param socketString String der übersetzt werden soll. 
- * @return String Antwort für Socket. 
- */
+
+    /**
+     * Liest neue Strings ein. Prüft, übersetzt und splittet zugunsten
+     * Disponent.
+     *
+     * @param socketString String der übersetzt werden soll.
+     * @return String Antwort für Socket.
+     */
     public String lesen(String socketString) {
         String antwortString = "";
 
         String[] splitString = socketString.split(begrenzer);
+        controller.schreibeInGui(socketString);
 
         try {
 
@@ -53,8 +55,8 @@ public class Parser {
                         short prio = Short.parseShort(splitString[4]);
                         Auftrag auftrag = controller.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
                         // Antwort mit 'TransportID', 'Ankunftszeit', 'ZugNr', 'Preis' an Client. 
-                        antwortString = auftrag.getTransportID() + begrenzer + controller.getAnkunftszeitByZugNr(auftrag.getZugNr()).toString() + begrenzer + prio + begrenzer + (auftrag.getAnzahlContainer()*25); // Statische Übergabe zu Testzwecken
-                        
+                        antwortString = auftrag.getTransportID() + begrenzer + controller.getAnkunftszeitByZugNr(auftrag.getZugNr()).toString() + begrenzer + prio + begrenzer + (auftrag.getAnzahlContainer() * 25); // Statische Übergabe zu Testzwecken
+
                     } catch (NumberFormatException e) {
                         antwortString = "ERROR" + begrenzer + "Nummern Eingabefehler";
                         schreibeInLog(antwortString + begrenzer + e.getMessage());
@@ -96,14 +98,17 @@ public class Parser {
             System.out.println(e.getMessage());
             schreibeInLog(antwortString + begrenzer + e.getMessage());
         }
+        controller.schreibeInGui(antwortString);
         return antwortString;
     }
-/**
- * Schreibt Fehler und Ausnahmen in eine Log-Datei. 
- * Der Log-Eintrag besteht jeweils aus dem Zeitstempel im Format dd.MM.YYYY hh:mm:ss
- * sowie dem übergebenen logEintrag. 
- * @param logEintrag String Eintrag für Log-Datei. 
- */
+
+    /**
+     * Schreibt Fehler und Ausnahmen in eine Log-Datei. Der Log-Eintrag besteht
+     * jeweils aus dem Zeitstempel im Format dd.MM.YYYY hh:mm:ss sowie dem
+     * übergebenen logEintrag.
+     *
+     * @param logEintrag String Eintrag für Log-Datei.
+     */
     public void schreibeInLog(String logEintrag) {
 
         try {
