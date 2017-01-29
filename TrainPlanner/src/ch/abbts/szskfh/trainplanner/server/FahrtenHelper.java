@@ -46,7 +46,12 @@ public class FahrtenHelper {
             Fahrt folgendeFahrt = getFolgendeFahrt(fahrplan, verfuegbareStartZeit);
             if (vorherigeFahrt != null && folgendeFahrt != null) {
                 if (lueckeVorhanden(vorherigeFahrt, folgendeFahrt) && istMoeglicheAnkunftszeit(startZeit, folgendeFahrt)) {
-                    return getBesteAbfahrtszeit(folgendeFahrt.getEndZeit(), verfuegbareStartZeit);
+                    LocalTime tempstartzeit = getBesteAbfahrtszeit(folgendeFahrt.getEndZeit(), verfuegbareStartZeit);
+                    if(istMoeglicheAbfahrtszeit(tempstartzeit, vorherigeFahrt)){
+                        return tempstartzeit;
+                    }else{
+                        return tempstartzeit.plusMinutes(Config.getIntProperty("SicherheitsabstandsZeit"));
+                    }
                 } else {
                     verfuegbareStartZeit = folgendeFahrt.getStartZeit().plusMinutes(Config.getIntProperty("SicherheitsabstandsZeit"));
                 }
@@ -142,6 +147,11 @@ public class FahrtenHelper {
                 .plusMinutes(Config.getIntProperty("GueterzugDauer")).compareTo(folgendeFahrt.getEndZeit()) <= 0);
     }
 
+    private boolean istMoeglicheAbfahrtszeit(LocalTime startZeit, Fahrt vorherigeFahrt) {
+        return (startZeit.minusMinutes(Config.getIntProperty("SicherheitsabstandsZeit"))
+                .compareTo(vorherigeFahrt.getStartZeit()) >= 0);
+    }
+    
     private LocalTime getBesteAbfahrtszeit(LocalTime referenzZeit, LocalTime startZeit) {
         LocalTime besteZeit = referenzZeit;
         if (referenzZeit.isBefore(startZeit)) {
@@ -154,7 +164,7 @@ public class FahrtenHelper {
             do {
                 besteZeit = temp;
                 temp = temp.minusMinutes(Config.getIntProperty("SicherheitsabstandsZeit"));
-            } while (startZeit.isBefore(temp));
+            } while (!startZeit.isAfter(temp));
         }
         return besteZeit;
     }

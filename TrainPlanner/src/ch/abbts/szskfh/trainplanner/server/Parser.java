@@ -40,10 +40,7 @@ public class Parser {
         String antwortString = "";
 
         String[] splitString = socketString.split(begrenzer);
-        
-        for (String subString : splitString) {
-            System.out.println(subString);
-        }
+
         try {
 
             switch (splitString[0].toUpperCase()) {
