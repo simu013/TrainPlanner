@@ -6,6 +6,6 @@
 <entry key="FrameFarbe">#404044</entry>
 <entry key="FrameHoehe">400</entry>
 <entry key="SocketTrennzeichen">;</entry>
+<entry key="IP">155.10.10.10</entry>
 <entry key="PortNr">5555</entry>
-<entry key="IP">127.0.0.1</entry>
 </properties>

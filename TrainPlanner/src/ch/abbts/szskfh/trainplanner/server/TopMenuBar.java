@@ -81,15 +81,7 @@ public class TopMenuBar extends JMenuBar {
                 topFrame.repaint();
             }
         });
-        menuItem = new JMenuItem("Rücksetzen");
-        menu.add(menuItem);
-        //Panel wird umgeschaltet bei Betätigung des Button
-        menuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
-        });
 
     }
 }
