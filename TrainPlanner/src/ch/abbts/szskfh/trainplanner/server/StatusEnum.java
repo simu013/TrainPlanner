@@ -6,7 +6,7 @@
 package ch.abbts.szskfh.trainplanner.server;
 
 /**
- *
+ * Definiert die verschiedenen TransportStatus Typen der Züge. 
  * @author Simon
  */
 public enum StatusEnum {

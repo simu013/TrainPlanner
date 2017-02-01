@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
+ * Stellt einen Fahrplan mit allen aktuellen Zugverbindungen zur Verfügung.
  *
  * @author Florian Haeusermann
  */
@@ -25,19 +26,40 @@ public class Fahrplan {
         zugNr = 1;
     }
 
+    /**
+     * Gibt die Zug Nummer zurück
+     *
+     * @return int Zug Nummer
+     */
     public int getZugNr() {
         return zugNr;
     }
 
+    /**
+     * Fügt dem Fahrplan eine neue Fahrt hinzu.
+     *
+     * @param fahrt Fahrt Objekt Zugfahrt.
+     */
     public void addFahrt(Fahrt fahrt) {
         ++zugNr;
         fahrten.add(fahrt);
     }
 
+    /**
+     * Gibt alle Zugfahrten des Fahrplans zurück.
+     *
+     * @return ArrayList mit Fahrt Objekten.
+     */
     public ArrayList<Fahrt> getFahrten() {
         return fahrten;
     }
 
+    /**
+     * Gibt alle Fahrten eines Zugtyps zurück.
+     *
+     * @param zugTyp ZugtypEnum Zugtyp
+     * @return ArrayList mit Fahrt Objekten.
+     */
     public ArrayList<Fahrt> getFahrtenByZugTyp(ZugtypEnum zugTyp) {
         ArrayList<Fahrt> personenFahrten = new ArrayList<>();
         for (int i = 0; i < fahrten.size(); i++) {
@@ -48,6 +70,13 @@ public class Fahrplan {
         return personenFahrten;
     }
 
+    /**
+     * Gibt eine bestimmte Fahrt anhand der ZugNummer zurück
+     *
+     * @param zugNr Zug Nummer
+     * @return Bestehende Fahrt welche die übergebene Zug Nummer hat. null wenn
+     * diese nicht existiert.
+     */
     public Fahrt getFahrtByZugNr(int zugNr) {
         for (Fahrt fahrt : fahrten) {
             if (fahrt.getZugNr() == zugNr) {
@@ -57,6 +86,12 @@ public class Fahrplan {
         return null;
     }
 
+    /**
+     * Aktualisiert den Zugstatus anhand der aktuellen Zeit und anderer
+     * Planungsfaktoren.
+     *
+     * @param fahrt Fahrt von welcher der Status aktualisiert werden soll
+     */
     public void updateStatus(Fahrt fahrt) {
         if (fahrt.getStatus() == StatusEnum.EMERGENCY) {
             fahrt.setStatus(StatusEnum.EMERGENCY);
@@ -73,6 +108,12 @@ public class Fahrplan {
         }
     }
 
+    /**
+     * Gibt den Status anhand der Zugnummer zurück.
+     *
+     * @param zugNr Zug Nummer
+     * @return Status Enum Status der Fahrt. null wenn diese nicht existiert.
+     */
     public StatusEnum getStatusByZugNr(int zugNr) {
         Fahrt fahrt = getFahrtByZugNr(zugNr);
         updateStatus(fahrt);

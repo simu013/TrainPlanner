@@ -29,7 +29,7 @@ public class MainPanel extends JPanel {
     private JTextArea logTextArea;
     private ScrollPane logScrollPane;
     private static boolean emergencyCheckboxState;
-    
+
     public MainPanel() {
         initPanel();
     }
@@ -116,26 +116,36 @@ public class MainPanel extends JPanel {
         }
         logTextArea.append(text + "\n");
     }
+
+    /**
+     * Gibt Störungs Status der Checkbox zurück.
+     *
+     * @return true wenn Störungsstatus aktiv, false wenn inaktiv
+     */
     public boolean getEmergencyState() {
         return emergencyCheckboxState;
     }
-    
+
+    /**
+     * Liest den Zustand der EmergencyState Checkbox und führt die
+     * entsprechenden Aktionen aus.
+     */
     class MyItemListener implements ItemListener {
 
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                JCheckBox checkbox = (JCheckBox) e.getSource();
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            JCheckBox checkbox = (JCheckBox) e.getSource();
 
-                if (checkbox == emergencyCheckBox) {
-                    //überprüft ob Textfeld leer ist und gibt allenfalls eine Meldung
-                    if (e.getStateChange() == ItemEvent.SELECTED) {
-                        ServerGUI.getMainFrame().setEmergencyState();
-                        emergencyCheckboxState = true;
-                    } else {
-                        ServerGUI.getMainFrame().unsetEmergencyState();
-                        emergencyCheckboxState = false;
-                    }
+            if (checkbox == emergencyCheckBox) {
+                //überprüft ob Textfeld leer ist und gibt allenfalls eine Meldung
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    ServerGUI.getMainFrame().setEmergencyState();
+                    emergencyCheckboxState = true;
+                } else {
+                    ServerGUI.getMainFrame().unsetEmergencyState();
+                    emergencyCheckboxState = false;
                 }
             }
         }
+    }
 }

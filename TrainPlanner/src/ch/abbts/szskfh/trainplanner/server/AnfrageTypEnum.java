@@ -6,7 +6,7 @@
 package ch.abbts.szskfh.trainplanner.server;
 
 /**
- *
+ * Definiert die verschiedenen Socket Protokoll Meldungstypen. 
  * @author Simon
  */
 public enum AnfrageTypEnum {

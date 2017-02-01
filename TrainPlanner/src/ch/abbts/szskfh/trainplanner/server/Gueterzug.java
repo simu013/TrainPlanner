@@ -8,6 +8,7 @@ package ch.abbts.szskfh.trainplanner.server;
 import java.util.ArrayList;
 
 /**
+ * Stellt einen Güterzug des Typs Transporteinheit zur Verfügung.
  *
  * @author Florian
  */
@@ -17,7 +18,6 @@ public class Gueterzug extends Transporteinheit {
 
     /**
      * Konstruktor für einen neuen Güterzug.
-     * @param zugNr int Zugnummmer des Gueterzuges
      */
     public Gueterzug() {
         super(Einstellungen.getFloatProperty("ZugLeerGewicht"), Einstellungen.getFloatProperty("ZugMaxLaenge"), Einstellungen.getFloatProperty("ZugGesamtGewicht"));

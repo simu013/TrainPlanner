@@ -6,7 +6,7 @@
 package ch.abbts.szskfh.trainplanner.server;
 
 /**
- *
+ * Definiert die möglichen Zugtypen. 
  * @author Simon
  */
 public enum ZugtypEnum {

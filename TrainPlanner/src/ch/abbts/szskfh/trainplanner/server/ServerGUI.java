@@ -58,18 +58,36 @@ public class ServerGUI extends JFrame{
     public static ServerGUI getMainFrame(){
         return mainFrame;
     }
+    /**
+     * Stellt sicher, dass ins GUI Log im MainPanel geschrieben werden kann. 
+     * @param text String Text welcher im GUI MainPanel angezeigt werden soll. 
+     */
     public void schreibeInGui(String text) {
         mainPanel.setAusgabeText(text);
     }
+    /**
+     * Stellt kontrollierten Zugriff auf den Fahrplan sicher. 
+     * @return Fahrplan mit allen aktuellen Zugverbindungen
+     */
     public Fahrplan getFahrplan() {
         return controller.getFahrplan();
     }
+    /**
+     * Setzt den Störungs-Status zurück. 
+     */
     public void unsetEmergencyState() {
         controller.unsetEmergencyState();
     }
+    /**
+     * Setzt den Störungs Status. 
+     */
     public void setEmergencyState() {
         controller.setEmergencyState();
     }
+    /**
+     * Gibt den aktuellen Störungsstatus zurück. 
+     * @return true wenn Emergency State aktiv, falls wenn inaktiv. 
+     */
     public boolean getEmergencyState() {
         return mainPanel.getEmergencyState();
     }

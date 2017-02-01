@@ -8,6 +8,7 @@ package ch.abbts.szskfh.trainplanner.server;
 import java.time.LocalTime;
 
 /**
+ * Stellt eine Zugfahrt zur Verfügung.
  *
  * @author Florian Haeusermann
  */
@@ -20,6 +21,15 @@ public class Fahrt {
     private ZugtypEnum zugTyp;
     private int zugNr;
 
+    /**
+     * Stellt eine Zugfahrt zurVerfügung. Wird zur Zeit für Personenzüge
+     * verwendet.
+     *
+     * @param zugTyp Zugtyp gemäss Typenvorgabe
+     * @param startZeit Abfahrtszeit
+     * @param endZeit Ankunftszeit
+     * @param zugNr Zug Nummer
+     */
     public Fahrt(ZugtypEnum zugTyp, LocalTime startZeit, LocalTime endZeit, int zugNr) {
         this.zugTyp = zugTyp;
         this.startZeit = startZeit;
@@ -27,6 +37,15 @@ public class Fahrt {
         this.zugNr = zugNr;
     }
 
+    /**
+     * Stellt eine Fahrt zur Verfügung. Wird zur Zeit für Güterzüge verwendet.
+     *
+     * @param gueterzug Güterzug Objekt
+     * @param zugTyp Zugtyp gemäss Typenvorgabe
+     * @param startZeit Abfahrtszeit
+     * @param endZeit Ankunftszeit
+     * @param zugNr Zug Nummer
+     */
     public Fahrt(Gueterzug gueterzug, ZugtypEnum zugTyp, LocalTime startZeit, LocalTime endZeit, int zugNr) {
         this.zugTyp = zugTyp;
         this.startZeit = startZeit;
@@ -35,10 +54,20 @@ public class Fahrt {
         this.gueterzug = gueterzug;
     }
 
+    /**
+     * Gibt den aktuellen Zugstatus zurück.
+     *
+     * @return StatusEnum Zugstatus
+     */
     public StatusEnum getStatus() {
         return status;
     }
 
+    /**
+     * Setzt den Zugstatus.
+     *
+     * @param status StatusEnum Zugstatus
+     */
     public void setStatus(StatusEnum status) {
         this.status = status;
     }
@@ -79,6 +108,12 @@ public class Fahrt {
     public ZugtypEnum getZugtyp() {
         return zugTyp;
     }
+
+    /**
+     * Gibt die Zug Nummer zurück
+     *
+     * @return int Zug Nummer.
+     */
     public int getZugNr() {
         return zugNr;
     }

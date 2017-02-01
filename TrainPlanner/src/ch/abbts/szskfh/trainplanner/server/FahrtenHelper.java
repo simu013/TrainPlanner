@@ -25,7 +25,7 @@ public class FahrtenHelper {
         LocalTime verfuegbareStartZeit;
         do {
             verfuegbareStartZeit = findeStartZeit(startZeit, fahrplan);
-            if(verfuegbareStartZeit == null){
+            if (verfuegbareStartZeit == null) {
                 return null;
             }
             if (verfuegbareStartZeit.isBefore(startZeit)) {
@@ -50,9 +50,9 @@ public class FahrtenHelper {
             if (vorherigeFahrt != null && folgendeFahrt != null) {
                 if (lueckeVorhanden(vorherigeFahrt, folgendeFahrt) && istMoeglicheAnkunftszeit(startZeit, folgendeFahrt)) {
                     LocalTime tempstartzeit = getBesteAbfahrtszeit(folgendeFahrt.getEndZeit(), verfuegbareStartZeit);
-                    if(istMoeglicheAbfahrtszeit(tempstartzeit, vorherigeFahrt)){
+                    if (istMoeglicheAbfahrtszeit(tempstartzeit, vorherigeFahrt)) {
                         return tempstartzeit;
-                    }else{
+                    } else {
                         return tempstartzeit.plusMinutes(Einstellungen.getIntProperty("SicherheitsabstandsZeit"));
                     }
                 } else {
@@ -115,9 +115,11 @@ public class FahrtenHelper {
     }
 
     /**
+     * Gibt die nächstgelegene vorherige Fahrt zurück
      *
-     * @param fahrplan
-     * @param startZeit
+     * @param fahrplan Fahrplan mit allen aktuellen Fahrten
+     * @param startZeit Abfahrtszeit des Zuges der auf eine vorherige Fahrt
+     * geprüft werden soll.
      * @return
      */
     private Fahrt getVorherigeFahrt(Fahrplan fahrplan, LocalTime startZeit) {
@@ -133,6 +135,14 @@ public class FahrtenHelper {
         return fahrt;
     }
 
+    /**
+     * Gibt die nächste folgende Fahrt zurück.
+     *
+     * @param fahrplan Fahrplan mit allen aktuellen Zugverbindungen.
+     * @param startZeit Abfahrtszeit des Zuges der auf eine folgende Fahrt
+     * geprüft werden soll.
+     * @return
+     */
     private Fahrt getFolgendeFahrt(Fahrplan fahrplan, LocalTime startZeit) {
         Fahrt fahrt = null;
         for (Fahrt f : fahrplan.getFahrtenByZugTyp(ZugtypEnum.PERSONENZUG)) {
@@ -144,22 +154,37 @@ public class FahrtenHelper {
         }
         return fahrt;
     }
-
+/**
+ * Prüft ob die übergebene Abfahrtszeit anhand der darauf folgenden Fahrt eine mögliche Ankunftszeit darstellt. 
+ * @param startZeit Gewünschte Abfahrtszeit des Zuges. 
+ * @param folgendeFahrt Nächste folgende Fahrt mit welcher geprüft werden soll. 
+ * @return true wenn Startzeit = mögliche Ankunftszeit, false wenn nicht. 
+ */
     private boolean istMoeglicheAnkunftszeit(LocalTime startZeit, Fahrt folgendeFahrt) {
         return (startZeit.plusMinutes(Einstellungen.getIntProperty("SicherheitsabstandsZeit"))
                 .plusMinutes(Einstellungen.getIntProperty("GueterzugDauer")).compareTo(folgendeFahrt.getEndZeit()) <= 0);
     }
-
+/**
+ * Prüft ob die übergebene Abfahrtszeit anhand der vorherigen Fahrt eine mögliche Abfahrtszeit darstellt (Gültigkeit). 
+ * @param startZeit Gewünschte Abfahrtszeit des Zuges. 
+ * @param vorherigeFahrt Letzte vorherige Fahrt mit welcher geprüft werden soll. 
+ * @return true wenn Startzeit = mögliche Abfahrtszeit, false wenn nicht. 
+ */
     private boolean istMoeglicheAbfahrtszeit(LocalTime startZeit, Fahrt vorherigeFahrt) {
         return (startZeit.minusMinutes(Einstellungen.getIntProperty("SicherheitsabstandsZeit"))
                 .compareTo(vorherigeFahrt.getStartZeit()) >= 0);
     }
-    
+/**
+ * Gibt die beste mögliche (gültige) Abfahrtszeit zurück. 
+ * @param referenzZeit Errechnete mögliche Startzeit
+ * @param startZeit Gewünschte Startzeit
+ * @return LocalTime Objekt mit bester Abfahrtszeit. 
+ */
     private LocalTime getBesteAbfahrtszeit(LocalTime referenzZeit, LocalTime startZeit) {
         LocalTime besteZeit = referenzZeit;
         if (referenzZeit.isBefore(startZeit)) {
             while (besteZeit.isBefore(startZeit)) {
-                if(spaetereFahrtNichtMoeglich(besteZeit)){
+                if (spaetereFahrtNichtMoeglich(besteZeit)) {
                     return null;
                 }
                 besteZeit = besteZeit.plusMinutes(Einstellungen.getIntProperty("SicherheitsabstandsZeit"));
@@ -169,7 +194,7 @@ public class FahrtenHelper {
                     .minusMinutes(Einstellungen.getIntProperty("GueterzugDauer"));
             do {
                 besteZeit = temp;
-                if(fruehereFahrtNichtMoeglich(besteZeit)){
+                if (fruehereFahrtNichtMoeglich(besteZeit)) {
                     return besteZeit;
                 }
                 temp = temp.minusMinutes(Einstellungen.getIntProperty("SicherheitsabstandsZeit"));
@@ -177,12 +202,20 @@ public class FahrtenHelper {
         }
         return besteZeit;
     }
-    
-    private boolean spaetereFahrtNichtMoeglich(LocalTime fahrzeit){
+/**
+ * Prüft ob eine spätere Fahrt möglich ist. 
+ * @param fahrzeit Erwartet ein LocalTime Objekt 
+ * @return true wenn möglich, false wenn nicht. 
+ */
+    private boolean spaetereFahrtNichtMoeglich(LocalTime fahrzeit) {
         return !fahrzeit.isBefore(LocalTime.MIDNIGHT.minusMinutes(Einstellungen.getIntProperty("SicherheitsabstandsZeit")));
     }
-    
-    private boolean fruehereFahrtNichtMoeglich(LocalTime fahrtzeit){
+/**
+ * Prüft ob eine frühere Fahrt möglich ist. 
+ * @param fahrtzeit Erwartet ein LocalTime Objekt. 
+ * @return true wenn möglich, falls wenn nicht. 
+ */
+    private boolean fruehereFahrtNichtMoeglich(LocalTime fahrtzeit) {
         return fahrtzeit.isBefore(LocalTime.MIDNIGHT.plusMinutes(Einstellungen.getIntProperty("SicherheitsabstandsZeit")));
     }
 }

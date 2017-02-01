@@ -8,7 +8,7 @@ package ch.abbts.szskfh.trainplanner.server;
 import java.util.ArrayList;
 
 /**
- *
+ * Stellt einen Güterwagen des Typs Transporteinheit zur Verfügung. 
  * @author Simon
  */
 public class Gueterwagon extends Transporteinheit {

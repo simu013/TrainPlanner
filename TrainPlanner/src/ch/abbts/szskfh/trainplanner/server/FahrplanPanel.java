@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * Stellt ein FahrplanPanel mit Zugliste aus dem Fahrplan zur Verfügung
  *
  * @author Sascha
  */
@@ -28,6 +29,9 @@ public class FahrplanPanel extends JPanel {
 
     }
 
+    /**
+     * Initialisiert das Panel.
+     */
     private void initPanel() {
         //Einstellungs Panel wird initialisert und weitere Panel hinzugefügt   
         //Farbe wird aus der Einstellungsklasse gelesen

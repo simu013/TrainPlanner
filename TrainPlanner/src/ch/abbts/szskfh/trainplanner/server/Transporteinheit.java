@@ -14,15 +14,20 @@ public class Transporteinheit {
     protected float leerGewicht;
     protected float laenge;
     protected float maxLadung;
-    
+    /**
+     * Stellt eine Transporteinheit zur Verfügung. 
+     * @param leerGewicht Leergewicht des Transportbjekts
+     * @param laenge Länge des Transportobjekts
+     * @param maxLadung Maximal mögliche Ladung des Transportobjekts
+     */
     public Transporteinheit(float leerGewicht, float laenge, float maxLadung) {
         this.leerGewicht = leerGewicht;
         this.laenge = laenge;
         this.maxLadung = maxLadung;
     }
     /**
-     * Gibt Leergewicht der Transporteinheit zurück. 
-     * @return Float Gewicht der Transporteinheit. 
+     * Gibt das Leergewicht der Transporteinheit zurück. 
+     * @return Float Leergewicht der Transporteinheit. 
      */
     public float getLeerGewicht(){
         return leerGewicht;
@@ -34,12 +39,16 @@ public class Transporteinheit {
     public float getLaenge(){
         return laenge;
     }
+    /**
+     * Gibt die maximale Ladung der Transporteinheit zurück
+     * @return float maximale Zuladung
+     */
     public float getMaxLadung() {
         return maxLadung;
     }
     /**
      * Gibt das maximale Gesamtgewicht zurück. 
-     * @return maximales Gesamtgewicht
+     * @return float maximales Gesamtgewicht
      */
     public float getMaxGesamtGewicht() {
         return leerGewicht + maxLadung;

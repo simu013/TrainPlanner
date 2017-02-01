@@ -18,12 +18,18 @@ import java.net.Socket;
  * @author Simon
  */
 public class SocketConnection {
+
     Controller controller;
+
     public SocketConnection(Controller c) {
         controller = c;
         initSocketConnection();
     }
 
+    /**
+     * Hört auf eingehende Verbindungsanfragen. Initialisiert die Socket
+     * Verbindung.
+     */
     private void initSocketConnection() {
         Parser parser = new Parser(controller);
 
