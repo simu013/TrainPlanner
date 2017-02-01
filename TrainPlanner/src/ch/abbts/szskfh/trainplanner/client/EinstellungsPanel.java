@@ -43,7 +43,7 @@ public class EinstellungsPanel extends JPanel{
     private void initPanel() {
         //Einstellungs Panel wird initialisert und weitere Panel hinzugefügt   
         //Farbe wird aus der Einstellungsklasse gelesen
-        this.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
+        this.setBackground(Color.decode(Einstellungen.getProperty("FrameFarbe")));
         this.setLayout(new BorderLayout());
         
         addTopPanel();
@@ -54,7 +54,7 @@ public class EinstellungsPanel extends JPanel{
 
         JPanel einstellungsPanel = new JPanel (new FlowLayout());
         //Farbe wird aus der Einstellungsklasse gelesen
-        einstellungsPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
+        einstellungsPanel.setBackground(Color.decode(Einstellungen.getProperty("FrameFarbe")));
         //Komponenten werden erstellt und am Panel hinzugefügt
         ipLabel = new JLabel ("IP Adresse:");
         ipLabel.setForeground(Color.RED);
@@ -89,13 +89,13 @@ public class EinstellungsPanel extends JPanel{
 
         JPanel centerPanel = new JPanel (new FlowLayout());      
         //Farbe wird aus der Einstellungsklasse gelesen
-        centerPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
+        centerPanel.setBackground(Color.decode(Einstellungen.getProperty("FrameFarbe")));
         //Komponenten werden erstellt und am Panel hinzugefügt, IP Adresse wird aus Einstellungsklasse gelesen und angezeigt
-        aktuelleIP = new JLabel("aktuell eigestellte IP: " + Config.getProperty("IP"));
+        aktuelleIP = new JLabel("aktuell eigestellte IP: " + Einstellungen.getProperty("IP"));
         aktuelleIP.setForeground(Color.red);
         centerPanel.add(aktuelleIP);
         //Port wird aus Einstellungsklasse gelesen und angezeigt
-        aktuellerPort = new JLabel("aktuell eingestellter Port: " + Config.getProperty("PortNr"));
+        aktuellerPort = new JLabel("aktuell eingestellter Port: " + Einstellungen.getProperty("PortNr"));
         aktuellerPort.setForeground(Color.red);
         centerPanel.add(aktuellerPort);
         //Center Panel wird am EinstellungsPanel hinzugefügt
@@ -153,8 +153,8 @@ public class EinstellungsPanel extends JPanel{
                             throw new NumberFormatException();
                         }
                         //Wenn das Format stimmt, werden die IP und der Port in die Einstellungen geschrieben und somit gespeichert
-                        Config.setProperty("IP", ipTextField.getText());
-                        Config.setProperty("PortNr", portTextField.getText());
+                        Einstellungen.setProperty("IP", ipTextField.getText());
+                        Einstellungen.setProperty("PortNr", portTextField.getText());
                         ipTextField.setText("");
                         portTextField.setText("");
                     } 
@@ -171,8 +171,8 @@ public class EinstellungsPanel extends JPanel{
                 nachrichtAngezeigt = false;
 
                 //Aktualisierung der IP und Port auf der Anzeige
-                aktuelleIP.setText("aktuell eigestellte IP: " + Config.getProperty("IP"));
-                aktuellerPort.setText("aktuell eingestellter Port: " + Config.getProperty("PortNr"));
+                aktuelleIP.setText("aktuell eigestellte IP: " + Einstellungen.getProperty("IP"));
+                aktuellerPort.setText("aktuell eingestellter Port: " + Einstellungen.getProperty("PortNr"));
             }  
         }
     }

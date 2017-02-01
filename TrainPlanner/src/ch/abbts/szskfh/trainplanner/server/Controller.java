@@ -66,17 +66,20 @@ public class Controller {
     }
 
     public String[] trenneString(String string) {
-        return string.split(Config.getProperty("SocketTrennzeichen"));
+        return string.split(Einstellungen.getProperty("SocketTrennzeichen"));
     }
 
     public Fahrplan getFahrplan() {
         return disponent.getFahrplan();
     }
 
-    public boolean getEmergencyState() {
-        return disponent.getEmergencyState();
+    public void unsetEmergencyState() {
+        disponent.unsetEmergencyState();
     }
-    public void setEmergencyState(boolean state) {
-        disponent.setEmergencyState(state);
+    public void setEmergencyState() {
+        disponent.setEmergencyState();
+    }
+    public double berechnePreis(Auftrag auftrag) {
+        return disponent.berechnePreis(auftrag);
     }
 }

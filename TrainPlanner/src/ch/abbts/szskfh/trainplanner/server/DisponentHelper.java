@@ -118,7 +118,7 @@ public class DisponentHelper {
                 return fahrt;
             }
         }
-        Fahrt fahrt = new Fahrt(new Gueterzug(), Zugtyp.GUETERZUG, startZeit, startZeit.plusMinutes(Config.getIntProperty("GueterzugDauer")), fahrplan.getZugNr());
+        Fahrt fahrt = new Fahrt(new Gueterzug(), Zugtyp.GUETERZUG, startZeit, startZeit.plusMinutes(Einstellungen.getIntProperty("GueterzugDauer")), fahrplan.getZugNr());
         fahrplan.addFahrt(fahrt);
         return fahrt;
     }
@@ -173,7 +173,7 @@ public class DisponentHelper {
      */
     private int getMoeglicheGueterwagenFuerZug(Gueterzug gueterzug) {
         return getMoeglicheRestlicheEinheiten(gueterzug, new ArrayList<>(gueterzug.getGueterwagons()),
-                Config.getFloatProperty("WagonLaenge"), Config.getFloatProperty("WagonMaxLadung") + Config.getFloatProperty("WagonLeerGewicht"));
+                Einstellungen.getFloatProperty("WagonLaenge"), Einstellungen.getFloatProperty("WagonMaxLadung") + Einstellungen.getFloatProperty("WagonLeerGewicht"));
     }
 
     /**
@@ -183,8 +183,8 @@ public class DisponentHelper {
      * @return Anzahl möglicher Container
      */
     private int getMoeglicheContainerFuerGueterwagen(Gueterwagon gueterwagen) {
-        return getMoeglicheRestlicheEinheiten(gueterwagen, new ArrayList<>(gueterwagen.getContainers()), Config.getFloatProperty("ContainerLaenge"),
-                (Config.getFloatProperty("ContainerMaxLadung") + Config.getFloatProperty("ContainerLeerGewicht")));
+        return getMoeglicheRestlicheEinheiten(gueterwagen, new ArrayList<>(gueterwagen.getContainers()), Einstellungen.getFloatProperty("ContainerLaenge"),
+                (Einstellungen.getFloatProperty("ContainerMaxLadung") + Einstellungen.getFloatProperty("ContainerLeerGewicht")));
     }
 
     /**

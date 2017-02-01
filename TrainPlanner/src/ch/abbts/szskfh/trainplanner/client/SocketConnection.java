@@ -19,7 +19,7 @@ import java.util.Date;
  */
 public class SocketConnection {
 
-    String begrenzer = Config.getProperty("SocketTrennzeichen");
+    String begrenzer = Einstellungen.getProperty("SocketTrennzeichen");
     String receiveString = null;
 
     public SocketConnection() {
@@ -35,7 +35,7 @@ public class SocketConnection {
      */
     private String initSocketConnection(String senden) throws Exception {
 
-        Socket socket = new Socket(Config.getProperty("IP"), Integer.parseInt(Config.getProperty("PortNr")));
+        Socket socket = new Socket(Einstellungen.getProperty("IP"), Integer.parseInt(Einstellungen.getProperty("PortNr")));
 
         // Streams verbinden
         PrintWriter out = new PrintWriter(socket.getOutputStream());

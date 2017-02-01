@@ -28,7 +28,7 @@ public class SocketConnection {
         Parser parser = new Parser(controller);
 
         // Socket bereitstellen 
-        try (ServerSocket serverSocket = new ServerSocket(Integer.parseInt(new Einstellungen().getEinstellung("PortNr")));) {
+        try (ServerSocket serverSocket = new ServerSocket(Integer.parseInt(Einstellungen.getProperty("PortNr")));) {
 
             while (true) {
                 // Auf Client Verbindung warten

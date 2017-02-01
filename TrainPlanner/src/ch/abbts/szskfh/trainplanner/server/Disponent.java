@@ -26,7 +26,6 @@ public class Disponent {
     private Fahrplan fahrplan = new Fahrplan();
     private HashMap<String, Firma> firmen = new HashMap<>(); // Name der Firma, Firma Objekt
     private static final Disponent disponent = new Disponent(); // Disponent als Singleton
-    private boolean emergencyState = false;
 
     /**
      * Initialisiert den Fahrplan und sorgt für die Umsetzung des Disponenten
@@ -62,7 +61,7 @@ public class Disponent {
 
                 if (subString[0].equals("IC") | subString[0].equals("EC")) {
                     fahrplan.addFahrt(new Fahrt(Zugtyp.PERSONENZUG, LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")),
-                            LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")).plusMinutes(Config.getIntProperty("PersonenzugDauer")), fahrplan.getZugNr()));
+                            LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")).plusMinutes(Einstellungen.getIntProperty("PersonenzugDauer")), fahrplan.getZugNr()));
                 }
             }
         } catch (FileNotFoundException ex) {
@@ -149,10 +148,28 @@ public class Disponent {
     public Fahrplan getFahrplan() {
         return fahrplan;
     }
-    public boolean getEmergencyState() {
-        return emergencyState;
+    public void unsetEmergencyState() {
+        for (Fahrt fahrt : fahrplan.getFahrten()) {
+            fahrplan.updateStatus(fahrt);
+            if (fahrt.getStatus() == Status.EMERGENCY) {
+                fahrt.setStatus(null);
+            }
+        }
     }
-    public void setEmergencyState(boolean state) {
-        emergencyState = state;
+    public void setEmergencyState() {
+        for (Fahrt fahrt : fahrplan.getFahrten()) {
+            fahrplan.updateStatus(fahrt);
+            if (fahrt.getStatus().equals(Status.PLANNED) || fahrt.getStatus().equals(Status.TRANSPORTING) || fahrt.getStatus().equals(Status.DELAYED)) {
+                fahrt.setStatus(Status.EMERGENCY);
+            }
+        }
+    }
+    public double berechnePreis(Auftrag auftrag) {
+        double gewicht = 0;
+        double preisProTonne = 33.1;
+        for (Container container : auftrag.getContainers()) {
+            gewicht += container.getMaxGesamtGewicht();
+        }
+        return gewicht * preisProTonne;
     }
 }

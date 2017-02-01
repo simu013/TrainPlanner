@@ -58,17 +58,18 @@ public class Fahrplan {
     }
 
     public void updateStatus(Fahrt fahrt) {
-        if (fahrt.getStatus() == null) {
-            fahrt.setStatus(Status.PLANNED);
-        }
-        if (fahrt.getStatus().equals(Status.PLANNED) && !fahrt.getStartZeit().isAfter(LocalTime.now())) {
-            fahrt.setStatus(Status.TRANSPORTING);
-        }
-        if (fahrt.getStatus().equals(Status.TRANSPORTING) && !fahrt.getEndZeit().isAfter(LocalTime.now())) {
-            fahrt.setStatus(Status.DONE);
-        }
-        if (Disponent.getInstance().getEmergencyState()) {
+        if (fahrt.getStatus() == Status.EMERGENCY) {
             fahrt.setStatus(Status.EMERGENCY);
+        } else {
+            if (fahrt.getStatus() == null) {
+                fahrt.setStatus(Status.PLANNED);
+            }
+            if (fahrt.getStatus().equals(Status.PLANNED) && !fahrt.getStartZeit().isAfter(LocalTime.now())) {
+                fahrt.setStatus(Status.TRANSPORTING);
+            }
+            if (fahrt.getStatus().equals(Status.TRANSPORTING) && !fahrt.getEndZeit().isAfter(LocalTime.now())) {
+                fahrt.setStatus(Status.DONE);
+            }
         }
     }
 

@@ -14,7 +14,7 @@ package ch.abbts.szskfh.trainplanner.server;
 public class Container extends Transporteinheit {
 
     public Container() {
-        super(Config.getFloatProperty("ContainerLeerGewicht"), Config.getFloatProperty("ContainerLaenge"),
-                Config.getFloatProperty("ContainerMaxLadung"));
+        super(Einstellungen.getFloatProperty("ContainerLeerGewicht"), Einstellungen.getFloatProperty("ContainerLaenge"),
+                Einstellungen.getFloatProperty("ContainerMaxLadung"));
     }
 }

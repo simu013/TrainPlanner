@@ -21,8 +21,8 @@ public class ServerGUI extends JFrame{
     private TopMenuBar topMenuBar;
     private static ServerGUI mainFrame;
     //Initialisiert die Grösse des Rahmens aus der Einstellungsklasse
-    private int frameHoehe = Integer.parseInt(new Einstellungen().getEinstellung("FrameHoehe"));
-    private int frameBreite = Integer.parseInt(new Einstellungen().getEinstellung("FrameBreite"));
+    private int frameHoehe = Integer.parseInt(Einstellungen.getProperty("FrameHoehe"));
+    private int frameBreite = Integer.parseInt(Einstellungen.getProperty("FrameBreite"));
     
     
     public ServerGUI(Controller controller) {
@@ -64,10 +64,10 @@ public class ServerGUI extends JFrame{
     public Fahrplan getFahrplan() {
         return controller.getFahrplan();
     }
-    public boolean getEmergencyState() {
-        return controller.getEmergencyState();
+    public void unsetEmergencyState() {
+        controller.unsetEmergencyState();
     }
-    public void setEmergencyState(boolean state) {
-        controller.setEmergencyState(state);
+    public void setEmergencyState() {
+        controller.setEmergencyState();
     }
 }

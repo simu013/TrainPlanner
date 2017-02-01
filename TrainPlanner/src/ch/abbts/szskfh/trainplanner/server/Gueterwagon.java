@@ -16,8 +16,8 @@ public class Gueterwagon extends Transporteinheit {
     ArrayList<Container> containers = new ArrayList<>();
 
     public Gueterwagon() {
-        super(Config.getFloatProperty("WagonLeerGewicht"), Config.getFloatProperty("WagonLaenge"),
-                Config.getFloatProperty("WagonMaxLadung"));
+        super(Einstellungen.getFloatProperty("WagonLeerGewicht"), Einstellungen.getFloatProperty("WagonLaenge"),
+                Einstellungen.getFloatProperty("WagonMaxLadung"));
     }
 
     /**

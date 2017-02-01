@@ -17,7 +17,7 @@ import java.util.Date;
  */
 public class Parser {
 
-    private String begrenzer = Config.getProperty("SocketTrennzeichen");
+    private String begrenzer = Einstellungen.getProperty("SocketTrennzeichen");
     private Controller controller;
 
     public Parser(Controller controller) {
@@ -49,7 +49,7 @@ public class Parser {
                         short prio = Short.parseShort(splitString[4]);
                         Auftrag auftrag = controller.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
                         // Antwort mit 'TransportID', 'Ankunftszeit', 'ZugNr', 'Preis' an Client. 
-                        antwortString = auftrag.getTransportID() + begrenzer + controller.getAnkunftszeitByZugNr(auftrag.getZugNr()).toString() + begrenzer + prio + begrenzer + (auftrag.getAnzahlContainer() * 25); // Statische Übergabe zu Testzwecken
+                        antwortString = auftrag.getTransportID() + begrenzer + controller.getAnkunftszeitByZugNr(auftrag.getZugNr()).toString() + begrenzer + prio + begrenzer + controller.berechnePreis(auftrag);
 
                     } catch (NumberFormatException e) {
                         antwortString = AnfrageTypEnum.ERROR.name() + begrenzer + "Nummern Eingabefehler";

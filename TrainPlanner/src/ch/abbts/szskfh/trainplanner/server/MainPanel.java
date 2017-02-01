@@ -28,13 +28,14 @@ public class MainPanel extends JPanel {
     private JCheckBox emergencyCheckBox;
     private JTextArea logTextArea;
     private ScrollPane logScrollPane;
-
+    private static boolean emergencyCheckboxState;
+    
     public MainPanel() {
         initPanel();
     }
 
     private void initPanel() {
-        this.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
+        this.setBackground(Color.decode(Einstellungen.getProperty("FrameFarbe")));
         this.setLayout(new BorderLayout());
         addTopPanel();
         addCenterPanel();
@@ -44,10 +45,10 @@ public class MainPanel extends JPanel {
     private void addTopPanel() {
         JPanel topPanel = new JPanel(new FlowLayout());
         //Farbe wird aus der Einstellungsklasse gelesen
-        topPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
+        topPanel.setBackground(Color.decode(Einstellungen.getProperty("FrameFarbe")));
         //Komponenten werden erstellt und am Panel hinzugefügt
         JLabel title = new JLabel("Log History");
-        title.setForeground(Color.decode(Config.getProperty("Schriftfarbe")));
+        title.setForeground(Color.decode(Einstellungen.getProperty("Schriftfarbe")));
         topPanel.add(title);
         //Top Panel wird am EinstellungsPanel hinzugefügt
         add(topPanel, BorderLayout.NORTH);
@@ -56,14 +57,14 @@ public class MainPanel extends JPanel {
     private void addCenterPanel() {
 
         JPanel centerPanel = new JPanel(new GridLayout(2, 1));
-        centerPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
+        centerPanel.setBackground(Color.decode(Einstellungen.getProperty("FrameFarbe")));
 
         emergencyCheckBox = new JCheckBox("Störung");
         emergencyCheckBox.setFocusPainted(false);
-        emergencyCheckBox.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
-        emergencyCheckBox.setForeground(Color.decode(Config.getProperty("Schriftfarbe")));
+        emergencyCheckBox.setBackground(Color.decode(Einstellungen.getProperty("FrameFarbe")));
+        emergencyCheckBox.setForeground(Color.decode(Einstellungen.getProperty("Schriftfarbe")));
         emergencyCheckBox.setHorizontalAlignment(JLabel.CENTER);
-        if (ServerGUI.getMainFrame().getEmergencyState()) {
+        if (emergencyCheckboxState) {
             emergencyCheckBox.setSelected(true);
         }
         centerPanel.add(emergencyCheckBox);
@@ -83,7 +84,7 @@ public class MainPanel extends JPanel {
     private void addBottomPanel() {
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBackground(Color.decode(Config.getProperty("FrameFarbe")));
+        bottomPanel.setBackground(Color.decode(Einstellungen.getProperty("FrameFarbe")));
 
         JLabel dummieLabel4 = new JLabel("  ");
         dummieLabel4.setFont(new Font("Arial", Font.HANGING_BASELINE, 30));
@@ -125,9 +126,11 @@ public class MainPanel extends JPanel {
                 if (checkbox == emergencyCheckBox) {
                     //überprüft ob Textfeld leer ist und gibt allenfalls eine Meldung
                     if (e.getStateChange() == ItemEvent.SELECTED) {
-                        ServerGUI.getMainFrame().setEmergencyState(true);
+                        ServerGUI.getMainFrame().setEmergencyState();
+                        emergencyCheckboxState = true;
                     } else {
-                        ServerGUI.getMainFrame().setEmergencyState(false);
+                        ServerGUI.getMainFrame().unsetEmergencyState();
+                        emergencyCheckboxState = false;
                     }
                 }
             }

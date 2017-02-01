@@ -20,7 +20,7 @@ public class Gueterzug extends Transporteinheit {
      * @param zugNr int Zugnummmer des Gueterzuges
      */
     public Gueterzug() {
-        super(Config.getFloatProperty("ZugLeerGewicht"), Config.getFloatProperty("ZugMaxLaenge"), Config.getFloatProperty("ZugGesamtGewicht"));
+        super(Einstellungen.getFloatProperty("ZugLeerGewicht"), Einstellungen.getFloatProperty("ZugMaxLaenge"), Einstellungen.getFloatProperty("ZugGesamtGewicht"));
     }
 
     public void addGueterwagon(Gueterwagon gueterwagon) {
