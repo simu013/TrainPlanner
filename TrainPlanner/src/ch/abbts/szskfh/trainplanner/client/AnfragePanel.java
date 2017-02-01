@@ -292,6 +292,8 @@ class AnfragePanel extends JPanel {
                     containerTextField.setText("");
                     ankunftTextFieldH.setText("");
                     ankunftTextFieldM.setText("");
+                    
+                    anfrageSenden.setEnabled(true);
                 }
                 nachrichtAngezeigt = false;    
             }

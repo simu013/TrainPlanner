@@ -93,6 +93,9 @@ public class DisponentHelper {
      */
     private Fahrt findeFahrt(Auftrag auftrag, Fahrplan fahrplan) {
         LocalTime startZeit = fahrtenHelper.planeFahrt(auftrag.getStartZeit(), fahrplan);
+        if(startZeit == null){
+            return null;
+        }
         while (!zugHatPlatzfuerAuftrag(fahrplan, auftrag, startZeit)) {
             if (startZeit.plusMinutes(1).equals(LocalTime.MIN)) {
                 return null;

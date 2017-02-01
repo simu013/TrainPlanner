@@ -170,6 +170,6 @@ public class Disponent {
         for (Container container : auftrag.getContainers()) {
             gewicht += container.getMaxGesamtGewicht();
         }
-        return gewicht * preisProTonne;
+        return ((gewicht * preisProTonne * 100) / 100.00);
     }
 }

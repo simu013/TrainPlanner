@@ -41,23 +41,30 @@ public class Parser {
 
             switch (AnfrageTypEnum.valueOf(splitString[0].toUpperCase())) {
                 case REQUEST: {
-                    try {
-                        // Request mit Parameter 'Firma', 'AnzahlContainer', 'Startzeit', 'Prio' an Disponent weitergeben.
-                        String nameFirma = splitString[1];
-                        short anzahlContainer = Short.parseShort(splitString[2]);
-                        LocalTime startZeit = LocalTime.parse(splitString[3]);
-                        short prio = Short.parseShort(splitString[4]);
-                        Auftrag auftrag = controller.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
-                        // Antwort mit 'TransportID', 'Ankunftszeit', 'ZugNr', 'Preis' an Client. 
-                        antwortString = auftrag.getTransportID() + begrenzer + controller.getAnkunftszeitByZugNr(auftrag.getZugNr()).toString() + begrenzer + prio + begrenzer + controller.berechnePreis(auftrag);
-
-                    } catch (NumberFormatException e) {
-                        antwortString = AnfrageTypEnum.ERROR.name() + begrenzer + "Nummern Eingabefehler";
-                        controller.schreibeInLogDatei(antwortString + begrenzer + e.getMessage());
-                    } catch (DateTimeParseException e) {
-                        antwortString = AnfrageTypEnum.ERROR.name() + begrenzer + "Datum Eingabefehler";
-                        controller.schreibeInLogDatei(antwortString + begrenzer + e.getMessage());
+                    if (!controller.getEmergencyState()) {
+                        try {
+                            // Request mit Parameter 'Firma', 'AnzahlContainer', 'Startzeit', 'Prio' an Disponent weitergeben.
+                            String nameFirma = splitString[1];
+                            short anzahlContainer = Short.parseShort(splitString[2]);
+                            LocalTime startZeit = LocalTime.parse(splitString[3]);
+                            short prio = Short.parseShort(splitString[4]);
+                            Auftrag auftrag = controller.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
+                            if (auftrag == null) {
+                                antwortString = Status.NO_TRANSPORT.toString();
+                            } else {
+                                // Antwort mit 'TransportID', 'Ankunftszeit', 'ZugNr', 'Preis' an Client. 
+                                antwortString = auftrag.getTransportID() + begrenzer + controller.getAnkunftszeitByZugNr(auftrag.getZugNr()).toString() + begrenzer + prio + begrenzer + controller.berechnePreis(auftrag);
+                            }
+                        } catch (NumberFormatException e) {
+                            antwortString = AnfrageTypEnum.ERROR.name() + begrenzer + "Nummern Eingabefehler";
+                            controller.schreibeInLogDatei(antwortString + begrenzer + e.getMessage());
+                        } catch (DateTimeParseException e) {
+                            antwortString = AnfrageTypEnum.ERROR.name() + begrenzer + "Datum Eingabefehler";
+                            controller.schreibeInLogDatei(antwortString + begrenzer + e.getMessage());
+                        }
+                        break;
                     }
+                    antwortString = Status.EMERGENCY.toString();
                     break;
                 }
                 case STATE: {

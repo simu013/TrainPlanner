@@ -116,6 +116,9 @@ public class MainPanel extends JPanel {
         }
         logTextArea.append(text + "\n");
     }
+    public boolean getEmergencyState() {
+        return emergencyCheckboxState;
+    }
     
     class MyItemListener implements ItemListener {
 

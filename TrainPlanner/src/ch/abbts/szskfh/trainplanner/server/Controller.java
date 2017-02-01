@@ -79,6 +79,9 @@ public class Controller {
     public void setEmergencyState() {
         disponent.setEmergencyState();
     }
+    public boolean getEmergencyState() {
+        return gui.getEmergencyState();
+    }
     public double berechnePreis(Auftrag auftrag) {
         return disponent.berechnePreis(auftrag);
     }

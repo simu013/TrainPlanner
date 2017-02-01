@@ -70,4 +70,7 @@ public class ServerGUI extends JFrame{
     public void setEmergencyState() {
         controller.setEmergencyState();
     }
+    public boolean getEmergencyState() {
+        return mainPanel.getEmergencyState();
+    }
 }
