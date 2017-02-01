@@ -60,7 +60,7 @@ public class Disponent {
                 String[] subString = line.split(csvTrennzeichen);
 
                 if (subString[0].equals("IC") | subString[0].equals("EC")) {
-                    fahrplan.addFahrt(new Fahrt(Zugtyp.PERSONENZUG, LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")),
+                    fahrplan.addFahrt(new Fahrt(ZugtypEnum.PERSONENZUG, LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")),
                             LocalTime.parse(subString[1], DateTimeFormatter.ofPattern("HH:mm")).plusMinutes(Einstellungen.getIntProperty("PersonenzugDauer")), fahrplan.getZugNr()));
                 }
             }
@@ -126,12 +126,12 @@ public class Disponent {
      * Liefert den Transportstatus eines Auftrags
      *
      * @param transportID String Transport ID des Auftrags
-     * @return String Status (Mögliche Zustände: PLANNED, TRANSPORTING, DONE,
-     * EMERGENCY, DELAYED)
+     * @return String StatusEnum (Mögliche Zustände: PLANNED, TRANSPORTING, DONE,
+ EMERGENCY, DELAYED)
      * @throws NullPointerException Wenn Transport ID nicht existiert.
      */
-    public Status getState(String transportID) throws NullPointerException {
-        Status state = null;
+    public StatusEnum getState(String transportID) throws NullPointerException {
+        StatusEnum state = null;
         for (Entry<String, Firma> firma : firmen.entrySet()) {
             for (Auftrag auftrag : firma.getValue().getAuftraege()) {
                 if (auftrag.getTransportID().equals(transportID)) {
@@ -151,7 +151,7 @@ public class Disponent {
     public void unsetEmergencyState() {
         for (Fahrt fahrt : fahrplan.getFahrten()) {
             fahrplan.updateStatus(fahrt);
-            if (fahrt.getStatus() == Status.EMERGENCY) {
+            if (fahrt.getStatus() == StatusEnum.EMERGENCY) {
                 fahrt.setStatus(null);
             }
         }
@@ -159,8 +159,8 @@ public class Disponent {
     public void setEmergencyState() {
         for (Fahrt fahrt : fahrplan.getFahrten()) {
             fahrplan.updateStatus(fahrt);
-            if (fahrt.getStatus().equals(Status.PLANNED) || fahrt.getStatus().equals(Status.TRANSPORTING) || fahrt.getStatus().equals(Status.DELAYED)) {
-                fahrt.setStatus(Status.EMERGENCY);
+            if (fahrt.getStatus().equals(StatusEnum.PLANNED) || fahrt.getStatus().equals(StatusEnum.TRANSPORTING) || fahrt.getStatus().equals(StatusEnum.DELAYED)) {
+                fahrt.setStatus(StatusEnum.EMERGENCY);
             }
         }
     }

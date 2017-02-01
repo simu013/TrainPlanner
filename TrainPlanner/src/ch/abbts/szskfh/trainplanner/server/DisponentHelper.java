@@ -116,12 +116,12 @@ public class DisponentHelper {
      * eingeplant ist, null wenn diese Bedingung nicht erfüllt ist.
      */
     private Fahrt getFahrtbeiStartzeit(LocalTime startZeit, Fahrplan fahrplan) {
-        for (Fahrt fahrt : fahrplan.getFahrtenByZugTyp(Zugtyp.GUETERZUG)) {
+        for (Fahrt fahrt : fahrplan.getFahrtenByZugTyp(ZugtypEnum.GUETERZUG)) {
             if (fahrt.getStartZeit().equals(startZeit)) {
                 return fahrt;
             }
         }
-        Fahrt fahrt = new Fahrt(new Gueterzug(), Zugtyp.GUETERZUG, startZeit, startZeit.plusMinutes(Einstellungen.getIntProperty("GueterzugDauer")), fahrplan.getZugNr());
+        Fahrt fahrt = new Fahrt(new Gueterzug(), ZugtypEnum.GUETERZUG, startZeit, startZeit.plusMinutes(Einstellungen.getIntProperty("GueterzugDauer")), fahrplan.getZugNr());
         fahrplan.addFahrt(fahrt);
         return fahrt;
     }

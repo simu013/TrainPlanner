@@ -9,6 +9,6 @@ package ch.abbts.szskfh.trainplanner.server;
  *
  * @author Simon
  */
-public enum Status {
+public enum StatusEnum {
     PLANNED, TRANSPORTING, DELAYED, EMERGENCY, DONE, NO_TRANSPORT
 }

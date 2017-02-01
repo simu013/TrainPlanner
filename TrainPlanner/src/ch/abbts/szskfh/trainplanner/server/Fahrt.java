@@ -16,18 +16,18 @@ public class Fahrt {
     private Gueterzug gueterzug;
     private LocalTime startZeit;
     private LocalTime endZeit;
-    private Status status;
-    private Zugtyp zugTyp;
+    private StatusEnum status;
+    private ZugtypEnum zugTyp;
     private int zugNr;
 
-    public Fahrt(Zugtyp zugTyp, LocalTime startZeit, LocalTime endZeit, int zugNr) {
+    public Fahrt(ZugtypEnum zugTyp, LocalTime startZeit, LocalTime endZeit, int zugNr) {
         this.zugTyp = zugTyp;
         this.startZeit = startZeit;
         this.endZeit = endZeit;
         this.zugNr = zugNr;
     }
 
-    public Fahrt(Gueterzug gueterzug, Zugtyp zugTyp, LocalTime startZeit, LocalTime endZeit, int zugNr) {
+    public Fahrt(Gueterzug gueterzug, ZugtypEnum zugTyp, LocalTime startZeit, LocalTime endZeit, int zugNr) {
         this.zugTyp = zugTyp;
         this.startZeit = startZeit;
         this.endZeit = endZeit;
@@ -35,11 +35,11 @@ public class Fahrt {
         this.gueterzug = gueterzug;
     }
 
-    public Status getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 
@@ -72,11 +72,11 @@ public class Fahrt {
     }
 
     /**
-     * Gibt den Zugtyp der Fahrt zurück.
+     * Gibt den ZugtypEnum der Fahrt zurück.
      *
-     * @return Enum Zugtyp (PERSONENZUG, GUETERZUG)
+     * @return Enum ZugtypEnum (PERSONENZUG, GUETERZUG)
      */
-    public Zugtyp getZugtyp() {
+    public ZugtypEnum getZugtyp() {
         return zugTyp;
     }
     public int getZugNr() {

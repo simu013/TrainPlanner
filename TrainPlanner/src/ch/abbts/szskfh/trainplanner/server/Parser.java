@@ -50,7 +50,7 @@ public class Parser {
                             short prio = Short.parseShort(splitString[4]);
                             Auftrag auftrag = controller.addAuftrag(nameFirma, anzahlContainer, startZeit, prio);
                             if (auftrag == null) {
-                                antwortString = Status.NO_TRANSPORT.toString();
+                                antwortString = StatusEnum.NO_TRANSPORT.toString();
                             } else {
                                 // Antwort mit 'TransportID', 'Ankunftszeit', 'ZugNr', 'Preis' an Client. 
                                 antwortString = auftrag.getTransportID() + begrenzer + controller.getAnkunftszeitByZugNr(auftrag.getZugNr()).toString() + begrenzer + prio + begrenzer + controller.berechnePreis(auftrag);
@@ -64,7 +64,7 @@ public class Parser {
                         }
                         break;
                     }
-                    antwortString = Status.EMERGENCY.toString();
+                    antwortString = StatusEnum.EMERGENCY.toString();
                     break;
                 }
                 case STATE: {

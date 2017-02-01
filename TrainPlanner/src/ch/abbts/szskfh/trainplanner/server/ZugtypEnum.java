@@ -9,6 +9,6 @@ package ch.abbts.szskfh.trainplanner.server;
  *
  * @author Simon
  */
-public enum Zugtyp {
+public enum ZugtypEnum {
     PERSONENZUG, GUETERZUG
 }

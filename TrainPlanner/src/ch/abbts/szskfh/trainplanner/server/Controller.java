@@ -31,7 +31,7 @@ public class Controller {
         return disponent.addAuftrag(nameFirma, (short) anzahlContainer, (LocalTime) startZeit, (short) prio);
     }
 
-    public Status getStatus(String transportID) {
+    public StatusEnum getStatus(String transportID) {
         return disponent.getState(transportID);
     }
 

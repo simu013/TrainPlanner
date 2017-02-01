@@ -138,7 +138,7 @@ public class FahrplanPanel extends JPanel {
     /**
      * Gibt den Zugstatus des Fahrt Objekts zurück
      *
-     * @param fahrt Fahrt Objekt für das der Status benötigt wird.
+     * @param fahrt Fahrt Objekt für das der StatusEnum benötigt wird.
      * @return JLabel mit Zugstatus
      */
     private JLabel addZugStatusLabel(Fahrt fahrt, Fahrplan fahrplan) {

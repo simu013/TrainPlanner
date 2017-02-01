@@ -123,7 +123,7 @@ public class FahrtenHelper {
     private Fahrt getVorherigeFahrt(Fahrplan fahrplan, LocalTime startZeit) {
         Fahrt fahrt = null;
 
-        for (Fahrt f : fahrplan.getFahrtenByZugTyp(Zugtyp.PERSONENZUG)) {
+        for (Fahrt f : fahrplan.getFahrtenByZugTyp(ZugtypEnum.PERSONENZUG)) {
             if (!startZeit.isBefore(f.getStartZeit())) {
                 if (((fahrt == null) || f.getStartZeit().isAfter(fahrt.getStartZeit()))) {
                     fahrt = f;
@@ -135,7 +135,7 @@ public class FahrtenHelper {
 
     private Fahrt getFolgendeFahrt(Fahrplan fahrplan, LocalTime startZeit) {
         Fahrt fahrt = null;
-        for (Fahrt f : fahrplan.getFahrtenByZugTyp(Zugtyp.PERSONENZUG)) {
+        for (Fahrt f : fahrplan.getFahrtenByZugTyp(ZugtypEnum.PERSONENZUG)) {
             if (startZeit.isBefore(f.getStartZeit())) {
                 if (((fahrt == null) || f.getStartZeit().isBefore(fahrt.getStartZeit()))) {
                     fahrt = f;

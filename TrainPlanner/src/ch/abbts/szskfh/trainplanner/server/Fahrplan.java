@@ -38,7 +38,7 @@ public class Fahrplan {
         return fahrten;
     }
 
-    public ArrayList<Fahrt> getFahrtenByZugTyp(Zugtyp zugTyp) {
+    public ArrayList<Fahrt> getFahrtenByZugTyp(ZugtypEnum zugTyp) {
         ArrayList<Fahrt> personenFahrten = new ArrayList<>();
         for (int i = 0; i < fahrten.size(); i++) {
             if (fahrten.get(i).getZugtyp().equals(zugTyp)) {
@@ -58,22 +58,22 @@ public class Fahrplan {
     }
 
     public void updateStatus(Fahrt fahrt) {
-        if (fahrt.getStatus() == Status.EMERGENCY) {
-            fahrt.setStatus(Status.EMERGENCY);
+        if (fahrt.getStatus() == StatusEnum.EMERGENCY) {
+            fahrt.setStatus(StatusEnum.EMERGENCY);
         } else {
             if (fahrt.getStatus() == null) {
-                fahrt.setStatus(Status.PLANNED);
+                fahrt.setStatus(StatusEnum.PLANNED);
             }
-            if (fahrt.getStatus().equals(Status.PLANNED) && !fahrt.getStartZeit().isAfter(LocalTime.now())) {
-                fahrt.setStatus(Status.TRANSPORTING);
+            if (fahrt.getStatus().equals(StatusEnum.PLANNED) && !fahrt.getStartZeit().isAfter(LocalTime.now())) {
+                fahrt.setStatus(StatusEnum.TRANSPORTING);
             }
-            if (fahrt.getStatus().equals(Status.TRANSPORTING) && !fahrt.getEndZeit().isAfter(LocalTime.now())) {
-                fahrt.setStatus(Status.DONE);
+            if (fahrt.getStatus().equals(StatusEnum.TRANSPORTING) && !fahrt.getEndZeit().isAfter(LocalTime.now())) {
+                fahrt.setStatus(StatusEnum.DONE);
             }
         }
     }
 
-    public Status getStatusByZugNr(int zugNr) {
+    public StatusEnum getStatusByZugNr(int zugNr) {
         Fahrt fahrt = getFahrtByZugNr(zugNr);
         updateStatus(fahrt);
         return fahrt.getStatus();
