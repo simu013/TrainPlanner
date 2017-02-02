@@ -22,11 +22,7 @@ public class Controller {
     private Disponent disponent = Disponent.getInstance();
     private ServerGUI gui = new ServerGUI(this);
     private SocketConnection socket = new SocketConnection(this);
-
-    public Controller() {
-
-    }
-
+    
     public Auftrag addAuftrag(String nameFirma, Short anzahlContainer, LocalTime startZeit, Short prio) {
         return disponent.addAuftrag(nameFirma, (short) anzahlContainer, (LocalTime) startZeit, (short) prio);
     }

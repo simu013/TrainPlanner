@@ -27,7 +27,6 @@ public class AbfragePanel extends JPanel{
        
     private JLabel trpIdLabel;
     private JLabel ausgabeLabel;
-    private JLabel ankunftAbstandLabel;
     
     private JTextField trpIdTextField;
 

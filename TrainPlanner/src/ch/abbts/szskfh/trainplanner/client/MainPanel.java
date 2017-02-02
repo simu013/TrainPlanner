@@ -21,8 +21,7 @@ import javax.swing.JPanel;
 public class MainPanel extends JPanel{
     
     private JLabel title;
-    private TopMenuBar topMenuBar;
-
+    
     public MainPanel() {
         initMainPanel ();
         

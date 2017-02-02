@@ -6,7 +6,6 @@
 package ch.abbts.szskfh.trainplanner.client;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -21,10 +20,6 @@ public class SocketConnection {
 
     String begrenzer = Einstellungen.getProperty("SocketTrennzeichen");
     String receiveString = null;
-
-    public SocketConnection() {
-
-    }
 
     /**
      * Initialisiert die Socket Verbindung.
